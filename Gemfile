@@ -10,6 +10,7 @@ gem 'unicorn'
 gem 'devise'
 gem 'formtastic'
 gem 'dalli'
+gem 'haml'
 
 gem 'metric_fu'
 gem 'exception_notification'

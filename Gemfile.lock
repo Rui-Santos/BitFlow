@@ -215,6 +215,7 @@ DEPENDENCIES
   exception_notification
   factory_girl
   formtastic
+  haml
   metric_fu
   mysql
   nokogiri
