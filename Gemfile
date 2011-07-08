@@ -7,6 +7,12 @@ gem 'mysql'
 
 # Use unicorn as the web server
 gem 'unicorn'
+gem 'devise'
+gem 'formtastic'
+gem 'dalli'
+
+gem 'metric_fu'
+gem 'exception_notification'
 
 # Deploy with Capistrano
 gem 'capistrano'
@@ -26,4 +32,7 @@ gem 'aws-s3', :require => 'aws/s3'
 # and rake tasks are available in development mode:
 group :development, :test do
   gem 'webrat'
+  gem 'factory_girl'
+  gem 'rspec'
+  gem 'rspec-rails'
 end
