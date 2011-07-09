@@ -14,6 +14,9 @@ gem 'haml'
 
 gem 'metric_fu'
 gem 'exception_notification'
+gem 'haml'
+gem 'haml-rails'
+gem 'sass'
 
 # Deploy with Capistrano
 gem 'capistrano'
