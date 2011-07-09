@@ -10,7 +10,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110708213828) do
+ActiveRecord::Schema.define(:version => 20110709003805) do
+
+  create_table "hosts", :force => true do |t|
+    t.string   "ip_address", :null => false
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email",                                 :default => "", :null => false
