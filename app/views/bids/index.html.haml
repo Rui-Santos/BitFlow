@@ -2,12 +2,17 @@
 
 %table
   %tr
-    %th
-    %th
-    %th
+    %th Amount
+    %th Price
+    %th Time
+    %th Status
 
   - @bids.each do |bid|
     %tr
+      %td= bid.amount
+      %td= bid.price
+      %td= bid.created_at
+      %td= bid.status
       %td= link_to 'Show', bid
       %td= link_to 'Edit', edit_bid_path(bid)
       %td= link_to 'Destroy', bid, :confirm => 'Are you sure?', :method => :delete

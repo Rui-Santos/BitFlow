@@ -10,7 +10,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110710145015) do
+ActiveRecord::Schema.define(:version => 20110710163355) do
+
+  create_table "asks", :force => true do |t|
+    t.integer  "price"
+    t.float    "amount"
+    t.string   "currency"
+    t.string   "status"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "bids", :force => true do |t|
     t.integer  "price"

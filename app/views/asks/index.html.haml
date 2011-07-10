@@ -1,0 +1,22 @@
+%h1 Listing asks
+
+%table
+  %tr
+    %th Amount
+    %th Price
+    %th Time
+    %th Status
+
+  - @asks.each do |ask|
+    %tr
+      %td= ask.amount
+      %td= ask.price
+      %td= ask.created_at
+      %td= ask.status
+      %td= link_to 'Show', ask
+      %td= link_to 'Edit', edit_ask_path(ask)
+      %td= link_to 'Destroy', ask, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Ask', new_ask_path

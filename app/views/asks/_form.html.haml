@@ -1,0 +1,22 @@
+= form_for @ask do |f|
+  -if @ask.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@bid.errors.count, "error")} prohibited this bid from being saved:"
+      %ul
+        - @bid.errors.full_messages.each do |msg|
+          %li= msg
+
+  .actions
+    = f.label :amount, 'Amount'
+    = f.text_field :amount
+    = f.label :price, 'Price'
+    = f.text_field :price
+    = f.label :currency, 'Currency'
+    
+    = f.radio_button :currency, 'EUR'
+    = f.label :currency, 'EURO'
+    
+    = f.radio_button :currency, 'USD'
+    = f.label :currency, 'US Dollars'
+    
+    = f.submit 'Save'
