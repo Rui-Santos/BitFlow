@@ -11,6 +11,7 @@ gem 'devise'
 gem 'formtastic'
 gem 'dalli'
 gem 'haml'
+gem 'yajl-ruby', :require => ['yajl', 'yajl/json_gem']
 
 gem 'metric_fu'
 gem 'exception_notification'
@@ -34,9 +35,13 @@ gem 'aws-s3', :require => 'aws/s3'
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
 # and rake tasks are available in development mode:
+gem "factory_girl_rails", "~> 1.1.rc1"
+
+
 group :development, :test do
   gem 'webrat'
-  gem 'factory_girl'
+  gem 'watchr'
   gem 'rspec'
   gem 'rspec-rails'
+  gem 'mocha'
 end
