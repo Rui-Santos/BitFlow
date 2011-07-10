@@ -1,0 +1,23 @@
+%form{:action => '/admin_setting', :method => 'POST'}
+  %fieldset
+    %ol
+      %li
+        %label{:for => "setting[minimum_commission_fee]"} Minimum Commission Fee:
+        %input{:type => 'text', :name => 'setting[minimum_commission_fee]', :value => @settings[:minimum_commission_fee]}
+      %li
+        %label{:for => "setting[daily_withdrawal_limit]"} Daily Withdrawal limit:
+        %input{:type => 'text', :name => 'setting[daily_withdrawal_limit]', :value => @settings[:daily_withdrawal_limit]}
+      %li
+        %label{:for => "setting[monthly_withdrawal_limit]"} Monthly Withdrawal limit:
+        %input{:type => 'text', :name => 'setting[monthly_withdrawal_limit]', :value => @settings[:monthly_withdrawal_limit]}
+      %li
+        %label{:for => "setting[circuit_breaker_change_percent]"} Circuit Breaker change Percentage:
+        %input{:type => 'text', :name => 'setting[circuit_breaker_change_percent]', :value => @settings[:circuit_breaker_change_percent]}
+      %li
+        %label{:for => "setting[circuit_breaker_change_period]"} Circuit breaker Change Period:
+        %input{:type => 'text', :name => 'setting[circuit_breaker_change_period]', :value => @settings[:circuit_breaker_change_period]}
+      %input{:type => "submit", :value => "Send", :class => "button"}
+    
+    
+    
+= link_to 'Back', '/admin_setting'

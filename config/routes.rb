@@ -7,8 +7,8 @@ BitFlow::Application.routes.draw do
   root :to => "home#index"
 
   # Sample of regular route:
-    match 'settings' => 'admin_settings#show', :via => :get
-    match 'settings' => 'admin_settings#update', :via => :post
+    match 'admin_setting/edit' => 'admin_setting#edit', :via => :get
+    match 'admin_setting' => 'admin_setting#update', :via => :post
   # Keep in mind you can assign values other than :controller and :action
 
   # Sample of named route:
