@@ -19,8 +19,12 @@ FactoryGirl.define do
   end
 
   factory :ask, :class => Ask do
-    price 100
-    
+    price 100    
   end
+  
+  factory :bid, :class => Bid do
+    price 100    
+  end
+  
   
 end

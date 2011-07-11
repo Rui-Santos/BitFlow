@@ -15,7 +15,7 @@ class Order < ActiveRecord::Base
     write_attribute(:price, (val * PRECISION).to_f) 
   end
   
-  def match!
+  def match!(order)
     nil
   end
 end

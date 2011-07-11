@@ -8,7 +8,7 @@ describe Bid do
       Ask.all.each{|a|a.destroy}
     end
     it "should not match" do
-      trade = Factory.build(:bid,:amount => 10, :value => 10.2).match!
+      trade = Factory.build(:bid,:price => 10).match!(Factory.build(:ask,:price=>10.2))
       trade.should be_nil
     end
   end
