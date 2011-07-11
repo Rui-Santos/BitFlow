@@ -13,12 +13,20 @@ describe Bid do
       trade.should be_nil
     end
     
-    it "should match equal Orders" do
+    it "should match equal bid and ask" do
       bid = Factory.build(:bid,:price => 10,:amount=>5)
       ask = (Factory.build(:ask,:price=>10,:amount=>5))
       bid.match!(ask)
-      bid.status.should == :complete
-      ask.status.should == :complete
+      bid.status.should == Order::Status::COMPLETE
+      ask.status.should == Order::Status::COMPLETE
+    end
+    
+    it "should match equal ask and bid" do
+      bid = Factory.build(:bid,:price => 10,:amount=>5)
+      ask = (Factory.build(:ask,:price=>10,:amount=>5))
+      ask.match!(bid)
+      bid.status.should == Order::Status::COMPLETE
+      ask.status.should == Order::Status::COMPLETE
     end
     
   end
