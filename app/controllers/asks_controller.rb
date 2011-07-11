@@ -1,6 +1,4 @@
 class AsksController < ApplicationController
-  # GET /asks
-  # GET /asks.xml
   def index
     @asks = current_user.asks
 
@@ -9,8 +7,6 @@ class AsksController < ApplicationController
     end
   end
 
-  # GET /asks/1
-  # GET /asks/1.xml
   def show
     @ask = Ask.find(params[:id])
 
@@ -19,8 +15,6 @@ class AsksController < ApplicationController
     end
   end
 
-  # GET /asks/new
-  # GET /asks/new.xml
   def new
     @ask = Ask.new
 
@@ -29,23 +23,22 @@ class AsksController < ApplicationController
     end
   end
 
-  # GET /asks/1/edit
   def edit
     @ask = Ask.find(params[:id])
   end
 
-  # POST /asks
-  # POST /asks.xml
   def create
-    @ask = Ask.new(params[:ask])
+    @ask = Ask.new(:user_id => current_user.id, 
+                   :amount => params[:bid][:amount], 
+                   :price => params[:bid][:price], 
+                   :currency => params[:bid][:currency], 
+                   :status => Order::Status::ACTIVE)
 
     respond_to do |format|
       if @ask.save
         format.html { redirect_to(@ask, :notice => 'Ask was successfully created.') }
-        format.xml  { render :xml => @ask, :status => :created, :location => @ask }
       else
         format.html { render :action => "new" }
-        format.xml  { render :xml => @ask.errors, :status => :unprocessable_entity }
       end
     end
   end

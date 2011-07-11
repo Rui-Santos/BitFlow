@@ -1,18 +1,11 @@
 class BidsController < ApplicationController
-  
-  PRECISION = 1000000
-  # GET /bids
-  # GET /bids.xml
   def index
     @bids = current_user.bids.all
-
     respond_to do |format|
       format.html # index.html.erb
     end
   end
 
-  # GET /bids/1
-  # GET /bids/1.xml
   def show
     @bid = Bid.find(params[:id])
 
@@ -21,26 +14,23 @@ class BidsController < ApplicationController
     end
   end
 
-  # GET /bids/new
-  # GET /bids/new.xml
   def new
     @bid = Bid.new
-
     respond_to do |format|
       format.html # new.html.erb
     end
   end
 
-  # GET /bids/1/edit
   def edit
     @bid = Bid.find(params[:id])
   end
 
-  # POST /bids
-  # POST /bids.xml
   def create
-    price = params[:bid][:price].to_f * PRECISION
-    @bid = Bid.new(:user_id => current_user.id,:amount => params[:bid][:amount], :price => price, :currency => params[:bid][:currency], :status => Status::ACTIVE)
+    @bid = Bid.new(:user_id => current_user.id, 
+                   :amount => params[:bid][:amount], 
+                   :price => params[:bid][:price], 
+                   :currency => params[:bid][:currency], 
+                   :status => Order::Status::ACTIVE)
 
     respond_to do |format|
       if @bid.save
