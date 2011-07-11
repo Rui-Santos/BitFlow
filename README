@@ -7,7 +7,7 @@ prerequsites
 1) Install mysql (http://dev.mysql.com/doc/refman/5.1/en/installing.html)
 2) Install rvm (http://rvm.beginrescueend.com/)
 3) rvm install ruby-1.9.2-p180
-3) postfix installed on your machine.(or any MTA) This is used to send login confirmation email(https://help.ubuntu.com/community/Postfix). It's installed by default on MacOS X
+4) postfix installed and running on your machine.(or any MTA) This is used to send login confirmation email(https://help.ubuntu.com/community/Postfix). It's installed by default on MacOS X
 
 Application
 ===========
