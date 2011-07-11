@@ -1,12 +1,23 @@
+require "rvm/capistrano"                  # Load RVM's capistrano plugin.
+set :rvm_ruby_string, "ree-1.8.7@mphoriaapi"
+
+require 'bundler/capistrano'
+
 set :application, "BitFlow"
 set :repository,  "git@github.com:pjc/BitFlow.git"
+set :scm, :git
+set :use_sudo, false
+set :branch, 'master'
+set :notification_address, "sreeix@gmail.com"
+set :deploy_to, "/apps/#{application}"
+
+set :stages, %w(staging production)
+set :default_stage, 'staging'
+set :deploy_via, :remote_cache
+set :rails_env, 'production'
+set :normalize_asset_timestamps, false  # does not normalize the javascript/stylesheets etc.
 
 set :scm, :git
-
-role :web, "your web-server here"                          # Your HTTP server, Apache/etc
-role :app, "your app-server here"                          # This may be the same as your `Web` server
-role :db,  "your primary db-server here", :primary => true # This is where Rails migrations will run
-role :db,  "your slave db-server here"
 
 # if you're still using the script/reaper helper you will need
 # these http://github.com/rails/irs_process_scripts
