@@ -18,13 +18,19 @@ FactoryGirl.define do
     data :minimum_commission_fee => 0.50, :daily_withdrawal_limit => 10000,:monthly_withdrawal_limit =>  10000,:circuit_breaker_change_percent => 5, :circuit_breaker_change_period => 8.hours
   end
 
+
   factory :ask, :class => Ask do
-    price 100    
+    price 100.78
+    amount 10
+    status 'active'
+  end
+
+  factory :bid,:class=>Bid do
+    price 100.78
+    amount 10
+    status 'active'
   end
   
-  factory :bid, :class => Bid do
-    price 100    
-  end
   
   
 end
