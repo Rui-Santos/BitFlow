@@ -9,7 +9,7 @@ describe Bid do
     end
     
     it "should not match" do
-      trade = Factory.build(:bid,:amount => 10, :value => 10.2).match!
+      trade = Factory.build(:bid,:amount => 10, :price => 10.2).match!
       trade.should be_nil
     end
   end
