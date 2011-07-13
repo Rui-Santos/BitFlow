@@ -22,10 +22,23 @@ set :rails_env, 'production'
 set :normalize_asset_timestamps, false  # does not normalize the javascript/stylesheets etc.
 
 before 'deploy:migrate', 'bitflow:copy_config'
+after "deploy:migrate" , "bitflow:restart"
+
 
 namespace :bitflow do
   desc "copies db configs to the right place"
   task :copy_config do
-    run " cp -f #{release_path}/sf/config/deploy/#{stage}/database.yml #{release_path}/sf/config/database.yml"
+    run "cp -f #{release_path}/config/deploy/#{stage}/database.yml #{release_path}/config/database.yml"
+  end
+  
+  desc "restarts unicorn"
+  task :restart do
+    run "kill -QUIT `cat #{deploy_to}/shared/pids/unicorn.pid`; true"
+    run "cd #{release_path} && bundle exec unicorn -Dc #{release_path}/config/unicorn.rb -E production"
+  end
+end
+namespace :deploy do
+  task :restart do
+    #noop
   end
 end
