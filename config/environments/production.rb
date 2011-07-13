@@ -44,7 +44,8 @@ BitFlow::Application.configure do
   # the I18n.default_locale when a translation can not be found)
   config.i18n.fallbacks = true
 
-  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+  config.action_mailer.default_url_options = { :host => 'ec2-46-137-131-15.eu-west-1.compute.amazonaws.com' }
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
+  
 end
