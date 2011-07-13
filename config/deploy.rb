@@ -21,7 +21,7 @@ set :deploy_via, :remote_cache
 set :rails_env, 'production'
 set :normalize_asset_timestamps, false  # does not normalize the javascript/stylesheets etc.
 
-before 'deploy:migrate', 'bitflow:copy_config'
+before 'deploy:symlink', 'bitflow:copy_config'
 after "deploy:restart" , "bitflow:restart"
 
 
@@ -32,12 +32,22 @@ namespace :bitflow do
   end
   
   desc "restarts unicorn"
-  task :restart do
+  task :stop do
     run "kill -QUIT `cat #{deploy_to}/shared/pids/unicorn.pid`; true"
+  end
+  task :start do
+    run "mkdir -p #{shared_path}/sockets && ln -s #{shared_path}/sockets #{release_path}/tmp/sockets"
     run "cd #{release_path} && bundle exec unicorn -Dc #{release_path}/config/unicorn.rb -E production"
+  end
+  task :restart do
+    stop
+    start
   end
 end
 namespace :deploy do
+  task :start do
+    bitflow::start
+  end
   task :restart do
     #noop
   end
