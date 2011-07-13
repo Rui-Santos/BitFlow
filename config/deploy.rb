@@ -21,3 +21,11 @@ set :deploy_via, :remote_cache
 set :rails_env, 'production'
 set :normalize_asset_timestamps, false  # does not normalize the javascript/stylesheets etc.
 
+before 'deploy:migrate', 'bitflow:copy_config'
+
+namespace :bitflow do
+  desc "copies db configs to the right place"
+  task :copy_config do
+    run " cp -f #{release_path}/sf/config/deploy/#{stage}/database.yml #{release_path}/sf/config/database.yml"
+  end
+end
