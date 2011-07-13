@@ -11,7 +11,7 @@ set :use_sudo, false
 set :branch, 'master'
 set :notification_address, "sreeix@gmail.com"
 set :deploy_to, "/apps/#{application}"
-set :rvm_ruby_string, 'ruby-1.9.2-p180@BitFlow-Production'
+set :rvm_ruby_string, 'ruby-1.9.2-p180@BitFlow'
 set :rvm_type, :user
 
 set :stages, %w(staging production)
