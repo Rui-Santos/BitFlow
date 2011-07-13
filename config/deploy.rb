@@ -22,7 +22,7 @@ set :rails_env, 'production'
 set :normalize_asset_timestamps, false  # does not normalize the javascript/stylesheets etc.
 
 before 'deploy:migrate', 'bitflow:copy_config'
-after "deploy:migrate" , "bitflow:restart"
+after "deploy:restart" , "bitflow:restart"
 
 
 namespace :bitflow do
