@@ -10,26 +10,26 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110710163355) do
+ActiveRecord::Schema.define(:version => 20110714094121) do
 
   create_table "asks", :force => true do |t|
-    t.integer  "price"
-    t.float    "amount"
+    t.decimal  "price",      :precision => 15, :scale => 10
+    t.decimal  "amount",     :precision => 15, :scale => 10
     t.string   "currency"
-    t.string   "status",     :null => false
+    t.string   "status"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "bids", :force => true do |t|
-    t.integer  "price"
-    t.float    "amount"
+    t.decimal  "price",      :precision => 15, :scale => 10
+    t.decimal  "amount",     :precision => 15, :scale => 10
     t.string   "currency"
-    t.string   "status",     :null => false
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "status",                                     :default => ""
   end
 
   create_table "hosts", :force => true do |t|

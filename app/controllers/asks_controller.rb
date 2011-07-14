@@ -31,7 +31,6 @@ class AsksController < ApplicationController
     @ask = Ask.new(:user_id => current_user.id, 
                    :amount => params[:ask][:amount], 
                    :price => params[:ask][:price], 
-                   :currency => params[:ask][:currency], 
                    :status => Order::Status::ACTIVE)
 
     respond_to do |format|
@@ -43,19 +42,17 @@ class AsksController < ApplicationController
     end
   end
 
-   def update
-     @ask = Ask.find(params[:id])
+  def update
+    @ask = Ask.find(params[:id])
+    respond_to do |format|
+      if @ask.update_attributes(params[:ask])
+        format.html { redirect_to(@ask, :notice => 'Ask was successfully updated.') }
+      else
+        format.html { render :action => "edit" }
+      end
+    end
+  end
   
-     respond_to do |format|
-       if @ask.update_attributes(params[:ask])
-         format.html { redirect_to(@ask, :notice => 'Ask was successfully updated.') }
-         format.xml  { head :ok }
-       else
-         format.html { render :action => "edit" }
-         format.xml  { render :xml => @ask.errors, :status => :unprocessable_entity }
-       end
-     end
-   end
   # 
   #  # DELETE /asks/1
   #  # DELETE /asks/1.xml

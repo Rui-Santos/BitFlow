@@ -1,4 +1,6 @@
 class Order < ActiveRecord::Base
+  validates_presence_of :price, :amount
+  validates_numericality_of :price, :amount, :greater_than => 0.0
   
   module  Status
     ACTIVE = :active
@@ -6,24 +8,15 @@ class Order < ActiveRecord::Base
     COMPLETE = :complete
   end
 
-  PRECISION = 1000000.0
 
   def currency
     read_attribute(:currency) || "USD"
   end
 
   def currency=(cur)
-    write_attribute(cur)
+    write_attribute(cur || "USD")
   end
-
-  def price
-    (read_attribute(:price).to_f * PRECISION).to_f
-  end
-
-  def price=(val)
-    write_attribute(:price, (val.to_f / PRECISION).to_f) 
-  end
-    
+  
   def match!(order)
     unless order.nil?
       if(order.price == price && order.amount == amount)
