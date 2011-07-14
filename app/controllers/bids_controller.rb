@@ -27,9 +27,8 @@ class BidsController < ApplicationController
 
   def create
     @bid = Bid.new(:user_id => current_user.id, 
-                   :amount => params[:bid][:amount], 
-                   :price => params[:bid][:price], 
-                   :currency => params[:bid][:currency], 
+                   :amount => params[:bid][:amount].to_f, 
+                   :price => params[:bid][:price].to_f, 
                    :status => Order::Status::ACTIVE)
 
     respond_to do |format|
@@ -41,18 +40,14 @@ class BidsController < ApplicationController
     end
   end
 
-  # PUT /bids/1
-  # PUT /bids/1.xml
   def update
     @bid = Bid.find(params[:id])
   
     respond_to do |format|
       if @bid.update_attributes(params[:bid])
         format.html { redirect_to(@bid, :notice => 'Bid was successfully updated.') }
-        format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @bid.errors, :status => :unprocessable_entity }
       end
     end
   end

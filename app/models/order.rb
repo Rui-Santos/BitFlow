@@ -8,12 +8,20 @@ class Order < ActiveRecord::Base
 
   PRECISION = 1000000.0
 
+  def currency
+    read_attribute(:currency) || "USD"
+  end
+
+  def currency =(cur)
+    write_attribute(cur)
+  end
+
   def price
     (read_attribute(:price).to_f * PRECISION).to_f
   end
 
   def price=(val)
-    write_attribute(:price, (val / PRECISION).to_f) 
+    write_attribute(:price, (val.to_f / PRECISION).to_f) 
   end
     
   def match!(order)

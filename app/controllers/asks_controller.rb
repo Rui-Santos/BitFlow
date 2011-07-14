@@ -43,8 +43,6 @@ class AsksController < ApplicationController
     end
   end
 
-  # PUT /asks/1
-   # PUT /asks/1.xml
    def update
      @ask = Ask.find(params[:id])
   
