@@ -4,15 +4,20 @@ BitFlow::Application.routes.draw do
   resources :bids, :except => [:destroy, :update]
 
   devise_for :users, :except => [:destroy, :update]
+  
+  devise_scope :user do
+    get "/login" => "devise/sessions#new"
+    get "/logout" => "devise/sessions#destroy"
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
   root :to => "home#index"
 
-  # Sample of regular route:
-    match 'admin_setting/edit' => 'admin_setting#edit', :via => :get
-    match 'admin_setting' => 'admin_setting#update', :via => :post
+  match 'admin_setting/edit' => 'admin_setting#edit', :via => :get
+  match 'admin_setting' => 'admin_setting#update', :via => :post
+
   # Keep in mind you can assign values other than :controller and :action
 
   # Sample of named route:

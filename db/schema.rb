@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(:version => 20110714094121) do
     t.decimal  "price",      :precision => 15, :scale => 10
     t.decimal  "amount",     :precision => 15, :scale => 10
     t.string   "currency"
-    t.string   "status"
+    t.string   "status",                                     :null => false
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -26,10 +26,10 @@ ActiveRecord::Schema.define(:version => 20110714094121) do
     t.decimal  "price",      :precision => 15, :scale => 10
     t.decimal  "amount",     :precision => 15, :scale => 10
     t.string   "currency"
+    t.string   "status",                                     :null => false
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "status",                                     :default => ""
   end
 
   create_table "hosts", :force => true do |t|
