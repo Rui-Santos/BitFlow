@@ -17,3 +17,11 @@ Application
 3) rake db:migrate
 4) rails server
 5) Navigate to http://localhost:3000
+
+Deployment
+===========
+
+Staging
+
+*cap staging deploy* will deploy the current code to the staging. Make sure you push to the repository before
+
