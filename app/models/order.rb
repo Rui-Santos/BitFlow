@@ -12,7 +12,7 @@ class Order < ActiveRecord::Base
     read_attribute(:currency) || "USD"
   end
 
-  def currency =(cur)
+  def currency=(cur)
     write_attribute(cur)
   end
 
