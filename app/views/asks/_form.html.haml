@@ -9,14 +9,6 @@
   .actions
     = f.label :amount, 'Amount'
     = f.text_field :amount
-    = f.label :price, 'Price'
+    = f.label :price, 'Price ( in USD)'
     = f.text_field :price
-    = f.label :currency, 'Currency'
-    
-    = f.radio_button :currency, 'EUR'
-    = f.label :currency, 'EURO'
-    
-    = f.radio_button :currency, 'USD'
-    = f.label :currency, 'US Dollars'
-    
     = f.submit 'Save'

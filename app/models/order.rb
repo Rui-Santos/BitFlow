@@ -1,5 +1,5 @@
 class Order < ActiveRecord::Base
-
+  
   module  Status
     ACTIVE = :active
     EXPIRED = :expired
