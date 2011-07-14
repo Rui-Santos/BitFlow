@@ -11,7 +11,18 @@ class Order < ActiveRecord::Base
   scope :active, lambda {
     where("status = '#{Order::Status::ACTIVE}'")
   }
-  scope :recent, order("updated_at DESC")  
+  scope :oldest, order("updated_at ASC")  
+  
+  def self.lesser_price_than(price)
+    where("price <= ?", price).order("price ASC")
+  end
+
+  def self.greater_price_than(price)
+    where("price >= ?", price).order("price DESC")
+  end
+  
+
+  
 
   def currency
     read_attribute(:currency) || "USD"
@@ -22,7 +33,4 @@ class Order < ActiveRecord::Base
     write_attribute(cur || "USD")
   end
   
-
-  def match!
-  end
 end

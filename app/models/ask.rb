@@ -1,13 +1,12 @@
 class Ask < Order
   set_table_name :asks
-  
 
-  def self.greater_price(price)
-    where("asks.price >= ?", price).order("asks.price DESC")
-  end
-
-  
   def self.order_queue(value)
-    Ask.active
+    active.oldest.lesser_price_than(value)
   end
+
+  def match!
+    Bid.order_queue(self.price)
+  end
+
 end

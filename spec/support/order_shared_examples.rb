@@ -32,7 +32,7 @@ shared_examples_for "an order" do
     end
   end
 
-  describe "recent" do
+  describe "oldest" do
     before(:each) do
       order_class.all.each {|o| o.destroy}
     end
@@ -40,7 +40,7 @@ shared_examples_for "an order" do
     it "shows ordered by time orders" do
       Factory(order_class.to_s.underscore, :updated_at => DateTime.new(2011, 1,10), :status => Order::Status::ACTIVE)
       Factory(order_class.to_s.underscore, :updated_at => DateTime.new(2011, 1,13), :status => Order::Status::EXPIRED)
-      order_class.recent.first.status.should eql(Order::Status::EXPIRED.to_s)
+      order_class.oldest.first.status.should eql(Order::Status::ACTIVE.to_s)
     end
   end
 end
