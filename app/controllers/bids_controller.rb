@@ -41,21 +41,21 @@ class BidsController < ApplicationController
     end
   end
 
-  # # PUT /bids/1
-  # # PUT /bids/1.xml
-  # def update
-  #   @bid = Bid.find(params[:id])
-  # 
-  #   respond_to do |format|
-  #     if @bid.update_attributes(params[:bid])
-  #       format.html { redirect_to(@bid, :notice => 'Bid was successfully updated.') }
-  #       format.xml  { head :ok }
-  #     else
-  #       format.html { render :action => "edit" }
-  #       format.xml  { render :xml => @bid.errors, :status => :unprocessable_entity }
-  #     end
-  #   end
-  # end
+  # PUT /bids/1
+  # PUT /bids/1.xml
+  def update
+    @bid = Bid.find(params[:id])
+  
+    respond_to do |format|
+      if @bid.update_attributes(params[:bid])
+        format.html { redirect_to(@bid, :notice => 'Bid was successfully updated.') }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @bid.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
   # 
   # # DELETE /bids/1
   # # DELETE /bids/1.xml

@@ -43,21 +43,21 @@ class AsksController < ApplicationController
     end
   end
 
-  # # PUT /asks/1
-  #  # PUT /asks/1.xml
-  #  def update
-  #    @ask = Ask.find(params[:id])
-  # 
-  #    respond_to do |format|
-  #      if @ask.update_attributes(params[:ask])
-  #        format.html { redirect_to(@ask, :notice => 'Ask was successfully updated.') }
-  #        format.xml  { head :ok }
-  #      else
-  #        format.html { render :action => "edit" }
-  #        format.xml  { render :xml => @ask.errors, :status => :unprocessable_entity }
-  #      end
-  #    end
-  #  end
+  # PUT /asks/1
+   # PUT /asks/1.xml
+   def update
+     @ask = Ask.find(params[:id])
+  
+     respond_to do |format|
+       if @ask.update_attributes(params[:ask])
+         format.html { redirect_to(@ask, :notice => 'Ask was successfully updated.') }
+         format.xml  { head :ok }
+       else
+         format.html { render :action => "edit" }
+         format.xml  { render :xml => @ask.errors, :status => :unprocessable_entity }
+       end
+     end
+   end
   # 
   #  # DELETE /asks/1
   #  # DELETE /asks/1.xml
