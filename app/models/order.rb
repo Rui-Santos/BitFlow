@@ -9,11 +9,11 @@ class Order < ActiveRecord::Base
   PRECISION = 1000000.0
 
   def price
-    (read_attribute(:price).to_f / PRECISION).to_f
+    (read_attribute(:price).to_f * PRECISION).to_f
   end
 
   def price=(val)
-    write_attribute(:price, (val * PRECISION).to_f) 
+    write_attribute(:price, (val / PRECISION).to_f) 
   end
     
   def match!(order)
