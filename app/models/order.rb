@@ -8,21 +8,21 @@ class Order < ActiveRecord::Base
     COMPLETE = :complete
   end
 
+  scope :active, lambda {
+    where("status = '#{Order::Status::ACTIVE}'")
+  }
+  scope :recent, order("updated_at DESC")  
 
   def currency
     read_attribute(:currency) || "USD"
   end
 
+
   def currency=(cur)
     write_attribute(cur || "USD")
   end
   
-  def match!(order)
-    unless order.nil?
-      if(order.price == price && order.amount == amount)
-         order.update_attributes(:status => Order::Status::COMPLETE)
-         self.update_attributes(:status => Order::Status::COMPLETE)
-      end
-    end
+
+  def match!
   end
 end
