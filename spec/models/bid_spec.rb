@@ -4,6 +4,7 @@ describe Bid do
   it_behaves_like "an order"    
   describe "match bids" do
     before(:each) do
+      AppConfig.set 'SKIP_TRADE_CREATION', true
       Ask.all.each(&:destroy)
       Bid.all.each(&:destroy)
     end
@@ -70,5 +71,53 @@ describe Bid do
       matches[1].amount.should == 5
     end
   end
+  
+  
+  describe "create trade" do
+    before(:each) do
+      AppConfig.set('SKIP_TRADE_CREATION', true)
+      @bid = Factory(:bid, :price => 10.1, :amount => 10)
+      @ask = Factory(:ask, :amount => 10, :price => 10.1)
+      @ask6 = Factory(:ask, :amount => 6, :price => 10.1)
+      @ask4 = Factory(:ask, :amount => 4, :price => 10.1)
+      AppConfig.set('SKIP_TRADE_CREATION', false)
+    end
+    
+    it "does not happen when no matches" do
+      Ask.expects(:order_queue).returns([])  
+      trade = @bid.create_trades
+      trade.should be_nil
+    end
+    it "when bid matches exactly" do
+      Ask.stubs(:order_queue).returns([@ask])  
+      trade = @bid.create_trades
+      trade.asks.size.should == 1
+      trade.asks.first.should be_complete
+      trade.bids.first.should == @bid
+      @bid.should be_complete
+    end
+
+    it "when ask multiple bids matches exactly" do
+      Ask.stubs(:order_queue).returns([@ask6, @ask4])  
+      trade = @bid.create_trades
+      trade.asks.size.should == 2
+      trade.asks.first.should be_complete
+      trade.asks[1].should be_complete
+      trade.bids.first.should == @bid
+      @bid.should be_complete
+    end
+
+    it "skip remaining bids when more matches exist" do
+      Ask.stubs(:order_queue).returns([@ask6, @ask4, @ask])  
+      trade = @bid.create_trades
+      trade.asks.size.should == 2
+      trade.asks.first.should be_complete
+      trade.asks[1].should be_complete
+      @ask.should be_active
+      trade.bids.first.should == @bid
+      @bid.should be_complete
+    end
+  end
+
   
 end

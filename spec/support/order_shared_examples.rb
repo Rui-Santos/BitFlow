@@ -2,6 +2,10 @@ shared_examples_for "an order" do
   let(:order_class) {described_class}
 
   describe "value is stored as " do
+    before(:each) do
+      AppConfig.set 'SKIP_TRADE_CREATION', true
+    end
+    
     it "as an integer" do
       order = order_class.create(:status => Order::Status::ACTIVE, :amount => 100, :price => 10.0001)
       order.read_attribute(:price).should == 10.0001

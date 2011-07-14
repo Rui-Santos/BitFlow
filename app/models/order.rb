@@ -2,6 +2,8 @@ class Order < ActiveRecord::Base
   validates_presence_of :price, :amount
   validates_numericality_of :price, :amount, :greater_than => 0.0
   
+  after_create :create_trades unless AppConfig.is?('SKIP_TRADE_CREATION', false)
+  
   module  Status
     ACTIVE = :active
     EXPIRED = :expired
@@ -22,7 +24,13 @@ class Order < ActiveRecord::Base
   end
   
 
-  
+  def complete?
+    status == Status::COMPLETE || status.to_sym == Status::COMPLETE
+  end
+
+  def active?
+    status == Status::ACTIVE || status.to_sym == Status::ACTIVE
+  end
 
   def currency
     read_attribute(:currency) || "USD"
