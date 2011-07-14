@@ -6,7 +6,7 @@ class Order < ActiveRecord::Base
     COMPLETE = :complete
   end
 
-  PRECISION = 1000000000.0
+  PRECISION = 1000000.0
 
   def price
     (read_attribute(:price).to_f / PRECISION).to_f
