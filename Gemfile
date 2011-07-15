@@ -39,6 +39,8 @@ gem 'aws-s3', :require => 'aws/s3'
 # and rake tasks are available in development mode:
 gem "factory_girl_rails", "~> 1.1.rc1"
 
+#For bitcoin json-rpc calls
+gem rest-client
 
 group :development, :test do
   gem 'webrat'
