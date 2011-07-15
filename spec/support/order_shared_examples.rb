@@ -2,6 +2,10 @@ shared_examples_for "an order" do
   let(:order_class) {described_class}
 
   describe "value is stored as " do
+    before(:each) do
+      AppConfig.set 'SKIP_TRADE_CREATION', true
+    end
+    
     it "as an integer" do
       order = order_class.create(:status => Order::Status::ACTIVE, :amount => 100, :price => 10.0001)
       order.read_attribute(:price).should == 10.0001
@@ -15,33 +19,32 @@ shared_examples_for "an order" do
       order.price.should == 9.76
     end
   end
-  
-  describe "match" do
+  describe "active" do
     before(:each) do
-      Ask.all.each{|a|a.destroy}
+      order_class.all.each {|o| o.destroy}
     end
-    
-    it "should not match" do
-      trade = Factory.build(:bid,:price => 10).match!(Factory.build(:ask,:price=>10.2))
-      trade.should be_nil
+    it "shows active orders" do
+      Factory(order_class.to_s.underscore, :status => Order::Status::ACTIVE)
+      Factory(order_class.to_s.underscore, :status => Order::Status::ACTIVE)
+      order_class.active.size.should == 2
     end
-    
-    it "should match equal bid and ask" do
-      bid = Factory.build(:bid,:price => 10,:amount=>5)
-      ask = (Factory.build(:ask,:price=>10,:amount=>5))
-      bid.match!(ask)
-      bid.status.should == Order::Status::COMPLETE
-      ask.status.should == Order::Status::COMPLETE
+
+    it "shows active orders" do
+      Factory(order_class.to_s.underscore, :status => Order::Status::ACTIVE)
+      Factory(order_class.to_s.underscore, :status => Order::Status::EXPIRED)
+      order_class.active.size.should == 1
     end
-    
-    it "should match equal ask and bid" do
-      bid = Factory.build(:bid,:price => 10,:amount=>5)
-      ask = (Factory.build(:ask,:price=>10,:amount=>5))
-      ask.match!(bid)
-      bid.status.should == Order::Status::COMPLETE
-      ask.status.should == Order::Status::COMPLETE
-    end
-    
   end
 
+  describe "oldest" do
+    before(:each) do
+      order_class.all.each {|o| o.destroy}
+    end
+    
+    it "shows ordered by time orders" do
+      Factory(order_class.to_s.underscore, :updated_at => DateTime.new(2011, 1,10), :status => Order::Status::ACTIVE)
+      Factory(order_class.to_s.underscore, :updated_at => DateTime.new(2011, 1,13), :status => Order::Status::EXPIRED)
+      order_class.oldest.first.status.should eql(Order::Status::ACTIVE.to_s)
+    end
+  end
 end

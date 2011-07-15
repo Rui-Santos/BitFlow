@@ -1,9 +1,10 @@
 BitFlow::Application.routes.draw do
-  resources :asks
+  resources :asks, :except => [:destroy, :update]
 
   resources :bids, :except => [:destroy, :update]
+  resources :trades, :only => :index
 
-  devise_for :users, :except => [:destroy, :update]
+  devise_for :users
   
   devise_scope :user do
     get "/login" => "devise/sessions#new"
@@ -27,7 +28,7 @@ BitFlow::Application.routes.draw do
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
 
-  # Sample resource route with options:
+  #  Sample resource route with options:
   #   resources :products do
   #     member do
   #       get 'short'
