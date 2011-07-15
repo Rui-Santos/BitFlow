@@ -23,7 +23,7 @@ set :normalize_asset_timestamps, false  # does not normalize the javascript/styl
 
 before 'deploy:symlink', 'bitflow:copy_config'
 after "deploy:restart" , "bitflow:restart"
-
+after "deploy", "deploy:migrate"
 
 namespace :bitflow do
   desc "copies db configs to the right place"
