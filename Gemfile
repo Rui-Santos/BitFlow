@@ -16,6 +16,7 @@ gem 'yajl-ruby', :require => ['yajl', 'yajl/json_gem']
 
 gem 'metric_fu'
 gem 'exception_notification'
+gem 'jquery-rails'
 gem 'haml'
 gem 'haml-rails'
 gem 'sass'
