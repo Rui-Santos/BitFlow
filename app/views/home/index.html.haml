@@ -1,0 +1,32 @@
+%ul.span-14
+  %li Lowest Commissions (0.3%)
+  %li Dedicated BTC Wallet
+  %li Trade BTC & Mining Contracts
+  %li
+    Earn interest with
+    = link_to 'Fixed Mining', '/fixed_mining'
+%hr
+#tabs.span-10
+  %ul
+    %li
+      %a{:href => '#btc'} BTC
+    %li
+      %a{:href => '#fixed-mining'} Fixed Mining
+    %li
+      %a{:href => '#mining-contract'} Mining Contract
+  #btc
+    BTC
+  #fixed-mining
+    Fixed Mining
+  #mining-contract
+    Mining Contract
+
+%ul.span-6
+  %li Lowest Bids
+  %li Lowest Asks
+  
+
+- content_for(:javascript) do
+  :javascript
+    $(function(){ $('#tabs').tabs(); });
+  

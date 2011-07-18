@@ -1569,3 +1569,8 @@ body {
   width: 390px;
   height: 250px;
 }
+
+/* line 9, ../../app/stylesheets/partials/_application.sass */
+#content {
+  min-height: 600px;
+}
