@@ -8,7 +8,11 @@
 
   .actions
     = f.label :amount, 'Amount'
+    %br/
     = f.text_field :amount
+    %br/
     = f.label :price, 'Price ( in USD)'
+    %br/
     = f.text_field :price
+    %br/
     = f.submit 'Save'

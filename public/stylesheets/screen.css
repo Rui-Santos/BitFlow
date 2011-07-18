@@ -574,9 +574,9 @@ body {
   background: #cdd7e0;
 }
 
-/* line 3, ../../app/stylesheets/partials/_application.sass */
+/* line 4, ../../app/stylesheets/partials/_application.sass */
 #container {
-  padding: 24px;
+  padding: 0 60px;
   background: white;
 }
 /* line 33, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
