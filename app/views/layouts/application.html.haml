@@ -22,8 +22,10 @@
         .container
           links
       #content
-        = content_tag(:p, flash[:notice], :class => 'notice') if flash[:notice]
-        = content_tag(:p, flash[:alert], :class => 'alert') if flash[:alert]
+        = render '/shared/authenticated_menu_items'
+
+        - flash.each do |key, message|
+          = content_tag(:div, message, :class => "flash #{key}")
 
         .container
           = yield

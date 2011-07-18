@@ -10,9 +10,7 @@ BitFlow::Application.routes.draw do
     get "/signout" => "devise/sessions#destroy"
   end
 
-  namespace :user do
-    root :to => "welcome#index"
-  end
+  match '/user' => "welcome#index", :as => :user_root
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
