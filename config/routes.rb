@@ -1,11 +1,10 @@
 BitFlow::Application.routes.draw do
-  resources :asks, :except => [:destroy, :update]
+  devise_for :users
 
+  resources :asks, :except => [:destroy, :update]
   resources :bids, :except => [:destroy, :update]
   resources :trades, :only => :index
 
-  devise_for :users
-  
   devise_scope :user do
     get "/login" => "devise/sessions#new"
     get "/signout" => "devise/sessions#destroy"

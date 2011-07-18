@@ -3,7 +3,7 @@
 %html
   %head
     %title Bitflow
-    = stylesheet_link_tag 'screen.css', 'buttons.css', 'link_icons.css', :media => 'screen, projection'
+    = stylesheet_link_tag 'screen.css', :media => 'screen, projection'
     = stylesheet_link_tag 'print.css', :media => 'print'
     /[if lt IE 8]
       = stylesheet_link_tag 'ie.css', :media => 'screen, projection'
@@ -12,16 +12,21 @@
 
   %body.bp.two-col
     #container
+      %hr.space
       #header
-        = render '/devise/menu/login_items'
-
+        .container
+          .span-18.logo &nbsp;
+          .span-6.last= render '/devise/shared/login_items'
+      %hr
       #sidebar
         .container
+          links
       #content
-        .container
-          - [:notice, :alert, :error].each do |flash_type|
-            = content_tag(:p, :class => flash_type.to_s) { flash[flash_type] } if flash[flash_type]
+        = content_tag(:p, flash[:notice], :class => 'notice') if flash[:notice]
+        = content_tag(:p, flash[:alert], :class => 'alert') if flash[:alert]
+
         .container
           = yield
 
+      %hr
       #footer
