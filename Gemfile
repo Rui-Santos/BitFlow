@@ -9,17 +9,18 @@ gem 'mysql'
 # Use unicorn as the web server
 gem 'unicorn'
 gem 'devise'
-gem 'formtastic'
 gem 'dalli'
-gem 'haml'
 gem 'yajl-ruby', :require => ['yajl', 'yajl/json_gem']
 
 gem 'metric_fu'
 gem 'exception_notification'
+
+gem 'formtastic'
 gem 'jquery-rails'
 gem 'haml'
 gem 'haml-rails'
 gem 'sass'
+gem "compass"
 
 # Deploy with Capistrano
 gem 'capistrano'
