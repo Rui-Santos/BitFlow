@@ -1,0 +1,12 @@
+%table
+  %caption
+    %em #{item_type}s Order Book
+  %thead
+    %tr
+      %th #{item_type}s
+      %th.last Amount
+  %tbody
+    - items.each do |item|
+      %tr{:class => cycle("odd", "even")}
+        %td #{item.price}
+        %td #{item.amount} BTC

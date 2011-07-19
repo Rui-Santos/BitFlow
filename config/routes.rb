@@ -5,16 +5,18 @@ BitFlow::Application.routes.draw do
   resources :bids, :except => [:destroy, :update]
   resources :trades, :only => :index
 
+  match '/user' => "welcome#index", :as => :user_root
+
   devise_scope :user do
     get "/login" => "devise/sessions#new"
     get "/signout" => "devise/sessions#destroy"
   end
 
-  match '/user' => "welcome#index", :as => :user_root
-
   # The priority is based upon order of creation:
   # first created -> highest priority.
-
+  
+  match 'wallet' => 'welcome', :via => :get
+  
   match 'admin_setting/edit' => 'admin_setting#edit', :via => :get
   match 'admin_setting' => 'admin_setting#update', :via => :post
 

@@ -1,18 +1,5 @@
-= form_for @ask do |f|
-  -if @ask.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@ask.errors.count, "error")} prohibited this bid from being saved:"
-      %ul
-        - @ask.errors.full_messages.each do |msg|
-          %li= msg
-
-  .actions
-    = f.label :amount, 'Amount'
-    %br/
-    = f.text_field :amount
-    %br/
-    = f.label :price, 'Price ( in USD)'
-    %br/
-    = f.text_field :price
-    %br/
-    = f.submit 'Save'
+= semantic_form_for @ask do |f|
+  = f.inputs "#{@ask.new_record? ? 'New' : 'Edit'} Ask" do
+    = f.input :amount
+    = f.input :price, :label => 'Price (in USD)'
+    = f.commit_button

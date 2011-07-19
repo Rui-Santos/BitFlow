@@ -1,0 +1,8 @@
+body.one-col
+  #container
+    +container
+  #header, #footer
+    +column($blueprint-grid-columns)
+  #content
+    $content-columns: $blueprint-grid-columns
+    +column($content-columns, true)

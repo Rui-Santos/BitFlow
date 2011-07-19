@@ -1,18 +1,5 @@
-= form_for @bid do |f|
-  -if @bid.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@bid.errors.count, "error")} prohibited this bid from being saved:"
-      %ul
-        - @bid.errors.full_messages.each do |msg|
-          %li= msg
-
-  .actions
-    = f.label :amount, 'Amount'
-    %br/
-    = f.text_field :amount
-    %br/
-    = f.label :price, 'Price (in USD)'
-    %br/
-    = f.text_field :price
-    %br/
-    = f.submit 'Save'
+= semantic_form_for @bid do |f|
+  = f.inputs "#{@bid.new_record? ? 'New' : 'Edit'} Bid" do
+    = f.input :amount
+    = f.input :price, :label => 'Price (in USD)'
+    = f.commit_button

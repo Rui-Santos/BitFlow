@@ -13,8 +13,12 @@ class Order < ActiveRecord::Base
   scope :active, lambda {
     where("status = '#{Order::Status::ACTIVE}'")
   }
+
   scope :oldest, order("updated_at ASC")  
-  
+
+  scope :lowest, order('price ASC')
+  scope :highest, order('price DESC')
+
   def self.lesser_price_than(price)
     where("price <= ?", price).order("price ASC")
   end

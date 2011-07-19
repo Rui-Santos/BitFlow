@@ -21,10 +21,9 @@
   #mining-contract
     Mining Contract
 
-%ul.span-6
-  %li Lowest Bids
-  %li Lowest Asks
-  
+#order-books
+  = render :partial => 'order_books', :locals => {:items => @asks, :item_type => 'Ask'}
+  = render :partial => 'order_books', :locals => {:items => @bids, :item_type => 'Bid'}
 
 - content_for(:javascript) do
   :javascript
