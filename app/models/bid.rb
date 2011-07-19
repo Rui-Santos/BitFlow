@@ -11,7 +11,7 @@ class Bid < Order
   end
   
   def create_trades
-    return if  AppConfig.is?('SKIP_TRADE_CREATION', false)
+    return if AppConfig.is?('SKIP_TRADE_CREATION', false)
     pending_amount = self.amount
     asks = []
     match!.each do | ask|
@@ -20,9 +20,9 @@ class Bid < Order
       asks << ask
     end
     unless(asks.empty?)
-      self.update_attributes(:status => Order::Status::COMPLETE)
-      asks.each{|a| a.update_attributes(:status => Order::Status::COMPLETE)}
-      Trade.create(:asks => asks, :bids => [self])
+      self.update_attributes(status: Order::Status::COMPLETE)
+      asks.each{|a| a.update_attributes(status: Order::Status::COMPLETE)}
+      Trade.create(asks: asks, bids: [self], market_price: self.price)
     end
   end
 end

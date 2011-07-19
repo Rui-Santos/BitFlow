@@ -24,6 +24,8 @@
       #sidebar
         = render '/shared/sidebar'
       #content
+        = render '/shared/market_price_ticker'
+        %hr
         = render '/shared/authenticated_menu_items'
 
         - flash.each do |key, message|

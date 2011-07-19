@@ -1,0 +1,3 @@
+.market_price_ticker{title: "Market Price"}
+  %div
+    #{ @last_trade.try(:market_price).try(:round, 2) }

@@ -22,7 +22,7 @@ class Ask < Order
     unless(bids.empty?)
       self.update_attributes(:status => Order::Status::COMPLETE)
       bids.each{|b| b.update_attributes(:status => Order::Status::COMPLETE)}
-      Trade.create(:bids => bids, :asks => [self])
+      Trade.create(asks: [self], bids: bids, market_price: self.price)
     end
   end
 end

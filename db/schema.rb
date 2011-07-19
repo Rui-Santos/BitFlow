@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110714220644) do
+ActiveRecord::Schema.define(:version => 20110719193810) do
 
   create_table "asks", :force => true do |t|
     t.decimal  "price",      :precision => 15, :scale => 10
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(:version => 20110714220644) do
   create_table "trades", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.decimal  "market_price", :precision => 15, :scale => 10
   end
 
   create_table "users", :force => true do |t|

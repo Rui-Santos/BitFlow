@@ -7,4 +7,9 @@ class TradesController < ApplicationController
   def show
     @trade = Trade.find(params[:id])
   end
+  
+  def market_price
+    @trade = Trade.last
+    render :json => @trade
+  end
 end
