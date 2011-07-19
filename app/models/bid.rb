@@ -1,6 +1,7 @@
 class Bid < Order
   set_table_name :bids
   belongs_to :trade
+
   def self.order_queue(value)
     active.oldest.greater_price_than(value)
   end

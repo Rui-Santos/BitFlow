@@ -1,0 +1,23 @@
+#user-order-book
+  %table
+    %caption
+      %em Order Book
+    %thead
+      %tr
+        %th Last updated at
+        %th Type
+        %th Price
+        %th Amount
+        %th Status
+        %th.last Trade
+    %tbody
+      - orders.each do |order|
+        %tr{class: cycle("odd", "even")}
+          %td #{order["updated_at"]}
+          %td #{order["type"]}
+          %td #{order["price"].to_f}
+          %td #{order["amount"].to_f} 
+          %td #{order["status"]} 
+          %td= link_to(order["trade_id"], trade_url(order["trade_id"])) if order["trade_id"]
+      %tr{class: cycle("odd", "even")}
+        %td{colspan: 6, class: "more"}= link_to 'more...', orders_url

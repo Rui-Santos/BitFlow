@@ -1265,68 +1265,140 @@ form.formtastic abbr, form.formtastic acronym {
 }
 
 /* line 23, ../../app/stylesheets/partials/_application.sass */
-#order-books {
+#recent-order-books {
   display: inline;
   float: left;
   margin-right: 0;
   width: 230px;
 }
 /* line 147, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
-* html #order-books {
+* html #recent-order-books {
   overflow-x: hidden;
 }
 /* line 2, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/utilities/tables/_scaffolding.scss */
-#order-books table th {
+#recent-order-books table th {
   text-align: center;
   font-weight: bold;
 }
 /* line 6, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/utilities/tables/_scaffolding.scss */
-#order-books table td,
-#order-books table th {
+#recent-order-books table td,
+#recent-order-books table th {
   padding: 2px;
 }
 /* line 8, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/utilities/tables/_scaffolding.scss */
-#order-books table td.numeric,
-#order-books table th.numeric {
+#recent-order-books table td.numeric,
+#recent-order-books table th.numeric {
   text-align: right;
 }
 /* line 2, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/utilities/tables/_alternating-rows-and-columns.scss */
-#order-books table th {
+#recent-order-books table th {
   background-color: #c3d9ff;
 }
 /* line 4, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/utilities/tables/_alternating-rows-and-columns.scss */
-#order-books table th.even, #order-books table th:nth-child(2n) {
+#recent-order-books table th.even, #recent-order-books table th:nth-child(2n) {
   background-color: #b2c8ee;
 }
 /* line 7, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/utilities/tables/_alternating-rows-and-columns.scss */
-#order-books table tr.odd td {
+#recent-order-books table tr.odd td {
   background-color: white;
 }
 /* line 9, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/utilities/tables/_alternating-rows-and-columns.scss */
-#order-books table tr.odd td.even, #order-books table tr.odd td:nth-child(2n) {
+#recent-order-books table tr.odd td.even, #recent-order-books table tr.odd td:nth-child(2n) {
   background-color: #eeeeee;
 }
 /* line 12, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/utilities/tables/_alternating-rows-and-columns.scss */
-#order-books table tr.even td {
+#recent-order-books table tr.even td {
   background-color: #e5ecf9;
 }
 /* line 14, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/utilities/tables/_alternating-rows-and-columns.scss */
-#order-books table tr.even td.even, #order-books table tr.even td:nth-child(2n) {
+#recent-order-books table tr.even td.even, #recent-order-books table tr.even td:nth-child(2n) {
   background-color: #d4dbe8;
 }
 /* line 17, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/utilities/tables/_alternating-rows-and-columns.scss */
-#order-books table tfoot th, #order-books table tfoot td {
+#recent-order-books table tfoot th, #recent-order-books table tfoot td {
   background-color: white;
 }
 /* line 19, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/utilities/tables/_alternating-rows-and-columns.scss */
-#order-books table tfoot th.even, #order-books table tfoot th:nth-child(2n), #order-books table tfoot td.even, #order-books table tfoot td:nth-child(2n) {
+#recent-order-books table tfoot th.even, #recent-order-books table tfoot th:nth-child(2n), #recent-order-books table tfoot td.even, #recent-order-books table tfoot td:nth-child(2n) {
   background-color: #eeeeee;
 }
-/* line 28, ../../app/stylesheets/partials/_application.sass */
-#order-books table caption {
+/* line 6, ../../app/stylesheets/partials/_mixins.sass */
+#recent-order-books table caption {
   text-align: center;
 }
-/* line 30, ../../app/stylesheets/partials/_application.sass */
-#order-books table caption em {
+/* line 8, ../../app/stylesheets/partials/_mixins.sass */
+#recent-order-books table caption em {
   font-weight: bold;
+}
+
+/* line 26, ../../app/stylesheets/partials/_application.sass */
+#user-order-book {
+  overflow: hidden;
+  *zoom: 1;
+  display: inline;
+  float: left;
+  margin-right: 0;
+  width: 550px;
+}
+/* line 147, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html #user-order-book {
+  overflow-x: hidden;
+}
+/* line 2, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/utilities/tables/_scaffolding.scss */
+#user-order-book table th {
+  text-align: center;
+  font-weight: bold;
+}
+/* line 6, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/utilities/tables/_scaffolding.scss */
+#user-order-book table td, #user-order-book table th {
+  padding: 2px;
+}
+/* line 8, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/utilities/tables/_scaffolding.scss */
+#user-order-book table td.numeric, #user-order-book table th.numeric {
+  text-align: right;
+}
+/* line 2, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/utilities/tables/_alternating-rows-and-columns.scss */
+#user-order-book table th {
+  background-color: #c3d9ff;
+}
+/* line 4, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/utilities/tables/_alternating-rows-and-columns.scss */
+#user-order-book table th.even, #user-order-book table th:nth-child(2n) {
+  background-color: #b2c8ee;
+}
+/* line 7, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/utilities/tables/_alternating-rows-and-columns.scss */
+#user-order-book table tr.odd td {
+  background-color: white;
+}
+/* line 9, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/utilities/tables/_alternating-rows-and-columns.scss */
+#user-order-book table tr.odd td.even, #user-order-book table tr.odd td:nth-child(2n) {
+  background-color: #eeeeee;
+}
+/* line 12, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/utilities/tables/_alternating-rows-and-columns.scss */
+#user-order-book table tr.even td {
+  background-color: #e5ecf9;
+}
+/* line 14, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/utilities/tables/_alternating-rows-and-columns.scss */
+#user-order-book table tr.even td.even, #user-order-book table tr.even td:nth-child(2n) {
+  background-color: #d4dbe8;
+}
+/* line 17, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/utilities/tables/_alternating-rows-and-columns.scss */
+#user-order-book table tfoot th, #user-order-book table tfoot td {
+  background-color: white;
+}
+/* line 19, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/utilities/tables/_alternating-rows-and-columns.scss */
+#user-order-book table tfoot th.even, #user-order-book table tfoot th:nth-child(2n), #user-order-book table tfoot td.even, #user-order-book table tfoot td:nth-child(2n) {
+  background-color: #eeeeee;
+}
+/* line 6, ../../app/stylesheets/partials/_mixins.sass */
+#user-order-book table caption {
+  text-align: center;
+}
+/* line 8, ../../app/stylesheets/partials/_mixins.sass */
+#user-order-book table caption em {
+  font-weight: bold;
+}
+
+/* line 29, ../../app/stylesheets/partials/_application.sass */
+.more {
+  text-align: right;
 }

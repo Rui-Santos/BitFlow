@@ -45,6 +45,7 @@ gem "factory_girl_rails", "~> 1.1.rc1"
 gem 'rest-client'
 
 group :development, :test do
+  gem 'wirble'
   gem 'webrat'
   gem 'watchr'
   gem 'rspec'

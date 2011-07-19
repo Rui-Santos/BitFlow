@@ -20,12 +20,11 @@ form.formtastic abbr, form.formtastic acronym
 #sidebar-links
   +no-bullets
 
-#order-books
-  +column(6, true)
-  table
-    +table-scaffolding
-    +alternating-rows-and-columns($table-color, white, #111, #C3D9FF)
-    caption
-      text-align: center
-      em
-        font-weight: bold
+#recent-order-books
+  +table_base(6, true)
+
+#user-order-book
+  +clearfix
+  +table_base(14, true)
+.more
+  text-align: right

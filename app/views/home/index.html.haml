@@ -21,9 +21,9 @@
   #mining-contract
     Mining Contract
 
-#order-books
-  = render :partial => 'order_books', :locals => {:items => @asks, :item_type => 'Ask'}
-  = render :partial => 'order_books', :locals => {:items => @bids, :item_type => 'Bid'}
+#recent-order-books
+  = render :partial => 'recent_orders', :locals => {:items => @asks, :item_type => 'Ask'}
+  = render :partial => 'recent_orders', :locals => {:items => @bids, :item_type => 'Bid'}
 
 - content_for(:javascript) do
   :javascript

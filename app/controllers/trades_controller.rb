@@ -1,9 +1,10 @@
 class TradesController < ApplicationController
-  def index
-    @trades = Trade.all(:include => [:bids,:asks])
-    respond_to do |format|
-      format.html # index.html.erb
-    end
-  end
 
+  def index
+    @trades = Trade.where(user: current_user).all(include: [:bids,:asks])
+  end
+  
+  def show
+    @trade = Trade.find(params[:id])
+  end
 end

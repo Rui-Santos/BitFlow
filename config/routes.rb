@@ -1,9 +1,10 @@
 BitFlow::Application.routes.draw do
   devise_for :users
 
-  resources :asks, :except => [:destroy, :update]
-  resources :bids, :except => [:destroy, :update]
-  resources :trades, :only => :index
+  resources :asks, :except => [:update]
+  resources :bids, :except => [:update]
+  resources :orders, :only => [:index]
+  resources :trades, :only => [:index, :show]
 
   match '/user' => "welcome#index", :as => :user_root
 
