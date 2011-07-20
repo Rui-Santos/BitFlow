@@ -1,8 +1,8 @@
 BitFlow::Application.routes.draw do
   devise_for :users
 
-  resources :asks, :except => [:update]
-  resources :bids, :except => [:update]
+  resources :asks, :except => [:edit, :update]
+  resources :bids, :except => [:edit, :update]
   resources :orders, :only => [:index]
   resources :trades, :only => [:index, :show]
 

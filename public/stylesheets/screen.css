@@ -1399,15 +1399,82 @@ form.formtastic abbr, form.formtastic acronym {
 }
 
 /* line 30, ../../app/stylesheets/partials/_application.sass */
+#user-trade-book {
+  overflow: hidden;
+  *zoom: 1;
+  display: inline;
+  float: left;
+  margin-right: 0;
+  width: 630px;
+}
+/* line 147, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html #user-trade-book {
+  overflow-x: hidden;
+}
+/* line 2, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/utilities/tables/_scaffolding.scss */
+#user-trade-book table th {
+  text-align: center;
+  font-weight: bold;
+}
+/* line 6, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/utilities/tables/_scaffolding.scss */
+#user-trade-book table td, #user-trade-book table th {
+  padding: 2px;
+}
+/* line 8, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/utilities/tables/_scaffolding.scss */
+#user-trade-book table td.numeric, #user-trade-book table th.numeric {
+  text-align: right;
+}
+/* line 2, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/utilities/tables/_alternating-rows-and-columns.scss */
+#user-trade-book table th {
+  background-color: #c3d9ff;
+}
+/* line 4, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/utilities/tables/_alternating-rows-and-columns.scss */
+#user-trade-book table th.even, #user-trade-book table th:nth-child(2n) {
+  background-color: #b2c8ee;
+}
+/* line 7, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/utilities/tables/_alternating-rows-and-columns.scss */
+#user-trade-book table tr.odd td {
+  background-color: white;
+}
+/* line 9, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/utilities/tables/_alternating-rows-and-columns.scss */
+#user-trade-book table tr.odd td.even, #user-trade-book table tr.odd td:nth-child(2n) {
+  background-color: #eeeeee;
+}
+/* line 12, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/utilities/tables/_alternating-rows-and-columns.scss */
+#user-trade-book table tr.even td {
+  background-color: #e5ecf9;
+}
+/* line 14, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/utilities/tables/_alternating-rows-and-columns.scss */
+#user-trade-book table tr.even td.even, #user-trade-book table tr.even td:nth-child(2n) {
+  background-color: #d4dbe8;
+}
+/* line 17, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/utilities/tables/_alternating-rows-and-columns.scss */
+#user-trade-book table tfoot th, #user-trade-book table tfoot td {
+  background-color: white;
+}
+/* line 19, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/utilities/tables/_alternating-rows-and-columns.scss */
+#user-trade-book table tfoot th.even, #user-trade-book table tfoot th:nth-child(2n), #user-trade-book table tfoot td.even, #user-trade-book table tfoot td:nth-child(2n) {
+  background-color: #eeeeee;
+}
+/* line 6, ../../app/stylesheets/partials/_mixins.sass */
+#user-trade-book table caption {
+  text-align: center;
+}
+/* line 8, ../../app/stylesheets/partials/_mixins.sass */
+#user-trade-book table caption em {
+  font-weight: bold;
+}
+
+/* line 34, ../../app/stylesheets/partials/_application.sass */
 .more {
   text-align: right;
 }
 
-/* line 34, ../../app/stylesheets/partials/_application.sass */
+/* line 38, ../../app/stylesheets/partials/_application.sass */
 .market_price_ticker {
   padding-left: 280px;
 }
-/* line 36, ../../app/stylesheets/partials/_application.sass */
+/* line 40, ../../app/stylesheets/partials/_application.sass */
 .market_price_ticker div {
   display: -moz-inline-box;
   -moz-box-orient: vertical;

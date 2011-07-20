@@ -1,30 +1,15 @@
 class AsksController < ApplicationController
+
   def index
     @asks = current_user.asks
-
-    respond_to do |format|
-      format.html # index.html.erb
-    end
   end
 
   def show
     @ask = Ask.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-    end
   end
 
   def new
     @ask = Ask.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-    end
-  end
-
-  def edit
-    @ask = Ask.find(params[:id])
   end
 
   def create
@@ -42,27 +27,12 @@ class AsksController < ApplicationController
     end
   end
 
-  def update
+  def destroy
     @ask = Ask.find(params[:id])
+    @ask.destroy
     respond_to do |format|
-      if @ask.update_attributes(params[:ask])
-        format.html { redirect_to(@ask, :notice => 'Ask was successfully updated.') }
-      else
-        format.html { render :action => "edit" }
-      end
+      format.html { redirect_to(orders_url) }
+      format.xml  { head :ok }
     end
   end
-  
-  # 
-  #  # DELETE /asks/1
-  #  # DELETE /asks/1.xml
-  #  def destroy
-  #    @ask = Ask.find(params[:id])
-  #    @ask.destroy
-  # 
-  #    respond_to do |format|
-  #      format.html { redirect_to(asks_url) }
-  #      format.xml  { head :ok }
-  #    end
-  #  end
 end

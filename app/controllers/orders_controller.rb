@@ -1,6 +1,7 @@
 class OrdersController < ApplicationController
 
   def index
-    @orders = Order.historic(current_user, 50)
+    @bids = Bid.user_transactions current_user
+    @asks = Ask.user_transactions current_user
   end
 end

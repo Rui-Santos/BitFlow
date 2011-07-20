@@ -18,16 +18,40 @@ class Order < ActiveRecord::Base
 
   scope :lowest, order('price ASC')
   scope :highest, order('price DESC')
-  
+
+  def self.user_transactions user
+    self.oldest.where(user_id: user.id).all(include: :trade)
+  end
+
   # the return values would in the form of a hash - no object conversion
-  def self.historic(user, row_limit = 5)
+  def self.non_executed(user, row_limit = 5)
     historic_data_query = <<-HISTORIC_DATA_QUERY
-      SELECT type, id, amount, price, status, trade_id, updated_at FROM (
-        SELECT 'Ask' as type, id, amount, price, status, trade_id, updated_at FROM asks WHERE user_id = #{user.id}
+      SELECT type, id, amount, price, status, updated_at FROM (
+        SELECT 'Ask' as type, id, amount, price, status, updated_at FROM asks WHERE user_id = #{user.id} and status = '#{Status::ACTIVE}'
         UNION
-        SELECT 'Bid' as type, id, amount, price, status, trade_id, updated_at FROM bids WHERE user_id = #{user.id}
+        SELECT 'Bid' as type, id, amount, price, status, updated_at FROM bids WHERE user_id = #{user.id} and status = '#{Status::ACTIVE}'
       ) orders
       ORDER BY updated_at DESC limit #{row_limit}
+    HISTORIC_DATA_QUERY
+
+    ActiveRecord::Base.connection.select_all(historic_data_query)
+  end
+
+  # the return values would in the form of a hash - no object conversion
+  def self.executed(user, row_limit = 5)
+    historic_data_query = <<-HISTORIC_DATA_QUERY
+      SELECT id, sold, bought, price, execution_price, executed_at FROM (
+        SELECT asks.id, amount as sold, '' as bought, price, trades.market_price as execution_price, trades.updated_at as executed_at
+        FROM asks
+        LEFT OUTER JOIN trades ON asks.trade_id = trades.id
+        WHERE user_id = #{user.id} and status = '#{Status::COMPLETE}'
+        UNION
+        SELECT bids.id, '' as sold, amount as bought, price, trades.market_price as execution_price, trades.updated_at as executed_at
+        FROM bids
+        LEFT OUTER JOIN trades ON bids.trade_id = trades.id
+        WHERE user_id = #{user.id} and status = '#{Status::COMPLETE}'
+      ) orders
+      ORDER BY executed_at DESC limit #{row_limit}
     HISTORIC_DATA_QUERY
 
     ActiveRecord::Base.connection.select_all(historic_data_query)

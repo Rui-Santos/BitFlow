@@ -5,11 +5,11 @@ class Bid < Order
   def self.order_queue(value)
     active.oldest.greater_price_than(value)
   end
-  
+
   def match!
     Ask.order_queue(self.price)
   end
-  
+
   def create_trades
     return if AppConfig.is?('SKIP_TRADE_CREATION', false)
     pending_amount = self.amount

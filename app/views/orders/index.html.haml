@@ -1,1 +1,3 @@
-= render partial: 'shared/order_book', locals: {row_limit: 50, orders: @orders}
+#user-order-book
+  = render partial: 'order_book', locals: {items: @bids, item_type: 'Bid'}
+  = render partial: 'order_book', locals: {items: @asks, item_type: 'Ask'}

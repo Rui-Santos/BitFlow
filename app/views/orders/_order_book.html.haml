@@ -1,0 +1,18 @@
+%table
+  %caption
+    %em #{item_type}s Book
+  %thead
+    %tr
+      %th Last updated at
+      %th #{item_type}s
+      %th #{item_type} Price
+      %th Execution Price
+      %th.last Actions
+  %tbody
+    - items.each do |item|
+      %tr{:class => cycle("odd", "even")}
+        %td #{item.updated_at}
+        %td #{item.amount} BTC
+        %td #{item.price}
+        %td #{item.trade.try(:market_price)} 
+        %td= link_to('Cancel', item, method: :delete, confirm: "Are you sure to cancel this #{item_type}?") if item.active?

@@ -1,0 +1,23 @@
+#user-trade-book
+  %table
+    %caption
+      %em Executed Orders in Order Book
+    %thead
+      %tr
+        %th Executed at
+        %th Sold
+        %th Bought
+        %th Bid/Ask Price
+        %th Price per BTC
+        %th Commission
+    %tbody
+      - trades.each do |trade|
+        %tr{class: cycle("odd", "even")}
+          %td #{trade['executed_at']}
+          %td #{trade["sold"].blank? ? '' : trade["sold"].to_f}
+          %td #{trade["bought"].blank? ? '' : trade["bought"].to_f}
+          %td #{trade["price"].to_f} 
+          %td #{trade["execution_price"].to_f} 
+          %td 0.25 USD
+      %tr{class: cycle("odd", "even")}
+        %td{colspan: 6, class: "more"}= link_to 'more...', orders_url
