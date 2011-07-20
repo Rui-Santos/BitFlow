@@ -3,8 +3,14 @@ BitFlow::Application.routes.draw do
 
   resources :asks, :except => [:edit, :update]
   resources :bids, :except => [:edit, :update]
-  resources :orders, :only => [:index]
+  resources :orders, :only => [:index, :new]
   resources :trades, :only => [:index, :show]
+  resources :funds, :only => [:create] do
+    collection do
+      get 'deposit'
+      get 'withdraw'
+    end
+  end
 
   match '/user' => "welcome#index", :as => :user_root
 
@@ -20,6 +26,11 @@ BitFlow::Application.routes.draw do
   
   match 'admin_setting/edit' => 'admin_setting#edit', :via => :get
   match 'admin_setting' => 'admin_setting#update', :via => :post
+
+  namespace :admin do
+    match 'deposits' => 'funds#all_deposits'
+    match 'withdrawls' => 'funds#all_withdrawls'
+  end
 
   root :to => "home#index"
 

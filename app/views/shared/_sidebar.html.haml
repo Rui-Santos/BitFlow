@@ -1,10 +1,11 @@
 %ul#sidebar-links
-  %li= link_to 'Dashboard', user_root_url
-  %li= link_to 'My Wallet', wallet_url
-  %li= link_to 'BTC Instant Order'
-  %li= link_to 'BTC Market Order'
-  %li= link_to 'BTC Limit Order', orders_url
-  %li= link_to 'BTC Fixed Mining'
-  %li= link_to 'BTC Mining Contract'
-  %li= link_to 'Deposit Funds'
-  %li= link_to 'Withdraw Funds'
+  %li= link_to_current 'Dashboard', user_root_url
+  %li= link_to_current 'My Wallet', wallet_url
+  %li= link_to_current 'BTC Instant Order', new_order_url(:type => :instant)
+  %li= link_to_current 'BTC Market Order', new_order_url(:type => :market)
+  %li= link_to_current 'BTC Limit Order', new_order_url(:type => :limit)
+  / %li= link_to_current 'BTC Fixed Mining'
+  / %li= link_to_current 'BTC Mining Contract'
+  %li= link_to_current 'Deposit Funds', deposit_funds_url
+  %li= link_to_current 'Withdraw Funds', withdraw_funds_url
+

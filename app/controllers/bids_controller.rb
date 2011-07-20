@@ -20,7 +20,7 @@ class BidsController < ApplicationController
 
     respond_to do |format|
       if @bid.save
-        format.html { redirect_to(@bid, :notice => 'Bid was successfully created.') }
+        format.html { redirect_to(orders_url, :notice => 'Bid was successfully created.') }
       else
         format.html { render :action => "new" }
       end

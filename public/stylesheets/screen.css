@@ -1189,18 +1189,33 @@ body {
   background: white;
 }
 
-/* line 8, ../../app/stylesheets/partials/_application.sass */
+/* line 9, ../../app/stylesheets/partials/_application.sass */
+.logo {
+  display: inline;
+  float: left;
+  margin-right: 10px;
+  width: 270px;
+  height: 80px;
+  background: url("/images/logo.png") no-repeat;
+  display: block;
+}
+/* line 147, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html .logo {
+  overflow-x: hidden;
+}
+
+/* line 14, ../../app/stylesheets/partials/_application.sass */
 #content {
   min-height: 600px;
 }
 
-/* line 11, ../../app/stylesheets/partials/_application.sass */
+/* line 17, ../../app/stylesheets/partials/_application.sass */
 form.formtastic abbr, form.formtastic acronym {
   color: red;
   border-color: red;
 }
 
-/* line 15, ../../app/stylesheets/partials/_application.sass */
+/* line 21, ../../app/stylesheets/partials/_application.sass */
 .authenitcated-menu {
   list-style-type: none;
 }
@@ -1210,7 +1225,7 @@ form.formtastic abbr, form.formtastic acronym {
   padding: 0px;
   display: inline;
 }
-/* line 17, ../../app/stylesheets/partials/_application.sass */
+/* line 23, ../../app/stylesheets/partials/_application.sass */
 .authenitcated-menu li a {
   display: -moz-inline-box;
   -moz-box-orient: vertical;
@@ -1253,7 +1268,7 @@ form.formtastic abbr, form.formtastic acronym {
   padding: 4px 10px 3px 7px;
 }
 
-/* line 20, ../../app/stylesheets/partials/_application.sass */
+/* line 26, ../../app/stylesheets/partials/_application.sass */
 #sidebar-links {
   list-style: none;
 }
@@ -1264,7 +1279,7 @@ form.formtastic abbr, form.formtastic acronym {
   margin-left: 0px;
 }
 
-/* line 23, ../../app/stylesheets/partials/_application.sass */
+/* line 29, ../../app/stylesheets/partials/_application.sass */
 #recent-order-books {
   display: inline;
   float: left;
@@ -1331,7 +1346,7 @@ form.formtastic abbr, form.formtastic acronym {
   font-weight: bold;
 }
 
-/* line 26, ../../app/stylesheets/partials/_application.sass */
+/* line 32, ../../app/stylesheets/partials/_application.sass */
 #user-order-book {
   overflow: hidden;
   *zoom: 1;
@@ -1398,7 +1413,7 @@ form.formtastic abbr, form.formtastic acronym {
   font-weight: bold;
 }
 
-/* line 30, ../../app/stylesheets/partials/_application.sass */
+/* line 36, ../../app/stylesheets/partials/_application.sass */
 #user-trade-book {
   overflow: hidden;
   *zoom: 1;
@@ -1465,16 +1480,16 @@ form.formtastic abbr, form.formtastic acronym {
   font-weight: bold;
 }
 
-/* line 34, ../../app/stylesheets/partials/_application.sass */
+/* line 40, ../../app/stylesheets/partials/_application.sass */
 .more {
   text-align: right;
 }
 
-/* line 38, ../../app/stylesheets/partials/_application.sass */
+/* line 44, ../../app/stylesheets/partials/_application.sass */
 .market_price_ticker {
   padding-left: 280px;
 }
-/* line 40, ../../app/stylesheets/partials/_application.sass */
+/* line 46, ../../app/stylesheets/partials/_application.sass */
 .market_price_ticker div {
   display: -moz-inline-box;
   -moz-box-orient: vertical;

@@ -20,7 +20,7 @@ class AsksController < ApplicationController
 
     respond_to do |format|
       if @ask.save
-        format.html { redirect_to(@ask, :notice => 'Ask was successfully created.') }
+        format.html { redirect_to(orders_url, :notice => 'Ask was successfully created.') }
       else
         format.html { render :action => "new" }
       end

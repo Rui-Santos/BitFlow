@@ -15,17 +15,18 @@
       %hr.space
       #header
         .container
-          .span-18.logo
-            %h2.span-7 Bitflow
-            .quiet.span-10 24/7 Secure Bitcoin Exchange
+          .span-18
+            %div
+              = link_to '', root_url, class: 'logo'
+            .span-10
+              .quiet 24/7 Secure Bitcoin Exchange
+              = render '/shared/market_price_ticker'
           .span-6.last
             = render '/devise/shared/login_items'
       %hr
       #sidebar
         = render '/shared/sidebar'
       #content
-        = render '/shared/market_price_ticker'
-        %hr
         = render '/shared/authenticated_menu_items'
 
         - flash.each do |key, message|
