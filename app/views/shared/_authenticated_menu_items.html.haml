@@ -1,5 +1,5 @@
-- if user_signed_in?
+- if user_signed_in? && !current_page?(new_order_url(:type => :limit))
   %div
     %ul.authenitcated-menu
-      %li= link_to 'New Bid', new_bid_path
-      %li= link_to 'New Ask', new_ask_path
+      %li= link_to 'New Bid', new_order_url(:type => :limit)
+      %li= link_to 'New Ask', new_order_url(:type => :limit)

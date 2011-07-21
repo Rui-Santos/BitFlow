@@ -1,4 +1,4 @@
-%form{:action => '/admin_setting', :method => 'POST'}
+%form{:action => '/admin/settings', :method => 'POST'}
   %fieldset
     %ol
       %li
@@ -17,7 +17,5 @@
         %label{:for => "setting[circuit_breaker_change_period]"} Circuit breaker Change Period:
         %input{:type => 'text', :name => 'setting[circuit_breaker_change_period]', :value => @settings[:circuit_breaker_change_period]}
       %input{:type => "submit", :value => "Send", :class => "button"}
-    
-    
-    
-= link_to 'Back', '/'
+
+= link_to 'Back', admin_root_url

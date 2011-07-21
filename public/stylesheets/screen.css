@@ -1134,14 +1134,21 @@ ul.nav li.last {
   padding-right: 0;
 }
 
-/* line 25, ../../app/stylesheets/partials/_two_col.sass */
+/* line 24, ../../app/stylesheets/partials/_two_col.sass */
+body {
+  background: #cdd7e0;
+}
+
+/* line 28, ../../app/stylesheets/partials/_two_col.sass */
 body.two-col #container {
   width: 950px;
   margin: 0 auto;
   overflow: hidden;
   *zoom: 1;
+  padding: 0 60px;
+  background: white;
 }
-/* line 27, ../../app/stylesheets/partials/_two_col.sass */
+/* line 33, ../../app/stylesheets/partials/_two_col.sass */
 body.two-col #header, body.two-col #footer {
   display: inline;
   float: left;
@@ -1152,22 +1159,20 @@ body.two-col #header, body.two-col #footer {
 * html body.two-col #header, * html body.two-col #footer {
   overflow-x: hidden;
 }
-/* line 29, ../../app/stylesheets/partials/_two_col.sass */
+/* line 36, ../../app/stylesheets/partials/_two_col.sass */
 body.two-col #sidebar {
   display: inline;
   float: left;
   margin-right: 10px;
   width: 230px;
-  padding-right: 24px;
-  margin-right: 25px;
-  border-right: 1px solid #dddddd;
 }
 /* line 147, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
 * html body.two-col #sidebar {
   overflow-x: hidden;
 }
-/* line 34, ../../app/stylesheets/partials/_two_col.sass */
+/* line 41, ../../app/stylesheets/partials/_two_col.sass */
 body.two-col #content {
+  padding-left: 40px;
   display: inline;
   float: left;
   margin-right: 0;
@@ -1178,18 +1183,7 @@ body.two-col #content {
   overflow-x: hidden;
 }
 
-/* line 1, ../../app/stylesheets/partials/_application.sass */
-body {
-  background: #cdd7e0;
-}
-
-/* line 4, ../../app/stylesheets/partials/_application.sass */
-#container {
-  padding: 0 60px;
-  background: white;
-}
-
-/* line 9, ../../app/stylesheets/partials/_application.sass */
+/* line 6, ../../app/stylesheets/partials/_application.sass */
 .logo {
   display: inline;
   float: left;
@@ -1204,18 +1198,18 @@ body {
   overflow-x: hidden;
 }
 
-/* line 14, ../../app/stylesheets/partials/_application.sass */
+/* line 11, ../../app/stylesheets/partials/_application.sass */
 #content {
   min-height: 600px;
 }
 
-/* line 17, ../../app/stylesheets/partials/_application.sass */
+/* line 14, ../../app/stylesheets/partials/_application.sass */
 form.formtastic abbr, form.formtastic acronym {
   color: red;
   border-color: red;
 }
 
-/* line 21, ../../app/stylesheets/partials/_application.sass */
+/* line 18, ../../app/stylesheets/partials/_application.sass */
 .authenitcated-menu {
   list-style-type: none;
 }
@@ -1225,7 +1219,7 @@ form.formtastic abbr, form.formtastic acronym {
   padding: 0px;
   display: inline;
 }
-/* line 23, ../../app/stylesheets/partials/_application.sass */
+/* line 20, ../../app/stylesheets/partials/_application.sass */
 .authenitcated-menu li a {
   display: -moz-inline-box;
   -moz-box-orient: vertical;
@@ -1268,9 +1262,17 @@ form.formtastic abbr, form.formtastic acronym {
   padding: 4px 10px 3px 7px;
 }
 
-/* line 26, ../../app/stylesheets/partials/_application.sass */
+/* line 23, ../../app/stylesheets/partials/_application.sass */
 #sidebar-links {
   list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-weight: inherit;
+  font-style: inherit;
+  font-size: 100%;
+  font-family: inherit;
+  vertical-align: baseline;
 }
 /* line 11, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/typography/lists/_bullets.scss */
 #sidebar-links li {
@@ -1278,8 +1280,49 @@ form.formtastic abbr, form.formtastic acronym {
   list-style-type: none;
   margin-left: 0px;
 }
+/* line 28, ../../app/stylesheets/partials/_application.sass */
+#sidebar-links li a {
+  display: -moz-inline-box;
+  -moz-box-orient: vertical;
+  display: inline-block;
+  vertical-align: middle;
+  *vertical-align: auto;
+  margin: 0.7em 0.5em 0.7em 0;
+  border-width: 1px;
+  border-style: solid;
+  font-family: "Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+  font-size: 100%;
+  line-height: 130%;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+  padding: 7.5px 0;
+  margin: 0;
+  width: 100%;
+  border: none;
+  border-right: 1px solid #0099ff;
+}
+/* line 7, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/css3/_inline-block.scss */
+#sidebar-links li a {
+  *display: inline;
+}
+/* line 75, ../../../../../.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/blueprint/stylesheets/blueprint/_buttons.scss */
+#sidebar-links li a img {
+  margin: 0 3px -3px 0 !important;
+  padding: 0;
+  border: none;
+  width: 16px;
+  height: 16px;
+  float: none;
+}
+/* line 35, ../../app/stylesheets/partials/_application.sass */
+#sidebar-links li a.active {
+  color: #0099ff;
+  border: 1px solid #0099ff;
+  border-right: none;
+}
 
-/* line 29, ../../app/stylesheets/partials/_application.sass */
+/* line 40, ../../app/stylesheets/partials/_application.sass */
 #recent-order-books {
   display: inline;
   float: left;
@@ -1346,7 +1389,7 @@ form.formtastic abbr, form.formtastic acronym {
   font-weight: bold;
 }
 
-/* line 32, ../../app/stylesheets/partials/_application.sass */
+/* line 43, ../../app/stylesheets/partials/_application.sass */
 #user-order-book {
   overflow: hidden;
   *zoom: 1;
@@ -1413,7 +1456,7 @@ form.formtastic abbr, form.formtastic acronym {
   font-weight: bold;
 }
 
-/* line 36, ../../app/stylesheets/partials/_application.sass */
+/* line 47, ../../app/stylesheets/partials/_application.sass */
 #user-trade-book {
   overflow: hidden;
   *zoom: 1;
@@ -1480,16 +1523,16 @@ form.formtastic abbr, form.formtastic acronym {
   font-weight: bold;
 }
 
-/* line 40, ../../app/stylesheets/partials/_application.sass */
+/* line 51, ../../app/stylesheets/partials/_application.sass */
 .more {
   text-align: right;
 }
 
-/* line 44, ../../app/stylesheets/partials/_application.sass */
+/* line 55, ../../app/stylesheets/partials/_application.sass */
 .market_price_ticker {
   padding-left: 280px;
 }
-/* line 46, ../../app/stylesheets/partials/_application.sass */
+/* line 57, ../../app/stylesheets/partials/_application.sass */
 .market_price_ticker div {
   display: -moz-inline-box;
   -moz-box-orient: vertical;

@@ -12,27 +12,24 @@ BitFlow::Application.routes.draw do
     end
   end
 
-  match '/user' => "welcome#index", :as => :user_root
-
   devise_scope :user do
     get "/login" => "devise/sessions#new"
     get "/signout" => "devise/sessions#destroy"
   end
-
-  # The priority is based upon order of creation:
-  # first created -> highest priority.
   
-  match 'wallet' => 'welcome', :via => :get
+  resources :welcome, :only => [:index]
+  match 'wallet' => 'welcome#wallet', :via => :get
   
-  match 'admin_setting/edit' => 'admin_setting#edit', :via => :get
-  match 'admin_setting' => 'admin_setting#update', :via => :post
-
   namespace :admin do
-    match 'deposits' => 'funds#all_deposits'
-    match 'withdrawls' => 'funds#all_withdrawls'
+    root :to => 'settings#edit'
+    resources :settings, :only => [:update]
+    resources :funds, :only => [:index, :update]
   end
 
   root :to => "home#index"
+
+  # The priority is based upon order of creation:
+  # first created -> highest priority.
 
   # Keep in mind you can assign values other than :controller and :action
 
