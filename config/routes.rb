@@ -1,5 +1,5 @@
 BitFlow::Application.routes.draw do
-  devise_for :users
+  devise_for :users, :controllers => { :registrations => "registrations" }
 
   resources :asks, :except => [:edit, :update]
   resources :bids, :except => [:edit, :update]

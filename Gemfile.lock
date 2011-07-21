@@ -163,6 +163,7 @@ GEM
     rake (0.8.7)
     rcov (0.9.9)
     rdoc (3.8)
+    recaptcha (0.3.1)
     reek (1.2.8)
       ruby2ruby (~> 1.2)
       ruby_parser (~> 2.0)
@@ -237,6 +238,7 @@ DEPENDENCIES
   nokogiri
   rails (= 3.0.9)
   rake (= 0.8.7)
+  recaptcha
   rest-client
   rspec
   rspec-rails

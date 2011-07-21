@@ -44,6 +44,8 @@ gem "factory_girl_rails", "~> 1.1.rc1"
 #For bitcoin json-rpc calls
 gem 'rest-client'
 
+gem "recaptcha", :require => "recaptcha/rails"
+
 group :development, :test do
   gem 'wirble'
   gem 'webrat'
