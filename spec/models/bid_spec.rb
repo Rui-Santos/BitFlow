@@ -51,14 +51,15 @@ describe Bid do
       bid = Factory(:bid, :price => 20.01)
       bid.match!.should_not be_nil
     end
+
     it "should match lowest ask" do
       ask = Factory(:ask, :amount => 3, :price => 20.01)
       ask = Factory(:ask, :amount => 5, :price => 20.00 )
       bid = Factory(:bid, :price => 20.01)
       matches = bid.match!
       matches.size.should == 2
-      matches.first.amount.should == 5
-      matches[1].amount.should == 3
+      matches.first.amount.round(2).should == 5.00
+      matches[1].amount.round(2).should == 3.00
     end
     
     it "should order oldest first" do
@@ -67,12 +68,11 @@ describe Bid do
       bid = Factory(:bid, :price => 20.01)
       matches = bid.match!
       matches.size.should == 2
-      matches.first.amount.should == 3
-      matches[1].amount.should == 5
+      matches.first.amount.round(2).should == 3.00
+      matches[1].amount.round(2).should == 5.00
     end
   end
-  
-  
+
   describe "create trade" do
     before(:each) do
       AppConfig.set('SKIP_TRADE_CREATION', true)

@@ -29,7 +29,7 @@
         = render '/shared/authenticated_menu_items'
 
         - flash.each do |key, message|
-          = content_tag(:div, message, :class => "flash #{key}")
+          = content_tag(:div, message, :class => "flash #{key}") unless key == :recaptcha_error 
 
         = yield
 

@@ -3,7 +3,7 @@ class Ask < Order
   belongs_to :trade
   
   def self.order_queue(value)
-    active.oldest.lesser_price_than(value)
+    active.lesser_price_than(value).oldest
   end
 
   def match!

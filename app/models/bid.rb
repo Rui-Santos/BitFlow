@@ -3,7 +3,7 @@ class Bid < Order
   belongs_to :trade
 
   def self.order_queue(value)
-    active.oldest.greater_price_than(value)
+    active.greater_price_than(value).oldest
   end
 
   def match!

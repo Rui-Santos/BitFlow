@@ -22,7 +22,7 @@ BitFlow::Application.routes.draw do
   
   namespace :admin do
     root :to => 'settings#edit'
-    resources :settings, :only => [:update]
+    match 'settings' => 'settings#update', :via => :post
     resources :funds, :only => [:index, :update]
   end
 
