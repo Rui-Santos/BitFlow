@@ -1,5 +1,5 @@
 class Setting < ActiveRecord::Base
-  serialize :data
+  serialize :data, Hash
   
   def self.admin
     setting = Setting.find_by_setting_type(:admin)

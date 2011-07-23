@@ -1,14 +1,7 @@
 !!! XML
 !!! 5
 %html
-  %head
-    %title Bitflow
-    = stylesheet_link_tag 'formtastic.css', 'screen.css', 'formtastic_changes.css', :media => 'screen, projection'
-    = stylesheet_link_tag 'jquery-ui/smoothness/jquery-ui-1.8.14.custom.css', :media => 'screen, projection'
-    = stylesheet_link_tag 'print.css', :media => 'print'
-    /[if lt IE 8]
-      = stylesheet_link_tag 'ie.css', :media => 'screen, projection'
-    = csrf_meta_tag
+  = render 'layouts/head'
 
   %body.bp.two-col
     #container

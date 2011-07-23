@@ -24,7 +24,5 @@ BitFlow::Application.configure do
   config.action_dispatch.best_standards_support = :builtin
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
 
-  # ENV['RECAPTCHA_PUBLIC_KEY']  = '6LcoXMYSAAAAAAPENd8iqwpMx-uw_D5A-LW90KTn'
-  # ENV['RECAPTCHA_PRIVATE_KEY'] = '6LcoXMYSAAAAAGooyfUfs3Jf_iVpu7uiLkSO1x69'
 end
 

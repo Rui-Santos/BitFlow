@@ -1,5 +1,5 @@
 module Admin
-  class BaseController < ApplicationController
+  class BaseController < ActionController::Base
     before_filter :authenticate_admin!
 
     private

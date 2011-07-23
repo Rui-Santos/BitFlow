@@ -23,8 +23,8 @@ module Admin
           original_settings = Setting.admin.data
           post :update, :setting => {:circuit_breaker_change_percent => 99}
           new_settings = Setting.admin.reload.data
-          new_settings["circuit_breaker_change_percent"].should == 99
-          new_settings["daily_withdrawal_limit"].should == original_settings["daily_withdrawal_limit"]
+          new_settings[:circuit_breaker_change_percent].should == 99
+          new_settings[:daily_withdrawal_limit].should == original_settings[:daily_withdrawal_limit]
         end
       end
     end
