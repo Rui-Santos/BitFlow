@@ -1,0 +1,18 @@
+#user-funds
+  %table
+    %caption
+      %em Your Funds
+    %thead
+      %tr
+        %th Type
+        %th Amount
+        %th Reserved
+        %th Available
+    %tbody
+      - funds.each do |fund|
+        %tr{class: cycle("odd", "even")}
+          %td #{fund["fund_type"]}
+          %td #{fund["amount"].to_f}
+          %td #{fund["reserved"].to_f} 
+          %td #{fund["available"].to_f} 
+      
