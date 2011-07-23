@@ -1,6 +1,6 @@
 %ul.nav
   - if user_signed_in?
-    %li Welcome, #{current_user.email}
+    %li Welcome, #{current_user.email}#{"(admin)" if current_user.admin?}
     %li= link_to 'Sign out', signout_url
   - else
     = content_tag(:li, link_to("Sign up", new_user_registration_path)) if controller_name != 'registrations'
