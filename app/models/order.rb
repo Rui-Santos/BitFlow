@@ -1,7 +1,9 @@
 class Order < ActiveRecord::Base
   validates_presence_of :price, :amount
   validates_numericality_of :price, :amount, :greater_than => 0.0
-
+  
+  belongs_to :user
+  
   after_create :create_trades unless AppConfig.is?('SKIP_TRADE_CREATION', false)
 
   module  Status

@@ -1,5 +1,6 @@
 = semantic_form_for @bid do |f|
   = f.inputs "#{@bid.new_record? ? 'New' : 'Edit'} Bid" do
+    = f.semantic_errors
     = f.input :amount
     = f.input :price, :label => 'Price (in USD)'
     = f.commit_button
