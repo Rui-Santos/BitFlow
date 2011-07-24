@@ -1,0 +1,3 @@
+#user-order-book
+  = render partial: '/orders/order_book', locals: {items: @bids, item_type: 'Bid'}
+  = render partial: '/orders/order_book', locals: {items: @asks, item_type: 'Ask'}

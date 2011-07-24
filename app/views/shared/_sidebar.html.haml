@@ -2,6 +2,8 @@
   - if current_user.try(:admin?)
     %li= link_to_current 'Settings', admin_root_url
     %li= link_to_current 'Funds', admin_funds_url
+    %li= link_to_current 'Orders', admin_orders_url
+    %li= link_to_current 'Trades', admin_trades_url
   - else
     %li= link_to_current 'Home', root_url
     %li= link_to_current 'Dashboard', welcome_index_url

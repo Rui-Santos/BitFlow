@@ -1,7 +1,5 @@
 module Admin
   class SettingsController < ::Admin::BaseController
-    layout "application"
-
     def edit
       @settings = Setting.admin.data
     end

@@ -1,0 +1,22 @@
+#user-trade-book
+  %table
+    %caption
+      %em Trade Log
+    %thead
+      %tr
+        %th Executed at
+        %th Bids
+        %th Asks
+        %th Trade Price per BTC
+        %th Commission
+    %tbody
+      - @trades.each do |trade|
+        %tr{class: cycle("odd", "even")}
+          %td #{trade.updated_at}
+          %td #{trade.bids.map{|bid| "#{bid.amount} BTC at #{bid.price}"}.join(", ")}
+          %td #{trade.asks.map{|ask| "#{ask.amount} BTC at #{ask.price}"}.join(", ")}
+          %td #{trade.market_price.to_f}
+          %td 0.25 USD
+
+      %tr{class: cycle("odd", "even")}
+        %td= paginate @trades

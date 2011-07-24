@@ -1,9 +1,9 @@
 class Order < ActiveRecord::Base
   validates_presence_of :price, :amount
   validates_numericality_of :price, :amount, :greater_than => 0.0
-  
+
   after_create :create_trades unless AppConfig.is?('SKIP_TRADE_CREATION', false)
-  
+
   module  Status
     ACTIVE = :active
     EXPIRED = :expired
@@ -19,9 +19,9 @@ class Order < ActiveRecord::Base
   scope :lowest, order('price ASC')
   scope :highest, order('price DESC')
 
-  def self.user_transactions user
-    self.oldest.where(user_id: user.id).all(include: :trade)
-  end
+  scope :user_transactions, lambda { |user|
+    where("user_id", user.id).order(:updated_at).reverse_order
+  }
 
   # the return values would in the form of a hash - no object conversion
   def self.non_executed(user, row_limit = 5)

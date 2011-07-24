@@ -15,6 +15,7 @@ gem 'yajl-ruby', :require => ['yajl', 'yajl/json_gem']
 gem 'metric_fu'
 gem 'exception_notification'
 
+gem 'kaminari'
 gem 'formtastic'
 gem 'jquery-rails'
 gem 'haml'
@@ -28,7 +29,7 @@ gem 'capistrano-ext', '~>1.2.1'
 
 # To use debugger (ruby-debug for Ruby 1.8.7+, ruby-debug19 for Ruby 1.9.2+)
 # gem 'ruby-debug'
-#gem 'ruby-debug19', :require => 'ruby-debug'
+gem 'ruby-debug19', :require => 'ruby-debug'
 
 # Bundle the extra gems:
 # gem 'bj'

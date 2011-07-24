@@ -5,6 +5,7 @@ BitFlow::Application.routes.draw do
   resources :bids, :except => [:edit, :update]
   resources :orders, :only => [:index, :new]
   resources :trades, :only => [:index, :show]
+
   resources :funds, :only => [:create] do
     collection do
       get 'deposit'
@@ -23,6 +24,9 @@ BitFlow::Application.routes.draw do
   namespace :admin do
     root :to => 'settings#edit'
     match 'settings' => 'settings#update', :via => :post
+    resources :orders, :only => [:index, :show], :controllers => 'orders'
+    resources :trades, :only => [:index, :show], :controllers => 'trades'
+
     resources :funds, :only => [:index, :update]
   end
 

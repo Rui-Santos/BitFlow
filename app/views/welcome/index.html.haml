@@ -1,3 +1,3 @@
-= render partial: 'fund', locals: {row_limit: 2, funds: @funds}
-= render partial: 'order_book', locals: {row_limit: 5, orders: @orders}
-= render partial: 'trade_book', locals: {row_limit: 5, trades: @trades}
+= render partial: 'fund', locals: {funds: @funds}
+= render partial: 'shared/order_book', locals: {snapshot: true, orders: @orders}
+= render partial: 'shared/trade_logs', locals: {snapshot: true, trades: @trades}
