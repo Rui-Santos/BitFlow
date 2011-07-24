@@ -17,7 +17,9 @@ BitFlow::Application.routes.draw do
     get "/login" => "devise/sessions#new"
     get "/signout" => "devise/sessions#destroy"
   end
-  
+
+  match '/signin_help' => 'home#signin_help'
+
   resources :welcome, :only => [:index]
   match 'wallet' => 'welcome#wallet', :via => :get
   

@@ -16,5 +16,16 @@
 
   %p 
   = f.submit "Sign in"
+%br
+#signin_help
+  #{link_to("Forgot password?", new_password_path(resource_name))} or #{link_to("Need help?", signin_help_url)}
 
-  = render :partial => "devise/shared/links"
+- if flash[:alert]
+  - content_for(:javascript) do
+    :javascript
+      $(function(){
+        var message = $('.flash.alert').html();
+        message += $('#signin_help').html();
+        $('.flash.alert').html(message);
+      });
+    
