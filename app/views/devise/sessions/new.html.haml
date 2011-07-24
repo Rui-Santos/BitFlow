@@ -25,7 +25,7 @@
     :javascript
       $(function(){
         var message = $('.flash.alert').html();
-        message += $('#signin_help').html();
+        message += " Click <a href='#{signin_help_url}'>here</a> if you need help in sign in.";
         $('.flash.alert').html(message);
       });
     
