@@ -12,7 +12,8 @@ The following style may be *conditionally* included for improved support on olde
 form.formtastic fieldset ol li fieldset legend { margin-left: -6px;}
 
 --------------------------------------------------------------------------------------------------*/
-#user_new.formtastic #user_submit{ width: 20%; margin-left: 25%;}
+#user_new.formtastic #recaptcha_widget_div, #user_new.formtastic #user_submit{ margin-left: 25%;}
+#user_new.formtastic #user_submit{ width: 20%;}
 
 
   
