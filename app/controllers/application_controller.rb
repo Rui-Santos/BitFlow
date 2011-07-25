@@ -14,4 +14,9 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource)
     current_user.admin? ? admin_root_url : welcome_index_url
   end
+  
+  def authenticate_user!
+    super
+    flash[:alert] = "The account has not been confirmed yet. Please check your email to find confirmation instructions." unless current_user.confirmed?
+  end
 end
