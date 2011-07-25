@@ -1,3 +1,3 @@
 class Commission 
-  AMOUNT = 0.25
+  AMOUNT = 0.0
 end
