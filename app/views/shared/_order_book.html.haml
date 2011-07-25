@@ -18,6 +18,6 @@
           %td #{order["price"].to_f}
           %td #{order["amount"].to_f} 
           %td #{order["status"]} 
-          %td 0.25 USD
+          %td #{Commission::AMOUNT} USD
       %tr{class: cycle("odd", "even")}
         %td{colspan: 7, class: "more"}= link_to 'more...', orders_url

@@ -18,7 +18,7 @@
           %td #{trade["bought"].blank? ? '' : trade["bought"].to_f}
           %td #{trade["price"].to_f}
           %td #{trade["execution_price"].to_f} 
-          %td 0.25 USD
+          %td #{Commission::AMOUNT} USD
       - if snapshot
         %tr{class: cycle("odd", "even")}
           %td{colspan: 6, class: "more"}= link_to 'more...', trades_url

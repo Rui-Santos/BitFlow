@@ -16,7 +16,7 @@
           %td #{trade.bids.map{|bid| "#{bid.amount} BTC at #{bid.price}"}.join(", ")}
           %td #{trade.asks.map{|ask| "#{ask.amount} BTC at #{ask.price}"}.join(", ")}
           %td #{trade.market_price.to_f}
-          %td 0.25 USD
+          %td #{Commission::AMOUNT} USD
 
       %tr{class: cycle("odd", "even")}
         %td= paginate @trades
