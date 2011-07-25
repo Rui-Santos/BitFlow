@@ -17,6 +17,6 @@ class ApplicationController < ActionController::Base
   
   def authenticate_user!
     super
-    flash[:alert] = "The account has not been confirmed yet. Please check your email to find confirmation instructions." unless current_user.confirmed?
+    flash[:alert] = "The account has not been confirmed yet. Please check your email to find confirmation instructions." if current_user && !current_user.confirmed?
   end
 end
