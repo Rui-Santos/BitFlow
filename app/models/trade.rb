@@ -9,7 +9,7 @@ class Trade < ActiveRecord::Base
   def amount
     bids.inject(0){|sum, b| sum += b.amount}
   end
-  
+
   def sold
     asks.collect(&:amount).reduce(&:+).round(2)
   end

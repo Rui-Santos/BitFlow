@@ -38,8 +38,14 @@ form.formtastic abbr, form.formtastic acronym
         border-right: none
 
 #recent-order-books
-  +table_base(6, true)
+  .asks
+    +table_base(8, true)
+  .bids
+    +table_base(8)
+    +append(1)
 
+#btc_pricing_graph
+  width: 90%
 #user-order-book
   +clearfix
   +table_base(14, true)

@@ -6,26 +6,31 @@
     Earn interest with
     = link_to 'Fixed Mining', '/fixed_mining'
 %hr
-#tabs.span-10
+#recent-order-books
+  .bids= render :partial => 'recent_orders', :locals => {:items => @asks, :item_type => 'Ask'}
+  .asks= render :partial => 'recent_orders', :locals => {:items => @bids, :item_type => 'Bid'}
+%hr.space
+#tabs
   %ul
     %li
-      %a{:href => '#btc'} BTC
+      %a{:href => '#btc_pricing_graph'} BTC
     %li
       %a{:href => '#fixed-mining'} Fixed Mining
     %li
       %a{:href => '#mining-contract'} Mining Contract
-  #btc
-    BTC
+  #btc_pricing_graph
+
   #fixed-mining
     Fixed Mining
   #mining-contract
     Mining Contract
 
-#recent-order-books
-  = render :partial => 'recent_orders', :locals => {:items => @asks, :item_type => 'Ask'}
-  = render :partial => 'recent_orders', :locals => {:items => @bids, :item_type => 'Bid'}
-
 - content_for(:javascript) do
+  = javascript_include_tag 'highstock.src'
+
   :javascript
-    $(function(){ $('#tabs').tabs(); });
+    $(function(){ 
+      price_chart = createPriceChart();
+      $('#tabs').tabs();
+    });
   
