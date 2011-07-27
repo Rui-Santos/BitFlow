@@ -29,7 +29,8 @@ class BidsController < ApplicationController
   
   def destroy
     @bid = Bid.find(params[:id])
-    @bid.destroy
+    @bid.update_attribute :status, Order::Status::CANCELLED
+    Fund.update_buyer_usd_fund_on_cancel @bid
     respond_to do |format|
       format.html { redirect_to(orders_url) }
       format.xml  { head :ok }

@@ -34,7 +34,7 @@ class Fund < ActiveRecord::Base
   end
   
   def self.update_buyer_usd_fund_on_cancel(bid)
-    total_bid_amount = bid.amount * bid.price
+    total_bid_amount = bid.amount_remaining * bid.price
     usd_fund = Fund.find_usd(bid.user_id)
     usd_fund.update_attributes(:available => (usd_fund.available + total_bid_amount),
                               :reserved => (usd_fund.reserved - total_bid_amount))

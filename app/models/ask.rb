@@ -1,8 +1,8 @@
 class Ask < Order
   set_table_name :asks
-  belongs_to :trade
   
   before_create do |ask|
+    ask.amount_remaining = ask.amount
     btc_fund = Fund.find_btc(ask.user_id)
     usd_fund = Fund.find_usd(ask.user_id)
     if ask.amount <= btc_fund.available
@@ -21,10 +21,6 @@ class Ask < Order
     end
   end
   
-  before_destroy do |ask|
-    Fund.update_seller_btc_fund_on_cancel ask
-  end
-  
   def self.order_queue(value)
     active.lesser_price_than(value).oldest
   end
@@ -35,24 +31,55 @@ class Ask < Order
   
   def create_trades
     return if  AppConfig.is?('SKIP_TRADE_CREATION', false)
-    pending_amount = self.amount
-    bids = []
-    match!.each do | bid|
-      break if pending_amount == 0
-      pending_amount -= bid.amount
-      bids << bid
-    end
-    unless(bids.empty?)
-      self.update_attributes(:status => Order::Status::COMPLETE)
-      Fund.update_seller_btc_fund_on_execution self
-      seller_usd_fund = Fund.find_usd(self.user_id)
-      bids.each do |b| 
-        b.update_attributes(:status => Order::Status::COMPLETE)
-        seller_usd_fund.update_seller_usd_fund_on_execution b
-        Fund.update_buyer_usd_fund_on_execution b
-        Fund.find_btc(b.user_id).update_buyer_btc_fund_on_execution b
+    
+    ask = self.reload
+    
+    seller_usd_fund = Fund.find_usd(ask.user_id)
+    seller_btc_fund = Fund.find_btc(ask.user_id)
+    
+    ask_amount_remaining = ask.amount_remaining
+    
+    ask.match!.each do |bid|
+      break if ask_amount_remaining == 0
+      
+      traded_price = 0.0;
+      traded_amount = 0.0;
+      
+      if ask_amount_remaining >= bid.amount_remaining
+        traded_price = bid.price
+        traded_amount = bid.amount_remaining
+      else
+        traded_price = bid.price
+        traded_amount = ask_amount_remaining
       end
-      Trade.create(asks: [self], bids: bids, market_price: self.price)
+      
+      Trade.create(ask: ask, bid: bid, market_price: traded_price, amount: traded_amount)
+      
+      buyer_usd_fund = Fund.find_usd(bid.user_id)
+      buyer_btc_fund = Fund.find_btc(bid.user_id)
+      buyer_usd_fund_amount = buyer_usd_fund.amount - traded_price * traded_amount
+      buyer_usd_fund_reserved = buyer_usd_fund.reserved - bid.price * traded_amount
+      buyer_usd_fund.update_attributes(:amount => buyer_usd_fund_amount,
+                                      :reserved => buyer_usd_fund_reserved,
+                                      :available => (buyer_usd_fund_amount - buyer_usd_fund_reserved))
+      buyer_btc_fund.update_attributes(:amount => (buyer_btc_fund.amount + traded_amount),
+                                      :available => (buyer_btc_fund.available + traded_amount))
+      
+      seller_usd_fund.update_attributes(:amount => (seller_usd_fund.amount + traded_price * traded_amount),
+                                      :available => (seller_usd_fund.available + traded_price * traded_amount))
+      seller_btc_fund.update_attributes(:amount => (seller_btc_fund.amount - traded_amount),
+                                      :reserved => (seller_btc_fund.reserved - traded_amount))
+      
+      ask_amount_remaining = ask_amount_remaining - traded_amount
+      bid_amount_remaining = bid.amount_remaining - traded_amount
+      if bid_amount_remaining == 0
+        bid.update_attributes(:amount_remaining => bid_amount_remaining, :status => Order::Status::COMPLETE)
+      else
+        bid.update_attribute(:amount_remaining, bid_amount_remaining)
+      end
     end
+    ask.amount_remaining = ask_amount_remaining
+    ask.status = Order::Status::COMPLETE if ask.amount_remaining == 0
+    ask.save
   end
 end

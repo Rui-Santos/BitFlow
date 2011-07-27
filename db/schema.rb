@@ -10,28 +10,28 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110723135155) do
+ActiveRecord::Schema.define(:version => 20110726072015) do
 
   create_table "asks", :force => true do |t|
-    t.decimal  "price",      :precision => 15, :scale => 10
-    t.decimal  "amount",     :precision => 15, :scale => 10
+    t.decimal  "price",            :precision => 15, :scale => 10
+    t.decimal  "amount",           :precision => 15, :scale => 10
     t.string   "currency"
-    t.string   "status",                                     :null => false
+    t.string   "status",                                                            :null => false
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "trade_id"
+    t.decimal  "amount_remaining", :precision => 15, :scale => 10, :default => 0.0
   end
 
   create_table "bids", :force => true do |t|
-    t.decimal  "price",      :precision => 15, :scale => 10
-    t.decimal  "amount",     :precision => 15, :scale => 10
+    t.decimal  "price",            :precision => 15, :scale => 10
+    t.decimal  "amount",           :precision => 15, :scale => 10
     t.string   "currency"
-    t.string   "status",                                     :null => false
+    t.string   "status",                                                            :null => false
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "trade_id"
+    t.decimal  "amount_remaining", :precision => 15, :scale => 10, :default => 0.0
   end
 
   create_table "funds", :force => true do |t|
@@ -65,6 +65,9 @@ ActiveRecord::Schema.define(:version => 20110723135155) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.decimal  "market_price", :precision => 15, :scale => 10
+    t.decimal  "amount",       :precision => 15, :scale => 10, :default => 0.0
+    t.integer  "ask_id"
+    t.integer  "bid_id"
   end
 
   create_table "users", :force => true do |t|

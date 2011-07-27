@@ -29,7 +29,8 @@ class AsksController < ApplicationController
 
   def destroy
     @ask = Ask.find(params[:id])
-    @ask.destroy
+    @ask.update_attribute :status, Order::Status::CANCELLED
+    Fund.update_seller_btc_fund_on_cancel @ask
     respond_to do |format|
       format.html { redirect_to(orders_url) }
       format.xml  { head :ok }

@@ -5,8 +5,8 @@
     %tr
       %th Last updated at
       %th #{item_type}s
-      %th #{item_type} Price
-      %th Execution Price
+      %th Limit Price
+      %th Status
       %th.last Actions
   %tbody
     - items.each do |item|
@@ -14,6 +14,6 @@
         %td #{item.updated_at}
         %td #{item.amount} BTC
         %td #{item.price}
-        %td #{item.trade.try(:market_price)} 
+        %td #{item.active? ? "#{item.amount_remaining} BTC left": item.status}
         %td= link_to('Cancel', item, method: :delete, confirm: "Are you sure to cancel this #{item_type}?") if item.active?
 = paginate items
