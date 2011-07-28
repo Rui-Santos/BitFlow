@@ -14,23 +14,16 @@
   %ul
     %li
       %a{:href => '#btc_pricing_graph'} BTC
-    %li
-      %a{:href => '#fixed-mining'} Fixed Mining
-    %li
-      %a{:href => '#mining-contract'} Mining Contract
-  #btc_pricing_graph
+  #btc_pricing_graph{"style" => "width: 90%; height: 450px"}
 
-  #fixed-mining
-    Fixed Mining
-  #mining-contract
-    Mining Contract
+.clearfix
 
 - content_for(:javascript) do
   = javascript_include_tag 'highstock.src'
 
   :javascript
-    $(function(){ 
-      price_chart = createPriceChart();
+    $(function() {
       $('#tabs').tabs();
+      loadPriceChart();
     });
   
