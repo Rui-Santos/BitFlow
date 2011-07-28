@@ -15,7 +15,7 @@
       - trades.each do |trade|
         %tr{class: cycle("odd", "even")}
           %td #{trade['executed_at']}
-          %td #{trade['type']}          
+          %td Limit #{trade['type']}          
           %td #{trade['type'].downcase == 'ask'? "#{trade['sold'].to_f} BTC" : "#{trade['sold'].to_f} USD"}
           %td #{trade['type'].downcase == 'ask'? "#{trade['bought'].to_f} USD" : "#{trade['bought'].to_f} BTC"}
           %td #{trade["price"].to_f}
