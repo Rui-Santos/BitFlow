@@ -32,7 +32,7 @@ class BidsController < ApplicationController
     @bid.update_attribute :status, Order::Status::CANCELLED
     Fund.update_buyer_usd_fund_on_cancel @bid
     respond_to do |format|
-      format.html { redirect_to(orders_url) }
+      format.html { redirect_to(:back) }
       format.xml  { head :ok }
     end
   end

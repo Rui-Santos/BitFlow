@@ -32,7 +32,7 @@ class AsksController < ApplicationController
     @ask.update_attribute :status, Order::Status::CANCELLED
     Fund.update_seller_btc_fund_on_cancel @ask
     respond_to do |format|
-      format.html { redirect_to(orders_url) }
+      format.html { redirect_to(:back) }
       format.xml  { head :ok }
     end
   end

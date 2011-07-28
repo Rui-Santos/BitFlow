@@ -30,10 +30,10 @@ class Order < ActiveRecord::Base
   # the return values would in the form of a hash - no object conversion
   def self.non_executed(user, row_limit = 5)
     historic_data_query = <<-HISTORIC_DATA_QUERY
-      SELECT type, id, amount, price, status, updated_at FROM (
-        SELECT 'Ask' as type, id, amount_remaining as amount, price, status, updated_at FROM asks WHERE user_id = #{user.id} and status = '#{Status::ACTIVE}'
+      SELECT type, id, amount_remaining, price, status, updated_at, total_price FROM (
+        SELECT 'Ask' as type, id, amount_remaining, price, status, updated_at, (amount_remaining * price) as total_price FROM asks WHERE user_id = #{user.id} and status = '#{Status::ACTIVE}'
         UNION
-        SELECT 'Bid' as type, id, amount_remaining as amount, price, status, updated_at FROM bids WHERE user_id = #{user.id} and status = '#{Status::ACTIVE}'
+        SELECT 'Bid' as type, id, amount_remaining, price, status, updated_at, (amount_remaining * price) as total_price FROM bids WHERE user_id = #{user.id} and status = '#{Status::ACTIVE}'
       ) orders
       ORDER BY updated_at DESC limit #{row_limit}
     HISTORIC_DATA_QUERY
@@ -44,15 +44,13 @@ class Order < ActiveRecord::Base
   # the return values would in the form of a hash - no object conversion
   def self.executed(user, row_limit = 5)
     historic_data_query = <<-HISTORIC_DATA_QUERY
-      SELECT id, sold, bought, price, execution_price, executed_at FROM (
-        SELECT asks.id, trades.amount as sold, '' as bought, price, trades.market_price as execution_price, trades.updated_at as executed_at
-        FROM asks
-        INNER JOIN trades ON asks.id = trades.ask_id
+      SELECT id, sold, bought, price, execution_price, executed_at, type FROM (
+        SELECT asks.id, trades.amount as sold, (trades.amount * trades.market_price) as bought, price, trades.market_price as execution_price, trades.updated_at as executed_at, 'Ask' as type
+        FROM asks INNER JOIN trades ON asks.id = trades.ask_id
         WHERE user_id = #{user.id}
         UNION
-        SELECT bids.id, '' as sold, trades.amount as bought, price, trades.market_price as execution_price, trades.updated_at as executed_at
-        FROM bids
-        INNER JOIN trades ON bids.id = trades.bid_id
+        SELECT bids.id, (trades.amount * trades.market_price) as sold, trades.amount as bought, price, trades.market_price as execution_price, trades.updated_at as executed_at, 'Bid' as type
+        FROM bids INNER JOIN trades ON bids.id = trades.bid_id
         WHERE user_id = #{user.id}
       ) orders
       ORDER BY executed_at DESC limit #{row_limit}

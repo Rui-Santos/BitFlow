@@ -50,10 +50,10 @@ class Ask < Order
       traded_amount = 0.0;
       
       if ask_amount_remaining >= bid.amount_remaining
-        traded_price = bid.price
+        traded_price = ask.price
         traded_amount = bid.amount_remaining
       else
-        traded_price = bid.price
+        traded_price = ask.price
         traded_amount = ask_amount_remaining
       end
       

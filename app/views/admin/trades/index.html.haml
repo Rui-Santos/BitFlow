@@ -13,8 +13,8 @@
       - @trades.each do |trade|
         %tr{class: cycle("odd", "even")}
           %td #{trade.updated_at}
-          %td #{trade.bids.map{|bid| "#{bid.amount} BTC at #{bid.price}"}.join(", ")}
-          %td #{trade.asks.map{|ask| "#{ask.amount} BTC at #{ask.price}"}.join(", ")}
+          %td #{"#{trade.bid.amount} BTC at #{trade.bid.price} USD"}
+          %td #{"#{trade.ask.amount} BTC at #{trade.ask.price} USD"}
           %td #{trade.market_price.to_f}
           %td #{Commission::AMOUNT} USD
 
