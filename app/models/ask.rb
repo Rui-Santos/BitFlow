@@ -1,7 +1,11 @@
 class Ask < Order
   set_table_name :asks
-  
-  before_create do |ask|
+  has_many :trades
+
+  before_create :adjust_funds
+
+  def adjust_funds
+    ask = self
     ask.amount_remaining = ask.amount
     btc_fund = Fund.find_btc(ask.user_id)
     usd_fund = Fund.find_usd(ask.user_id)

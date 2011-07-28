@@ -2,7 +2,6 @@ class Order < ActiveRecord::Base
   validates_presence_of :price, :amount
   validates_numericality_of :price, :amount, :greater_than => 0.0
   
-  has_many :trade
   belongs_to :user
   
   after_create :create_trades unless AppConfig.is?('SKIP_TRADE_CREATION', false)
@@ -72,6 +71,10 @@ class Order < ActiveRecord::Base
 
   def active?
     status == Status::ACTIVE || status.to_sym == Status::ACTIVE
+  end
+
+  def complete?
+    status == Status::COMPLETE || status.to_sym == Status::COMPLETE
   end
 
   def currency

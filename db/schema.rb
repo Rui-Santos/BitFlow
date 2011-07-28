@@ -13,32 +13,32 @@
 ActiveRecord::Schema.define(:version => 20110727140819) do
 
   create_table "asks", :force => true do |t|
-    t.decimal  "price",            :precision => 15, :scale => 10
-    t.decimal  "amount",           :precision => 15, :scale => 10
+    t.decimal  "price"
+    t.decimal  "amount"
     t.string   "currency"
-    t.string   "status",                                                            :null => false
+    t.string   "status",                            :null => false
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.decimal  "amount_remaining", :precision => 15, :scale => 10, :default => 0.0
+    t.decimal  "amount_remaining", :default => 0.0
   end
 
   create_table "bids", :force => true do |t|
-    t.decimal  "price",            :precision => 15, :scale => 10
-    t.decimal  "amount",           :precision => 15, :scale => 10
+    t.decimal  "price"
+    t.decimal  "amount"
     t.string   "currency"
-    t.string   "status",                                                            :null => false
+    t.string   "status",                            :null => false
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.decimal  "amount_remaining", :precision => 15, :scale => 10, :default => 0.0
+    t.decimal  "amount_remaining", :default => 0.0
   end
 
   create_table "funds", :force => true do |t|
     t.string   "fund_type"
-    t.decimal  "amount",     :precision => 15, :scale => 10, :default => 0.0
-    t.decimal  "reserved",   :precision => 15, :scale => 10, :default => 0.0
-    t.decimal  "available",  :precision => 15, :scale => 10, :default => 0.0
+    t.decimal  "amount",     :default => 0.0
+    t.decimal  "reserved",   :default => 0.0
+    t.decimal  "available",  :default => 0.0
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"

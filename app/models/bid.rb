@@ -1,19 +1,9 @@
 class Bid < Order
   set_table_name :bids
-  
-  before_create do |bid|
-    bid.amount_remaining = bid.amount.to_f
-    usd_fund = Fund.find_usd(bid.user_id)
-    total_bid_amount = bid.amount * bid.price
-    if (total_bid_amount + Commission::AMOUNT) <= usd_fund.available
-      usd_fund.update_attributes(:amount => (usd_fund.amount - Commission::AMOUNT),
-                                  :available => (usd_fund.available - total_bid_amount - Commission::AMOUNT),
-                                  :reserved => (usd_fund.reserved + total_bid_amount))
-    else
-      bid.errors.add(:base, "Not enough USD fund available")
-      return false
-    end
-  end
+
+  has_many :trades
+
+  before_create :adjust_funds
 
   def self.order_queue(value)
     active.greater_price_than(value).oldest
@@ -21,6 +11,20 @@ class Bid < Order
 
   def match!
     Ask.order_queue(self.price)
+  end
+  
+  def adjust_funds
+    self.amount_remaining = self.amount.to_f
+    usd_fund = Fund.find_usd(self.user_id)
+    total_bid_amount = self.amount * self.price
+    if (total_bid_amount + Commission::AMOUNT) <= usd_fund.available
+      usd_fund.update_attributes(:amount => (usd_fund.amount - Commission::AMOUNT),
+                                  :available => (usd_fund.available - total_bid_amount - Commission::AMOUNT),
+                                  :reserved => (usd_fund.reserved + total_bid_amount))
+    else
+      self.errors.add(:base, "Not enough USD fund available")
+      return false
+    end
   end
 
   def create_trades
