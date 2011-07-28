@@ -1455,11 +1455,18 @@ form.formtastic abbr, form.formtastic acronym {
 }
 
 /* line 47, ../../app/stylesheets/partials/_application.sass */
-#btc_pricing_graph {
-  width: 90%;
+#btc {
+  width: 98%;
+  height: 460px;
 }
 
-/* line 49, ../../app/stylesheets/partials/_application.sass */
+/* line 51, ../../app/stylesheets/partials/_application.sass */
+#btc_pricing_graph {
+  width: 98%;
+  height: 450px;
+}
+
+/* line 55, ../../app/stylesheets/partials/_application.sass */
 #user-order-book {
   overflow: hidden;
   *zoom: 1;
@@ -1526,7 +1533,7 @@ form.formtastic abbr, form.formtastic acronym {
   font-weight: bold;
 }
 
-/* line 53, ../../app/stylesheets/partials/_application.sass */
+/* line 59, ../../app/stylesheets/partials/_application.sass */
 #user-funds {
   overflow: hidden;
   *zoom: 1;
@@ -1593,7 +1600,7 @@ form.formtastic abbr, form.formtastic acronym {
   font-weight: bold;
 }
 
-/* line 57, ../../app/stylesheets/partials/_application.sass */
+/* line 63, ../../app/stylesheets/partials/_application.sass */
 #user-trade-book {
   overflow: hidden;
   *zoom: 1;
@@ -1660,16 +1667,16 @@ form.formtastic abbr, form.formtastic acronym {
   font-weight: bold;
 }
 
-/* line 61, ../../app/stylesheets/partials/_application.sass */
+/* line 67, ../../app/stylesheets/partials/_application.sass */
 .more {
   text-align: right;
 }
 
-/* line 65, ../../app/stylesheets/partials/_application.sass */
+/* line 71, ../../app/stylesheets/partials/_application.sass */
 .market_price_ticker {
   padding-left: 280px;
 }
-/* line 67, ../../app/stylesheets/partials/_application.sass */
+/* line 73, ../../app/stylesheets/partials/_application.sass */
 .market_price_ticker div {
   display: -moz-inline-box;
   -moz-box-orient: vertical;

@@ -13,10 +13,11 @@
 #tabs
   %ul
     %li
-      %a{:href => '#btc_pricing_graph'} BTC
-  #btc_pricing_graph{"style" => "width: 90%; height: 450px"}
+      %a{:href => '#btc'} BTC
+  #btc
+    #btc_pricing_graph
 
-.clearfix
+%hr.space
 
 - content_for(:javascript) do
   = javascript_include_tag 'highstock.src'

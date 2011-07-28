@@ -6,9 +6,9 @@ class Trade < ActiveRecord::Base
     joins([:bids, :asks]).where('bids.user_id = ? and asks.user_id = ?', user.id, user.id).order(:updated_at).reverse_order
   }
 
-  def amount
-    bid.amount
-  end
+  # def amount
+  #   bid.amount
+  # end
 
   def sold
     ask.amount.round(2)

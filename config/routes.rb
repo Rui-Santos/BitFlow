@@ -4,7 +4,11 @@ BitFlow::Application.routes.draw do
   resources :asks, :except => [:edit, :update]
   resources :bids, :except => [:edit, :update]
   resources :orders, :only => [:index, :new]
-  resources :trades, :only => [:index, :show]
+  resources :trades, :only => [:index, :show] do
+    collection do
+      get 'price_graph'
+    end
+  end
 
   resources :funds, :only => [:create] do
     collection do
