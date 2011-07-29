@@ -1,5 +1,6 @@
 class Bankaccount < ActiveRecord::Base
   belongs_to :user
+  has_many :fund_deposits
 
   validates_presence_of :name, :number
 

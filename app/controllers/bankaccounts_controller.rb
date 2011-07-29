@@ -25,7 +25,7 @@ class BankaccountsController < ApplicationController
     @bankaccount = Bankaccount.new(params[:bankaccount])
     @bankaccount.user = current_user
     @bankaccount.status = Bankaccount::Status::ACTIVE
-    
+
     respond_to do |format|
       if @bankaccount.save
         format.html { redirect_to(bankaccounts_url, :notice => 'Bank account was successfully added.') }
@@ -38,11 +38,22 @@ class BankaccountsController < ApplicationController
   # DELETE /bankaccounts/1
   # DELETE /bankaccounts/1.xml
   def destroy
+
     @bankaccount = Bankaccount.find(params[:id])
-    authorised_block(@bankaccount) {@bankaccount.update_attribute :status, Bankaccount::Status::DELETED}
-    
-    respond_to do |format|
-      format.html { redirect_to(bankaccounts_url) }
+    fd = FundDeposit.where(:bankaccount_id => params[:id], :status => FundDeposit::Status::PENDING)
+    if fd && fd.size > 0
+      @bankaccount.errors.add(:base, 'Bank Name and Account Number cannot be removed as it is listed in a pending fund deposit request.')
+    else
+      authorised_block(@bankaccount) {@bankaccount.update_attribute :status, Bankaccount::Status::DELETED}
     end
+
+    respond_to do |format|
+      if @bankaccount.errors.size > 0
+        format.html { redirect_to(bankaccounts_url, :notice => @bankaccount.errors.get(:base).first) }
+      else
+        format.html { redirect_to bankaccounts_url }
+      end
+    end
+
   end
 end
