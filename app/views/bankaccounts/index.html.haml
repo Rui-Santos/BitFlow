@@ -1,0 +1,19 @@
+#user-bankaccount
+  %table
+    %caption
+      %em My Bank Accounts
+    %thead
+      %tr
+        %th Bank Name
+        %th Account Number
+        %th.last 
+    %tbody
+      - @bankaccounts.each do |bankaccount|
+        %tr{class: cycle("odd", "even")}
+          %td= bankaccount.name
+          %td= link_to bankaccount.number, edit_bankaccount_path(bankaccount)
+          %td= link_to 'Remove', bankaccount, :confirm => 'Are you sure to remove this bank account?', :method => :delete
+      %tr{class: cycle("odd", "even")}
+        %td
+        %td
+        %td= link_to 'Add Bank Account', new_bankaccount_path

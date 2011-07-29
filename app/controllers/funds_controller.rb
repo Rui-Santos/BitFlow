@@ -1,6 +1,5 @@
 class FundsController < ApplicationController
   def deposit
-    
   end
   
   def withdraw

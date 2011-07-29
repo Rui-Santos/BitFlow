@@ -1,0 +1,6 @@
+= semantic_form_for @bankaccount do |f|
+  = f.inputs "#{@bankaccount.new_record? ? 'Add' : 'Edit'} Bank Account" do
+    = f.semantic_errors
+    = f.input :name, :label => 'Bank Name', :required => true
+    = f.input :number, :label => 'Account Number', :required => true
+    = f.commit_button :button_html => { :value => "#{@bankaccount.new_record? ? 'Add' : 'Edit'} Bank Account"}

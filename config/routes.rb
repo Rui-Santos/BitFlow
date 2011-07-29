@@ -1,6 +1,8 @@
 BitFlow::Application.routes.draw do
+
   devise_for :users, :controllers => { :registrations => "registrations" }
 
+  resources :bankaccounts
   resources :asks, :except => [:edit, :update]
   resources :bids, :except => [:edit, :update]
   resources :orders, :only => [:index, :new]
@@ -27,17 +29,16 @@ BitFlow::Application.routes.draw do
   resources :welcome, :only => [:index]
   match 'wallet' => 'welcome#wallet', :via => :get
   
+  root :to => "home#index"
+
   namespace :admin do
     root :to => 'settings#edit'
     match 'settings' => 'settings#update', :via => :post
     resources :orders, :only => [:index, :show], :controllers => 'orders'
     resources :trades, :only => [:index, :show], :controllers => 'trades'
-
     resources :funds, :only => [:index, :update]
   end
-
-  root :to => "home#index"
-
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
