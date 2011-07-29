@@ -2,7 +2,7 @@ class FundDepositsController < ApplicationController
   # GET /fund_deposits
   # GET /fund_deposits.xml
   def index
-    @fund_deposits = FundDeposit.where(:user_id => current_user.id)
+    @fund_deposits = FundDeposit.order("updated_at desc").where(:user_id => current_user.id)
 
     respond_to do |format|
       format.html # index.html.erb

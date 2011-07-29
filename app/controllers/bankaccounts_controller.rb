@@ -2,7 +2,7 @@ class BankaccountsController < ApplicationController
   # GET /bankaccounts
   # GET /bankaccounts.xml
   def index
-    @bankaccounts = Bankaccount.where(:user_id => current_user.id, :status => Bankaccount::Status::ACTIVE)
+    @bankaccounts = Bankaccount.order("updated_at").where(:user_id => current_user.id, :status => Bankaccount::Status::ACTIVE)
 
     respond_to do |format|
       format.html # index.html.erb
