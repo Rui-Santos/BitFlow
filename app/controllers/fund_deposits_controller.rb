@@ -32,6 +32,8 @@ class FundDepositsController < ApplicationController
       if @fund_deposit.save
         format.html { redirect_to(fund_deposits_url, :notice => 'Fund deposit was successfully created.') }
       else
+        @currencies = Currency.values
+        @bank_accounts = Bankaccount.where(:user_id => current_user.id, :status => Bankaccount::Status::ACTIVE)
         format.html { render :action => "new" }
       end
     end
