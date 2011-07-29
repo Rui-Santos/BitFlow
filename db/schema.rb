@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110728184038) do
+ActiveRecord::Schema.define(:version => 20110729093520) do
 
   create_table "asks", :force => true do |t|
     t.decimal  "price",            :precision => 15, :scale => 10
@@ -25,13 +25,12 @@ ActiveRecord::Schema.define(:version => 20110728184038) do
 
   create_table "bankaccounts", :force => true do |t|
     t.string   "name"
-    t.integer  "number"
+    t.string   "number"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "status"
   end
-
-  add_index "bankaccounts", ["name", "number"], :name => "index_bankaccounts_on_name_and_number", :unique => true
 
   create_table "bids", :force => true do |t|
     t.decimal  "price",            :precision => 15, :scale => 10
@@ -42,6 +41,16 @@ ActiveRecord::Schema.define(:version => 20110728184038) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.decimal  "amount_remaining", :precision => 15, :scale => 10, :default => 0.0
+  end
+
+  create_table "fund_deposits", :force => true do |t|
+    t.decimal  "amount",         :precision => 15, :scale => 10
+    t.integer  "bankaccount_id"
+    t.integer  "user_id"
+    t.string   "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "currency"
   end
 
   create_table "funds", :force => true do |t|

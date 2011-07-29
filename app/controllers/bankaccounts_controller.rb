@@ -2,7 +2,7 @@ class BankaccountsController < ApplicationController
   # GET /bankaccounts
   # GET /bankaccounts.xml
   def index
-    @bankaccounts = Bankaccount.where(:user_id => current_user.id)
+    @bankaccounts = Bankaccount.where(:user_id => current_user.id, :status => Bankaccount::Status::ACTIVE)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -24,6 +24,7 @@ class BankaccountsController < ApplicationController
   def create
     @bankaccount = Bankaccount.new(params[:bankaccount])
     @bankaccount.user = current_user
+    @bankaccount.status = Bankaccount::Status::ACTIVE
     
     respond_to do |format|
       if @bankaccount.save
@@ -38,7 +39,7 @@ class BankaccountsController < ApplicationController
   # DELETE /bankaccounts/1.xml
   def destroy
     @bankaccount = Bankaccount.find(params[:id])
-    authorised_block(@bankaccount) {@bankaccount.destroy}
+    authorised_block(@bankaccount) {@bankaccount.update_attribute :status, Bankaccount::Status::DELETED}
     
     respond_to do |format|
       format.html { redirect_to(bankaccounts_url) }

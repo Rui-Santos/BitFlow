@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
   has_many :asks
   has_many :funds
   has_many :bankaccounts
+  has_many :fund_deposits
 
   after_create do |record| 
     record.funds = [Fund.new(:fund_type => 'BTC'), Fund.new(:fund_type => 'USD')]

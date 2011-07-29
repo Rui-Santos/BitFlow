@@ -2,20 +2,14 @@ BitFlow::Application.routes.draw do
 
   devise_for :users, :controllers => { :registrations => "registrations" }
 
-  resources :bankaccounts
+  resources :fund_deposits
+  resources :bankaccounts, :only => [:index, :new, :create, :destroy]
   resources :asks, :except => [:edit, :update]
   resources :bids, :except => [:edit, :update]
   resources :orders, :only => [:index, :new]
   resources :trades, :only => [:index, :show] do
     collection do
       get 'price_graph'
-    end
-  end
-
-  resources :funds, :only => [:create] do
-    collection do
-      get 'deposit'
-      get 'withdraw'
     end
   end
 

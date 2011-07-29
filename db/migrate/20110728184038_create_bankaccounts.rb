@@ -11,6 +11,7 @@ class CreateBankaccounts < ActiveRecord::Migration
   end
 
   def self.down
+    remove_index :bankaccounts, [:name, :number]
     drop_table :bankaccounts
   end
 end

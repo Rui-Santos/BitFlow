@@ -1,15 +1,28 @@
 class Bankaccount < ActiveRecord::Base
   belongs_to :user
-  
+
   validates_presence_of :name, :number
-  
-  def save
-    begin
-      super
-    rescue => e
-      self.errors.add_to_base('Account number for this bank already exists')
+
+  before_create :unique_bank_details
+
+  def unique_bank_details
+    bank_account = self
+    in_db = Bankaccount.where(:name => bank_account.name, :number => bank_account.number, :status => bank_account.status).first
+    if in_db
+      bank_account.errors.add_to_base('Bank Name and Account Number already exists')
       return false
+    else
+      return true
     end
   end
-  
+
+  def name_account
+    "#{name}/#{number}"
+  end
+
+  module  Status
+    ACTIVE = :active
+    DELETED = :deleted
+  end
+
 end
