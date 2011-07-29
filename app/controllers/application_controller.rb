@@ -19,4 +19,12 @@ class ApplicationController < ActionController::Base
     super
     flash[:alert] = "The account has not been confirmed yet. Please check your email to find confirmation instructions." if current_user && !current_user.confirmed?
   end
+  
+  def authorised_block(model, &block)
+    if model.user_id == current_user.id
+      yield
+    else
+      model.errors.add_to_base('You are not authorized for this action')
+    end
+  end
 end

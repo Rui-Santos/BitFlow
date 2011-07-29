@@ -11,4 +11,5 @@ class Bankaccount < ActiveRecord::Base
       return false
     end
   end
+  
 end

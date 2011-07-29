@@ -11,7 +11,7 @@
       - @bankaccounts.each do |bankaccount|
         %tr{class: cycle("odd", "even")}
           %td= bankaccount.name
-          %td= link_to bankaccount.number, edit_bankaccount_path(bankaccount)
+          %td= bankaccount.number
           %td= link_to 'Remove', bankaccount, :confirm => 'Are you sure to remove this bank account?', :method => :delete
       %tr{class: cycle("odd", "even")}
         %td

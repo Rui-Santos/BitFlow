@@ -29,11 +29,13 @@ class AsksController < ApplicationController
 
   def destroy
     @ask = Ask.find(params[:id])
-    @ask.update_attribute :status, Order::Status::CANCELLED
-    Fund.update_seller_btc_fund_on_cancel @ask
+    authorised_block(@ask) do 
+      @ask.update_attribute :status, Order::Status::CANCELLED
+      Fund.update_seller_btc_fund_on_cancel @ask
+    end
+    
     respond_to do |format|
       format.html { redirect_to(:back) }
-      format.xml  { head :ok }
     end
   end
 end
