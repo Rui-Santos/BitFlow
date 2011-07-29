@@ -27,6 +27,7 @@ class FundDepositsController < ApplicationController
     @fund_deposit = FundDeposit.new(params[:fund_deposit])
     @fund_deposit.user_id = current_user.id
     @fund_deposit.status = FundDeposit::Status::PENDING
+    @fund_deposit.net_amount = @fund_deposit.amount
 
     respond_to do |format|
       if @fund_deposit.save

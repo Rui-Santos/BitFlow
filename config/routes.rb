@@ -22,7 +22,7 @@ BitFlow::Application.routes.draw do
 
   resources :welcome, :only => [:index]
   match 'wallet' => 'welcome#wallet', :via => :get
-  
+
   root :to => "home#index"
 
   namespace :admin do
@@ -30,9 +30,9 @@ BitFlow::Application.routes.draw do
     match 'settings' => 'settings#update', :via => :post
     resources :orders, :only => [:index, :show], :controllers => 'orders'
     resources :trades, :only => [:index, :show], :controllers => 'trades'
-    resources :funds, :only => [:index, :update]
+    resources :fund_deposits, :only => [:index, :update], :controllers => 'admin/fund_deposits'
   end
-  
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

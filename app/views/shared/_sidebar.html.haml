@@ -1,7 +1,7 @@
 %ul#sidebar-links
   - if current_user.try(:admin?)
     %li= link_to_current 'Settings', admin_root_url
-    %li= link_to_current 'Funds', admin_funds_url
+    %li= link_to_current 'Fund Deposits', admin_fund_deposits_url
     %li= link_to_current 'Orders', admin_orders_url
     %li= link_to_current 'Trades', admin_trades_url
   - else
