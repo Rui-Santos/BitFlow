@@ -27,10 +27,12 @@ BitFlow::Application.routes.draw do
 
   namespace :admin do
     root :to => 'settings#edit'
-    match 'settings' => 'settings#update', :via => :post
+    match '/signin_help' => 'home#signin_help'
+    match 'fund_deposits/search' => 'fund_deposits#search', :via => :post
     resources :orders, :only => [:index, :show], :controllers => 'orders'
     resources :trades, :only => [:index, :show], :controllers => 'trades'
     resources :fund_deposits, :only => [:index, :update], :controllers => 'admin/fund_deposits'
+    resources :search_criterias, :controllers => 'admin/fund_deposits'
   end
 
   # The priority is based upon order of creation:

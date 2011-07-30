@@ -28,6 +28,7 @@ class FundDepositsController < ApplicationController
     @fund_deposit.user_id = current_user.id
     @fund_deposit.status = FundDeposit::Status::PENDING
     @fund_deposit.net_amount = @fund_deposit.amount
+    @fund_deposit.deposit_code = current_user.email.downcase
 
     respond_to do |format|
       if @fund_deposit.save
