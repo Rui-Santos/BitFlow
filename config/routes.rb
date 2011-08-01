@@ -12,6 +12,15 @@ BitFlow::Application.routes.draw do
       get 'price_graph'
     end
   end
+  
+  match '/faq' => "home#faq"
+  match '/about_us' => "home#about_us"
+  match '/contact_us' => "home#contact_us"
+  match '/latest_updates' => "home#latest_updates"
+  match '/trading_api' => "home#trading_api"
+  match '/affiliate_program' => "home#affiliate_program"
+  match '/terms_of_use' => "home#terms_of_use"
+  match '/privacy_policy' => "home#privacy_policy"
 
   devise_scope :user do
     get "/login" => "devise/sessions#new"
