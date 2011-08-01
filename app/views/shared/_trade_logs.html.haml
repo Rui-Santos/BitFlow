@@ -9,8 +9,7 @@
         %th Sold
         %th Bought
         %th Limit Price
-        %th New Market Price
-        %th.last Commission
+        %th.last New Market Price
     %tbody
       - trades.each do |trade|
         %tr{class: cycle("odd", "even")}
@@ -20,7 +19,6 @@
           %td #{trade['type'].downcase == 'ask'? "#{trade['bought'].to_f} USD" : "#{trade['bought'].to_f} BTC"}
           %td #{trade["price"].to_f}
           %td #{trade["execution_price"].to_f} 
-          %td #{Commission::AMOUNT} USD
       - if snapshot
         %tr{class: cycle("odd", "even")}
           %td{colspan: 7, class: "more"}= link_to 'more...', trades_url

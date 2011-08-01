@@ -9,7 +9,6 @@
         %th Offered
         %th Asked
         %th Limit Price        
-        %th Commission
         %th.last 
     %tbody
       - orders.each do |order|
@@ -19,7 +18,6 @@
           %td #{order['type'].downcase == 'ask'? "#{order['amount_remaining'].to_f} BTC" : "#{order['total_price'].to_f} USD"}
           %td #{order['type'].downcase == 'ask'? "#{order['total_price'].to_f} USD" : "#{(order['amount_remaining']).to_f} BTC"}
           %td #{order["price"].to_f}          
-          %td #{Commission::AMOUNT} USD
           %td= link_to('Cancel', "/#{order["type"].downcase}s/#{order["id"]}", method: :delete, confirm: "Are you sure to cancel this #{order["type"]}?")
       %tr{class: cycle("odd", "even")}
         %td{colspan: 7, class: "more"}= link_to 'more...', orders_url
