@@ -9,9 +9,11 @@ class UserWalletsController < ApplicationController
           if bal != @user_wallet.balance
             @user_wallet.update_attribute :balance, bal
           end
+          fetch_btc_fund_transfers
           format.html { render(:action => 'index') }
         rescue => e
           flash.now[:notice] = 'Error in Wallet Balance fetch'
+          fetch_btc_fund_transfers
           format.html { render(:action => 'index') }
         end
       else
@@ -24,17 +26,24 @@ class UserWalletsController < ApplicationController
                                         :user_id => current_user.id
           if @user_wallet.save
             flash.now[:notice] = 'Wallet was successfully created'
+            fetch_btc_fund_transfers
             format.html { render(:action => 'index') }
           else
             flash.now[:notice] = 'Error in Wallet creation'
+            fetch_btc_fund_transfers
             format.html { render(:action => 'index') }
           end
         rescue => e
           flash.now[:notice] = 'Error in Bitcoin Address creation'
+          fetch_btc_fund_transfers
           format.html { render(:action => 'index') }
         end
       end
     end
+  end
+
+  def fetch_btc_fund_transfers
+      @btc_fund_transfers = BtcFundTransfer.where(:user_id => current_user.id)
   end
 
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110801131139) do
+ActiveRecord::Schema.define(:version => 20110802170509) do
 
   create_table "asks", :force => true do |t|
     t.decimal  "price",            :precision => 15, :scale => 10
@@ -41,6 +41,19 @@ ActiveRecord::Schema.define(:version => 20110801131139) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.decimal  "amount_remaining", :precision => 15, :scale => 10, :default => 0.0
+  end
+
+  create_table "btc_fund_transfers", :force => true do |t|
+    t.string   "destination_btc_address"
+    t.decimal  "amount",                  :precision => 15, :scale => 10
+    t.integer  "user_id"
+    t.integer  "fund_id"
+    t.string   "send_message"
+    t.string   "status"
+    t.string   "transaction_type"
+    t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "fund_deposits", :force => true do |t|

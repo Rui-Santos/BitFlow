@@ -1,5 +1,6 @@
 class Fund < ActiveRecord::Base
   belongs_to :user
+  has_many :btc_fund_transfers  
   
   def self.update_seller_btc_fund_on_execution(ask)
     ask_btc_fund = Fund.find_btc(ask.user_id)
