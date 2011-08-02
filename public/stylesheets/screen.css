@@ -1204,12 +1204,71 @@ body.two-col #content {
 }
 
 /* line 14, ../../app/stylesheets/partials/_application.sass */
+#footer {
+  overflow: hidden;
+  *zoom: 1;
+}
+/* line 16, ../../app/stylesheets/partials/_application.sass */
+#footer ul {
+  list-style-type: none;
+}
+/* line 5, ../../../../../../../Users/nilakanta/.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/typography/lists/_inline-list.scss */
+#footer ul, #footer ul li {
+  margin: 0px;
+  padding: 0px;
+  display: inline;
+}
+/* line 29, ../../../../../../../Users/nilakanta/.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/typography/lists/_inline-list.scss */
+#footer ul li:after {
+  content: "|";
+}
+/* line 31, ../../../../../../../Users/nilakanta/.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/typography/lists/_inline-list.scss */
+#footer ul li:last-child:after {
+  content: "";
+}
+/* line 34, ../../../../../../../Users/nilakanta/.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/typography/lists/_inline-list.scss */
+#footer ul li.last:after {
+  content: "";
+}
+/* line 18, ../../app/stylesheets/partials/_application.sass */
+#footer ul li a {
+  display: -moz-inline-box;
+  -moz-box-orient: vertical;
+  display: inline-block;
+  vertical-align: middle;
+  *vertical-align: auto;
+  margin: 0.7em 0.5em 0.7em 0;
+  border-width: 1px;
+  border-style: solid;
+  font-family: "Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+  font-size: 100%;
+  line-height: 130%;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+  border-width: 0;
+}
+/* line 7, ../../../../../../../Users/nilakanta/.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/compass/stylesheets/compass/css3/_inline-block.scss */
+#footer ul li a {
+  *display: inline;
+}
+/* line 75, ../../../../../../../Users/nilakanta/.rvm/gems/ruby-1.9.2-p180@Bitflow/gems/compass-0.11.5/frameworks/blueprint/stylesheets/blueprint/_buttons.scss */
+#footer ul li a img {
+  margin: 0 3px -3px 0 !important;
+  padding: 0;
+  border: none;
+  width: 16px;
+  height: 16px;
+  float: none;
+}
+
+/* line 23, ../../app/stylesheets/partials/_application.sass */
 form.formtastic abbr, form.formtastic acronym {
   color: red;
   border-color: red;
 }
 
-/* line 18, ../../app/stylesheets/partials/_application.sass */
+/* line 27, ../../app/stylesheets/partials/_application.sass */
 .authenitcated-menu {
   list-style-type: none;
 }
@@ -1219,7 +1278,7 @@ form.formtastic abbr, form.formtastic acronym {
   padding: 0px;
   display: inline;
 }
-/* line 20, ../../app/stylesheets/partials/_application.sass */
+/* line 29, ../../app/stylesheets/partials/_application.sass */
 .authenitcated-menu li a {
   display: -moz-inline-box;
   -moz-box-orient: vertical;
@@ -1262,7 +1321,7 @@ form.formtastic abbr, form.formtastic acronym {
   padding: 4px 10px 3px 7px;
 }
 
-/* line 23, ../../app/stylesheets/partials/_application.sass */
+/* line 32, ../../app/stylesheets/partials/_application.sass */
 #sidebar-links {
   list-style: none;
   margin: 0;
@@ -1280,7 +1339,7 @@ form.formtastic abbr, form.formtastic acronym {
   list-style-type: none;
   margin-left: 0px;
 }
-/* line 28, ../../app/stylesheets/partials/_application.sass */
+/* line 37, ../../app/stylesheets/partials/_application.sass */
 #sidebar-links li a {
   display: -moz-inline-box;
   -moz-box-orient: vertical;
@@ -1315,14 +1374,14 @@ form.formtastic abbr, form.formtastic acronym {
   height: 16px;
   float: none;
 }
-/* line 35, ../../app/stylesheets/partials/_application.sass */
+/* line 44, ../../app/stylesheets/partials/_application.sass */
 #sidebar-links li a.active {
   color: #0099ff;
   border: 1px solid #0099ff;
   border-right: none;
 }
 
-/* line 41, ../../app/stylesheets/partials/_application.sass */
+/* line 50, ../../app/stylesheets/partials/_application.sass */
 #recent-order-books .asks {
   display: inline;
   float: left;
@@ -1388,7 +1447,7 @@ form.formtastic abbr, form.formtastic acronym {
 #recent-order-books .asks table caption em {
   font-weight: bold;
 }
-/* line 43, ../../app/stylesheets/partials/_application.sass */
+/* line 52, ../../app/stylesheets/partials/_application.sass */
 #recent-order-books .bids {
   display: inline;
   float: left;
@@ -1454,19 +1513,19 @@ form.formtastic abbr, form.formtastic acronym {
   font-weight: bold;
 }
 
-/* line 47, ../../app/stylesheets/partials/_application.sass */
+/* line 56, ../../app/stylesheets/partials/_application.sass */
 #btc {
   width: 98%;
   height: 460px;
 }
 
-/* line 51, ../../app/stylesheets/partials/_application.sass */
+/* line 60, ../../app/stylesheets/partials/_application.sass */
 #btc_pricing_graph {
   width: 98%;
   height: 450px;
 }
 
-/* line 55, ../../app/stylesheets/partials/_application.sass */
+/* line 64, ../../app/stylesheets/partials/_application.sass */
 #user-order-book {
   overflow: hidden;
   *zoom: 1;
@@ -1533,7 +1592,7 @@ form.formtastic abbr, form.formtastic acronym {
   font-weight: bold;
 }
 
-/* line 59, ../../app/stylesheets/partials/_application.sass */
+/* line 68, ../../app/stylesheets/partials/_application.sass */
 #user-funds {
   overflow: hidden;
   *zoom: 1;
@@ -1600,7 +1659,7 @@ form.formtastic abbr, form.formtastic acronym {
   font-weight: bold;
 }
 
-/* line 63, ../../app/stylesheets/partials/_application.sass */
+/* line 72, ../../app/stylesheets/partials/_application.sass */
 #user-trade-book {
   overflow: hidden;
   *zoom: 1;
@@ -1667,16 +1726,16 @@ form.formtastic abbr, form.formtastic acronym {
   font-weight: bold;
 }
 
-/* line 67, ../../app/stylesheets/partials/_application.sass */
+/* line 76, ../../app/stylesheets/partials/_application.sass */
 .more {
   text-align: right;
 }
 
-/* line 71, ../../app/stylesheets/partials/_application.sass */
+/* line 79, ../../app/stylesheets/partials/_application.sass */
 .market_price_ticker {
   padding-left: 280px;
 }
-/* line 73, ../../app/stylesheets/partials/_application.sass */
+/* line 81, ../../app/stylesheets/partials/_application.sass */
 .market_price_ticker div {
   display: -moz-inline-box;
   -moz-box-orient: vertical;

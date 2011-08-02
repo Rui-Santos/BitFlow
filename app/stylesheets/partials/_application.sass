@@ -11,6 +11,15 @@
 #content
   min-height: 20 * $blueprint-grid-width
 
+#footer
+  +clearfix
+  ul
+    +delimited-list("|")
+    li a
+      +button-base
+      border-width: 0
+    
+  
 form.formtastic abbr, form.formtastic acronym
   color: #FF0000
   border-color: #FF0000
@@ -66,7 +75,6 @@ form.formtastic abbr, form.formtastic acronym
 
 .more
   text-align: right
-
 
 .market_price_ticker
   +prepend(7)
