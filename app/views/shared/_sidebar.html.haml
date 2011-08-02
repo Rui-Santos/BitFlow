@@ -7,7 +7,7 @@
   - else
     %li= link_to_current 'Home', root_url
     %li= link_to_current 'Dashboard', welcome_index_url
-    %li= link_to_current 'My Wallet', wallet_url
+    %li= link_to_current 'My Wallet', user_wallets_url
     %li= link_to_current 'BTC Instant Order', new_order_url(:type => :instant)
     %li= link_to_current 'BTC Market Order', new_order_url(:type => :market)
     %li= link_to_current 'BTC Limit Order', new_order_url(:type => :limit)

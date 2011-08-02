@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
   has_many :funds
   has_many :bankaccounts
   has_many :fund_deposits
+  has_one :user_wallet
 
   after_create do |record| 
     record.funds = [Fund.new(:fund_type => 'BTC'), Fund.new(:fund_type => 'USD')]

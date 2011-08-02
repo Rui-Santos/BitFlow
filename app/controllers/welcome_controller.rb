@@ -5,7 +5,5 @@ class WelcomeController < ApplicationController
     @trades = Order.executed(current_user)
     @funds = Fund.where(:user_id => current_user.id)
   end
-  
-  def wallet
-  end
+
 end

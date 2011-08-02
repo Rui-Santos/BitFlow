@@ -2,6 +2,7 @@ BitFlow::Application.routes.draw do
 
   devise_for :users, :controllers => { :registrations => "registrations" }
 
+  resources :user_wallets
   resources :fund_deposits
   resources :bankaccounts, :only => [:index, :new, :create, :destroy]
   resources :asks, :except => [:edit, :update]
@@ -30,7 +31,6 @@ BitFlow::Application.routes.draw do
   match '/signin_help' => 'home#signin_help'
 
   resources :welcome, :only => [:index]
-  match 'wallet' => 'welcome#wallet', :via => :get
 
   root :to => "home#index"
 
