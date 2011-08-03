@@ -13,5 +13,13 @@ class User < ActiveRecord::Base
   has_many :bankaccounts
   has_many :fund_deposits
   has_one :user_wallet
+  
+  def btc
+    Fund.find_btc(self.id)
+  end
+
+  def usd
+    Fund.find_usd(self.id)
+  end
 
 end

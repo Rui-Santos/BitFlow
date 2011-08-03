@@ -3,7 +3,7 @@ class TradeApiController < ApiController
   def balance
     respond_to do |format|
       format.json do 
-        render :json => {:btc => {:available => 0 , :total => 0, :reserved => 0}, :usd => {:available => 0, :total => 0, :reserved => 0}}
+        render :json => {:btc => @current_user.btc, :usd => @current_user.usd}
       end
     end
     
