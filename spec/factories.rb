@@ -20,7 +20,7 @@ FactoryGirl.define do
 
   factory :admin_setting, :class => Setting do
     setting_type 'admin'
-    data :minimum_commission_fee => 0.50, :daily_withdrawal_limit => 10000,:monthly_withdrawal_limit =>  10000,:circuit_breaker_change_percent => 5, :circuit_breaker_change_period => 8.hours
+    data :commission_fee => 0.50, :daily_withdrawal_limit => 10000,:monthly_withdrawal_limit =>  10000,:circuit_breaker_change_percent => 5, :circuit_breaker_change_period => 8.hours
   end
 
   factory :ask, :class => Ask do

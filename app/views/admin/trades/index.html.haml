@@ -16,7 +16,7 @@
           %td #{"#{trade.bid.amount} BTC at #{trade.bid.price} USD"}
           %td #{"#{trade.ask.amount} BTC at #{trade.ask.price} USD"}
           %td #{trade.market_price.to_f}
-          %td #{Commission::AMOUNT} USD
+          %td 0.0 USD
 
       %tr{class: cycle("odd", "even")}
         %td= paginate @trades

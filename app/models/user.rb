@@ -41,4 +41,9 @@ class User < ActiveRecord::Base
     record.funds = [Fund.new(:fund_type => 'BTC'), Fund.new(:fund_type => 'USD')]
   end
 
+  def referral_code_unused?
+    usd_fund = Fund.find_usd(self.id)
+    User.where(:referrer_fund_id => usd_fund.id).first.nil?
+  end
+
 end
