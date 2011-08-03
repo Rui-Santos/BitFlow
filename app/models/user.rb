@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
-  # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable
+  # , :encryptable, :confirmable, :lockable, :timeoutable
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable, :lockable, :timeoutable
   
@@ -27,23 +27,15 @@ class User < ActiveRecord::Base
     @referrer_code
   end
 
-  before_create do |user|
-    user.referral_code = user.email + "77"
-
-    unless @referrer_code.blank?
-      referrer = User.where(:referral_code => @referrer_code).first
-      referrer_usd_fund = referrer.funds.detect {|fund| fund.fund_type == 'USD'}
-      user.referrer_fund_id = referrer_usd_fund.id
-    end
-  end
-
-  after_create do |record| 
-    record.funds = [Fund.new(:fund_type => 'BTC'), Fund.new(:fund_type => 'USD')]
-  end
-
   def referral_code_unused?
-    usd_fund = Fund.find_usd(self.id)
-    User.where(:referrer_fund_id => usd_fund.id).first.nil?
+    User.where(:referrer_fund_id => usd.id).first.nil?
+  end
+  
+  def btc
+    Fund.find_btc(self.id)
   end
 
+  def usd
+    Fund.find_usd(self.id)
+  end
 end

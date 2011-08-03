@@ -46,6 +46,8 @@ BitFlow::Application.routes.draw do
     match 'settings/update' => 'settings#update', :via => :post
   end
 
+  match '/v1/balance' => 'trade_api#balance'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

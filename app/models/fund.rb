@@ -2,6 +2,11 @@ class Fund < ActiveRecord::Base
   belongs_to :user
   has_many :btc_fund_transfers  
   
+  module Type
+    BTC = 'BTC'
+    USD = 'USD'
+  end
+  
   def self.update_seller_btc_fund_on_execution(ask)
     ask_btc_fund = Fund.find_btc(ask.user_id)
     ask_btc_fund.update_attributes(:amount => (ask_btc_fund.amount - ask.amount),
@@ -27,11 +32,11 @@ class Fund < ActiveRecord::Base
   end
   
   def self.find_btc(user_id)
-    Fund.first(:conditions => {:user_id => user_id, :fund_type => 'BTC'})
+    Fund.first(:conditions => {:user_id => user_id, :fund_type => Fund::Type::BTC})
   end
   
   def self.find_usd(user_id)
-    Fund.first(:conditions => {:user_id => user_id, :fund_type => 'USD'})
+    Fund.first(:conditions => {:user_id => user_id, :fund_type => Fund::Type::USD})
   end
   
   def self.update_buyer_usd_fund_on_cancel(bid)
@@ -45,6 +50,10 @@ class Fund < ActiveRecord::Base
     btc_fund = Fund.find_btc(ask.user_id)
     btc_fund.update_attributes(:available => (btc_fund.available + ask.amount), 
                               :reserved => (btc_fund.reserved - ask.amount))
+  end
+  
+  def to_json(*args)
+    {:amount => amount.to_f, :available => available.to_f, :reserved => reserved.to_f}.to_json(args)
   end
   
 end

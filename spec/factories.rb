@@ -11,6 +11,18 @@ FactoryGirl.define do
     available 100
   end
 
+  factory :usd_fund, :class => Fund do
+    amount 100
+    available 100
+    fund_type 'USD'
+  end
+
+  factory :btc_fund, :class => Fund do
+    amount 100
+    available 100
+    fund_type 'BTC'
+  end
+
   factory :admin, :class => User do
     name 'Admin'
     sequence(:email) { |n| "admin#{n}@example.com"}

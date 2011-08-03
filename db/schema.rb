@@ -10,13 +10,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110803104222) do
+ActiveRecord::Schema.define(:version => 20110803144039) do
 
   create_table "asks", :force => true do |t|
     t.decimal  "price",            :precision => 15, :scale => 10
     t.decimal  "amount",           :precision => 15, :scale => 10
     t.string   "currency"
-    t.string   "status",                                                            :null => false
+    t.string   "status"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -36,10 +36,10 @@ ActiveRecord::Schema.define(:version => 20110803104222) do
     t.decimal  "price",            :precision => 15, :scale => 10
     t.decimal  "amount",           :precision => 15, :scale => 10
     t.string   "currency"
-    t.string   "status",                                                            :null => false
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "status",                                           :default => ""
     t.decimal  "amount_remaining", :precision => 15, :scale => 10, :default => 0.0
   end
 
@@ -138,6 +138,8 @@ ActiveRecord::Schema.define(:version => 20110803104222) do
     t.string   "name"
     t.string   "referral_code"
     t.integer  "referrer_fund_id"
+    t.string   "token"
+    t.string   "secret"
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
