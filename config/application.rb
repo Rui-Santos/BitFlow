@@ -42,5 +42,7 @@ module BitFlow
     config.generators do |g|
       g.template_engine :haml
     end
+    
+    Recaptcha.configuration.skip_verify_env = ["development"]
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110802170509) do
+ActiveRecord::Schema.define(:version => 20110803104222) do
 
   create_table "asks", :force => true do |t|
     t.decimal  "price",            :precision => 15, :scale => 10
@@ -136,7 +136,8 @@ ActiveRecord::Schema.define(:version => 20110802170509) do
     t.datetime "updated_at"
     t.boolean  "admin",                                 :default => false
     t.string   "name"
-    t.string   "bitcoin_address"
+    t.string   "referral_code"
+    t.integer  "referrer_fund_id"
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
