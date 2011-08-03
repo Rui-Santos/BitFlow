@@ -43,7 +43,7 @@ class UserWalletsController < ApplicationController
   end
 
   def fetch_btc_fund_transfers
-      @btc_fund_transfers = BtcFundTransfer.where(:user_id => current_user.id)
+      @btc_fund_transfers = BtcFundTransfer.order("updated_at desc").where(:user_id => current_user.id)
   end
 
 end

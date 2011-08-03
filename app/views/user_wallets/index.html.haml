@@ -25,7 +25,8 @@
         %th Date
         %th Description
         %th BTC Change
-        %th.last Status
+        %th Status
+        %th.last Notes
     %tbody
       - @btc_fund_transfers.each do |btc_fund_transfer|
         %tr{class: cycle("odd", "even")}
@@ -33,8 +34,6 @@
           %td= description btc_fund_transfer.description
           %td= btc_change btc_fund_transfer.amount.to_f, btc_fund_transfer.transaction_type
           %td= btc_fund_transfer.status
+          %td= btc_notes btc_fund_transfer.destination_btc_address, btc_fund_transfer.send_message
       %tr{class: cycle("odd", "even")}
-        %td
-        %td
-        %td
         %td= link_to 'Send Payment', new_btc_fund_transfer_path	     
