@@ -43,6 +43,7 @@ BitFlow::Application.routes.draw do
     resources :trades, :only => [:index, :show], :controllers => 'trades'
     resources :fund_deposits, :only => [:index, :update], :controllers => 'admin/fund_deposits'
     resources :search_criterias, :controllers => 'admin/fund_deposits'
+    match 'settings/update' => 'settings#update', :via => :post
   end
 
   # The priority is based upon order of creation:
