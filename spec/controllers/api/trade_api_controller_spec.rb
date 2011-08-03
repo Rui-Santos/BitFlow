@@ -1,19 +1,21 @@
 require File.expand_path(File.dirname(__FILE__) + '../../../spec_helper')
 
 describe TradeApiController do
-  describe "authorization" do
-    it "unauthorized if token and secret is not provided" do
-      get :balance
-      response.status.should == 401
-    end
+  describe "balance" do
+    describe "authorization" do
+      it "unauthorized if token and secret is not provided" do
+        get :balance
+        response.status.should == 401
+      end
 
-    it "unauthorized if token and secret is invalid" do
-      user = Factory.create(:user, :token => 10, :secret => 100)
-      user.reload
-      get :balance, :token => user.token, :secret => 'xxx'
-      response.status.should == 401
+      it "unauthorized if token and secret is invalid" do
+        user = Factory.create(:user, :token => 10, :secret => 100)
+        user.reload
+        get :balance, :token => user.token, :secret => 'xxx'
+        response.status.should == 401
+      end
     end
-    describe "authorized" do
+    describe "balance values" do
       before(:each) do
         @user = Factory.create(:user, :token => 10, :secret => 100)
         @user.reload
@@ -37,7 +39,7 @@ describe TradeApiController do
 
         usd_fund = @user.funds.detect{|f| f.fund_type == Fund::Type::USD}
         usd_fund.update_attributes(:amount => 10.87, :reserved => 3.12, :available => 7.75)
-        
+
         get :balance, :token => @user.token, :secret => @user.secret, :format => :json
         response.should be_success
         balances = JSON.parse(response.body)
@@ -49,7 +51,9 @@ describe TradeApiController do
         balances["usd"]["reserved"].should == 3.12
         balances["usd"]["available"].should == 7.75
       end
-      
+
     end
+    
   end
+
 end

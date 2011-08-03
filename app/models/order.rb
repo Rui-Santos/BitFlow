@@ -82,4 +82,8 @@ class Order < ActiveRecord::Base
   def currency=(cur)
     write_attribute(cur || "USD")
   end
+  
+  def to_json(*args)
+    {:price => price, :amount => amount, :currency => currency, :status => status}
+  end
 end

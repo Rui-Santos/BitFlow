@@ -87,4 +87,8 @@ class Ask < Order
     ask.status = Order::Status::COMPLETE if ask.amount_remaining == 0
     ask.save
   end
+
+  def to_json(*args)
+    super(*args).merge(:type => 'ask')
+  end
 end

@@ -82,4 +82,9 @@ class Bid < Order
     bid.status = Order::Status::COMPLETE if bid.amount_remaining == 0
     bid.save
   end
+  
+  def to_json(*args)
+    super(*args).merge(:type => 'ask')
+  end
+  
 end
