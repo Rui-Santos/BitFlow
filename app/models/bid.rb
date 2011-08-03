@@ -17,7 +17,7 @@ class Bid < Order
     self.amount_remaining = self.amount.to_f
     usd_fund = Fund.find_usd(self.user_id)
     total_bid_amount = self.amount * self.price
-    commission = Commission.amount(self.user_id)
+    commission = Commission.amount(self.user)
     if (total_bid_amount + commission) <= usd_fund.available
       usd_fund.update_attributes(:amount => (usd_fund.amount - commission),
                                   :available => (usd_fund.available - total_bid_amount - commission),

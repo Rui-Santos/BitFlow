@@ -38,4 +38,7 @@ class User < ActiveRecord::Base
   def usd
     Fund.find_usd(self.id)
   end
+  def undiscounted_commission?
+    self.referrer_fund_id.nil? || self.referrer_fund_id == 0 || referral_code_unused?
+  end
 end
