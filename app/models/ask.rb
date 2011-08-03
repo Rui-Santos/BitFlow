@@ -9,7 +9,7 @@ class Ask < Order
     ask.amount_remaining = ask.amount
     btc_fund = Fund.find_btc(ask.user_id)
     usd_fund = Fund.find_usd(ask.user_id)
-    commission = Commission.amount(ask.user_id)
+    commission = Commission.amount(ask.user)
     if ask.amount <= btc_fund.available
       if commission <= usd_fund.available
         btc_fund.update_attributes(:available => (btc_fund.available - ask.amount), 

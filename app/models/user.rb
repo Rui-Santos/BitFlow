@@ -46,4 +46,8 @@ class User < ActiveRecord::Base
     User.where(:referrer_fund_id => usd_fund.id).first.nil?
   end
 
+  def undiscounted_commission?
+    self.referrer_fund_id.nil? || self.referrer_fund_id == 0 || referral_code_unused?
+  end
+
 end
