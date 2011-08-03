@@ -5,6 +5,10 @@ class Bid < Order
 
   before_create :adjust_funds
 
+  def after_initialize
+    self.status = Order::Status::ACTIVE
+  end
+  
   def self.order_queue(value)
     active.greater_price_than(value).oldest
   end

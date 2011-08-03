@@ -15,8 +15,7 @@ class AsksController < ApplicationController
   def create
     @ask = Ask.new(:user_id => current_user.id, 
                    :amount => params[:ask][:amount], 
-                   :price => params[:ask][:price], 
-                   :status => Order::Status::ACTIVE)
+                   :price => params[:ask][:price])
 
     respond_to do |format|
       if @ask.save

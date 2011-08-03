@@ -13,11 +13,26 @@ class TradeApiController < ApiController
     
   end
   
-  def buy
-    
+  def bid
+    @bid = Bid.new(:user_id => @current_user.id, 
+                   :amount => params[:amount], 
+                   :price => params[:price])
+    if @bid.save
+      head 201
+    else
+      render :json @bid.errors
+    end
   end
   
-  def sell
+  def ask
+    @ask = Ask.new(:user_id => @current_user.id, 
+                   :amount => params[:amount], 
+                   :price => params[:price])
+    if @ask.save
+      head 201
+    else
+      render :json @ask.errors
+    end
     
   end
   

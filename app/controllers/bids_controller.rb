@@ -15,8 +15,7 @@ class BidsController < ApplicationController
   def create
     @bid = Bid.new(:user_id => current_user.id, 
                    :amount => params[:bid][:amount], 
-                   :price => params[:bid][:price], 
-                   :status => Order::Status::ACTIVE)
+                   :price => params[:bid][:price])
 
     respond_to do |format|
       if @bid.save

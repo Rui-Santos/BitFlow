@@ -18,11 +18,11 @@ class User < ActiveRecord::Base
   has_one :user_wallet
   has_many :btc_fund_transfers
 
-  def initialize(params)
-    @referrer_code = params.delete(:referrer_code)
-    super
+  def initialize(params =nil)
+    @referrer_code = params.delete(:referrer_code) if params
+    super(params)
   end
-
+  
   def referrer_code
     @referrer_code
   end

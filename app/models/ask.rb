@@ -4,6 +4,11 @@ class Ask < Order
 
   before_create :adjust_funds
 
+
+  def after_initialize
+    self.status = Order::Status::ACTIVE
+  end
+
   def adjust_funds
     ask = self
     ask.amount_remaining = ask.amount

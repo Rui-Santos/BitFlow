@@ -136,10 +136,10 @@ ActiveRecord::Schema.define(:version => 20110803144039) do
     t.datetime "updated_at"
     t.boolean  "admin",                                 :default => false
     t.string   "name"
-    t.string   "referral_code"
-    t.integer  "referrer_fund_id"
     t.string   "token"
     t.string   "secret"
+    t.string   "referral_code"
+    t.integer  "referrer_fund_id"
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
