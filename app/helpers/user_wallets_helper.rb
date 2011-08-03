@@ -16,6 +16,6 @@ module UserWalletsHelper
 	end
 
 	def btc_notes destination_btc_address, send_message
-		"Sent to #{destination_btc_address} with message '#{send_message}'"
+		"Sent to '#{destination_btc_address}' with message '#{send_message}'"
 	end
 end
