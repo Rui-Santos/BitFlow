@@ -221,6 +221,7 @@ GEM
       kgio (~> 2.4)
       rack
       raindrops (~> 0.6)
+    uuidtools (2.1.2)
     warden (1.0.4)
       rack (>= 1.0)
     watchr (0.7)
@@ -264,6 +265,7 @@ DEPENDENCIES
   sqlite3
   sqlite3-ruby
   unicorn
+  uuidtools (~> 2.1.1)
   watchr
   webrat
   wirble

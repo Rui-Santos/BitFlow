@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
-  # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable
+  # , :encryptable, :confirmable, :lockable, :timeoutable
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable, :lockable, :timeoutable
 
@@ -14,7 +14,4 @@ class User < ActiveRecord::Base
   has_many :fund_deposits
   has_one :user_wallet
 
-  after_create do |record| 
-    record.funds = [Fund.new(:fund_type => 'BTC'), Fund.new(:fund_type => 'USD')]
-  end  
 end

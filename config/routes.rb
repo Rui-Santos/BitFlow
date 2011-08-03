@@ -44,6 +44,8 @@ BitFlow::Application.routes.draw do
     resources :search_criterias, :controllers => 'admin/fund_deposits'
   end
 
+  match '/v1/balance' => 'trade_api#balance'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
