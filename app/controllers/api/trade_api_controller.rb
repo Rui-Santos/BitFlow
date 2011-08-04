@@ -18,7 +18,7 @@ class TradeApiController < ApiController
                    :amount => params[:amount], 
                    :price => params[:price])
     if @bid.save
-      head 201
+      head :created, :location => bid_path(@bid)
     else
       render :json  => @bid.errors
     end
@@ -29,14 +29,10 @@ class TradeApiController < ApiController
                    :amount => params[:amount], 
                    :price => params[:price])
     if @ask.save
-      head 201
+      head :created, :location => ask_path(@ask)
     else
       render :json =>  @ask.errors
     end
-    
   end
   
-  def cancel
-    
-  end
 end

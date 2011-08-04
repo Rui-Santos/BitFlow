@@ -83,22 +83,9 @@ describe TradeApiController do
       end
 
       it "should show previous orders" do
-        btc_fund = @user.funds.detect{|f| f.fund_type == Fund::Type::BTC}
-        btc_fund.update_attributes(:amount => 98.11, :reserved => 78.02, :available => 20.09)
-
-        usd_fund = @user.funds.detect{|f| f.fund_type == Fund::Type::USD}
-        usd_fund.update_attributes(:amount => 10.87, :reserved => 3.12, :available => 7.75)
-
-        get :balance, :token => @user.token, :secret => @user.secret, :format => :json
+        
+        get :orders, :token => @user.token, :secret => @user.secret, :format => :json
         response.should be_success
-        balances = JSON.parse(response.body)
-        balances["btc"]["amount"].should == 98.11
-        balances["btc"]["reserved"].should == 78.02
-        balances["btc"]["available"].should == 20.09
-
-        balances["usd"]["amount"].should == 10.87
-        balances["usd"]["reserved"].should == 3.12
-        balances["usd"]["available"].should == 7.75
       end
 
     end
