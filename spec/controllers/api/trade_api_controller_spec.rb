@@ -78,11 +78,11 @@ describe TradeApiController do
       it "authorized if token and secret are provided for a new user" do
         get :orders, :token => @user.token, :secret => @user.secret, :format => :json
         response.should be_success
-        balances = JSON.parse(response.body)
+        orders = JSON.parse(response.body)
         orders.should be_empty
       end
 
-      it "authorized if token and secret are provided for an existing user" do
+      it "should show previous orders" do
         btc_fund = @user.funds.detect{|f| f.fund_type == Fund::Type::BTC}
         btc_fund.update_attributes(:amount => 98.11, :reserved => 78.02, :available => 20.09)
 

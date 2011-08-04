@@ -20,7 +20,7 @@ class TradeApiController < ApiController
     if @bid.save
       head 201
     else
-      render :json @bid.errors
+      render :json  => @bid.errors
     end
   end
   
@@ -31,7 +31,7 @@ class TradeApiController < ApiController
     if @ask.save
       head 201
     else
-      render :json @ask.errors
+      render :json =>  @ask.errors
     end
     
   end
