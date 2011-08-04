@@ -1,6 +1,5 @@
 class FundDepositsController < ApplicationController
   # GET /fund_deposits
-  # GET /fund_deposits.xml
   def index
     @fund_deposits = FundDeposit.order("updated_at desc").where(:user_id => current_user.id)
 
@@ -10,7 +9,6 @@ class FundDepositsController < ApplicationController
   end
 
   # GET /fund_deposits/new
-  # GET /fund_deposits/new.xml
   def new
     @fund_deposit = FundDeposit.new
     @currencies = Currency.values
@@ -22,7 +20,6 @@ class FundDepositsController < ApplicationController
   end
 
   # POST /fund_deposits
-  # POST /fund_deposits.xml
   def create
     @fund_deposit = FundDeposit.new(params[:fund_deposit])
     @fund_deposit.user_id = current_user.id
@@ -42,7 +39,6 @@ class FundDepositsController < ApplicationController
   end
 
   # DELETE /fund_deposits/1
-  # DELETE /fund_deposits/1.xml
   def destroy
     @fund_deposit = FundDeposit.find(params[:id])
     authorised_block(@fund_deposit) {@fund_deposit.update_attribute :status, FundDeposit::Status::CANCELLED}

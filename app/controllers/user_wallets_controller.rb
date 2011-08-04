@@ -6,15 +6,9 @@ class UserWalletsController < ApplicationController
       if @user_wallet
         begin
           bal = BitcoinProxy.balance(@user_wallet.name)
-          if bal != @user_wallet.balance
-            @user_wallet.update_attribute :balance, bal
-          end
-          fetch_btc_fund_transfers
-          format.html { render(:action => 'index') }
+          @user_wallet.update_attribute :balance, bal  unless bal == @user_wallet.balance
         rescue => e
           flash.now[:notice] = 'Error in Wallet Balance fetch'
-          fetch_btc_fund_transfers
-          format.html { render(:action => 'index') }
         end
       else
         begin
@@ -26,19 +20,15 @@ class UserWalletsController < ApplicationController
                                         :user_id => current_user.id
           if @user_wallet.save
             flash.now[:notice] = 'Wallet was successfully created'
-            fetch_btc_fund_transfers
-            format.html { render(:action => 'index') }
           else
             flash.now[:notice] = 'Error in Wallet creation'
-            fetch_btc_fund_transfers
-            format.html { render(:action => 'index') }
           end
         rescue => e
           flash.now[:notice] = 'Error in Bitcoin Address creation'
-          fetch_btc_fund_transfers
-          format.html { render(:action => 'index') }
         end
       end
+      fetch_btc_fund_transfers
+      format.html { render(:action => 'index') }
     end
   end
 
