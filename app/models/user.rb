@@ -41,4 +41,18 @@ class User < ActiveRecord::Base
   def undiscounted_commission?
     self.referrer_fund_id.nil? || self.referrer_fund_id == 0 || referral_code_unused?
   end
+  
+  def commission
+    if undiscounted_commission?
+      Setting.admin.data[:commission_fee]
+    else
+      settings = Setting.admin
+      commission = settings.data[:commission_fee]
+      discount = settings.data[:referral_discount_percentage]
+      commission * ((100 - discount)/100)
+    end
+  end
+  
+  
+  
 end

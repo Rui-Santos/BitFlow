@@ -18,8 +18,10 @@ class BidsController < ApplicationController
     respond_to do |format|
       if @bid.save
         format.html { redirect_to(orders_url, :notice => 'Bid was successfully created.') }
+        format.json { head :created, :location => bid_path(@bid)}
       else
         format.html { render :action => "new" }
+        format.json { render :json => @bid.errors }
       end
     end
   end
@@ -33,7 +35,7 @@ class BidsController < ApplicationController
     
     respond_to do |format|
       format.html { redirect_to(:back) }
-      format.xml  { head :ok }
+      format.json  { head :ok }
     end
   end
 end

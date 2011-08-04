@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110803144039) do
+ActiveRecord::Schema.define(:version => 20110804072509) do
 
   create_table "asks", :force => true do |t|
     t.decimal  "price",            :precision => 15, :scale => 10
@@ -85,6 +85,16 @@ ActiveRecord::Schema.define(:version => 20110803144039) do
     t.datetime "updated_at"
   end
 
+  create_table "sessions", :force => true do |t|
+    t.string   "session_id", :null => false
+    t.text     "data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
+  add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
+
   create_table "settings", :force => true do |t|
     t.string   "data",                       :null => false
     t.integer  "user_id"
@@ -136,10 +146,10 @@ ActiveRecord::Schema.define(:version => 20110803144039) do
     t.datetime "updated_at"
     t.boolean  "admin",                                 :default => false
     t.string   "name"
-    t.string   "token"
-    t.string   "secret"
     t.string   "referral_code"
     t.integer  "referrer_fund_id"
+    t.string   "token"
+    t.string   "secret"
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
