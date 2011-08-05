@@ -1,27 +1,19 @@
 module Admin
   class FundDepositRequestsController < ::Admin::BaseController
-
     def index
       @search_criteria = SearchCriteria.new :email => nil, :account_number => nil
       @fund_deposit_requests = FundDepositRequest.order("updated_at").where(:status => FundDepositRequest::Status::PENDING)
-
       respond_to do |format|
         format.html
       end
     end
-
     def update
       @fund_deposit_request = FundDepositRequest.find(params[:id])
       @fund_deposit_request.update_attribute :status, FundDepositRequest::Status::COMPLETE
-      usd_fund = Fund.find_usd(@fund_deposit_request.user_id)
-      usd_fund.update_attributes(:amount => (usd_fund.amount + @fund_deposit_request.net_amount),
-                                  :available => (usd_fund.available + @fund_deposit_request.net_amount))
-
       respond_to do |format|
         format.html { redirect_to(admin_fund_deposit_requests_url) }
       end
     end
-
     def search
       @search_criteria = SearchCriteria.new(params[:search_criteria])
       email_criteria = @search_criteria.email.downcase
@@ -41,11 +33,9 @@ module Admin
         sql = "fund_deposit_requests.status = ?"
         @fund_deposit_requests = FundDepositRequest.order("updated_at").joins(:bankaccount).where(sql, FundDepositRequest::Status::PENDING)
       end
-
       respond_to do |format|
         format.html { render :index }
       end
     end
-
   end
 end

@@ -20,6 +20,20 @@ class Fund < ActiveRecord::Base
                               :fund_id => self.id,
                               :btc_withdraw_request_id => vals[:btc_withdraw_request_id]
   end
+  def credit vals
+    update_attributes(:amount => (amount + vals[:amount]),
+                      :available => (amount + vals[:amount] - reserved))
+    FundTransactionDetail.create :amount => vals[:amount],
+                              :tx_type => FundTransactionDetail::TransactionType::CREDIT,
+                              :tx_code => vals[:tx_code],
+                              :currency => vals[:currency],
+                              :status => vals[:status],
+                              :message => vals[:message],
+                              :user_id => vals[:user_id],
+                              :fund_id => self.id,
+                              :btc_withdraw_request_id => vals[:btc_withdraw_request_id],
+                              :fund_deposit_request_id => vals[:fund_deposit_request_id]
+  end
   def self.update_seller_btc_fund_on_execution(ask)
     ask_btc_fund = Fund.find_btc(ask.user_id)
     ask_btc_fund.update_attributes(:amount => (ask_btc_fund.amount - ask.amount),
