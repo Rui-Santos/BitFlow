@@ -7,10 +7,12 @@ class UserObserver < ActiveRecord::Observer
   def before_create(user)
     user.referral_code = user.email + "77"
 
-    unless @referrer_code.blank?
-      referrer = User.where(:referral_code => @referrer_code).first
+    puts "((((((((())))))))) #{user.referrer_code}" 
+    unless user.referrer_code.blank?
+      referrer = User.where(:referral_code => user.referrer_code).first
       referrer_usd_fund = referrer.funds.detect {|fund| fund.fund_type == 'USD'}
       user.referrer_fund_id = referrer_usd_fund.id
+      puts "****** refferer_fund_id #{user.referrer_fund_id}"
     end
   end
 
