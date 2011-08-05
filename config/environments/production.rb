@@ -47,5 +47,7 @@ BitFlow::Application.configure do
   config.action_mailer.default_url_options = { :host => 'ec2-46-137-131-15.eu-west-1.compute.amazonaws.com' }
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
-  
+
+  require 'rack/ssl'
+  config.middleware.use Rack::SSL
 end

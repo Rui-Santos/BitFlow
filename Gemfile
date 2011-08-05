@@ -21,7 +21,8 @@ gem 'jquery-rails'
 gem 'haml'
 gem 'haml-rails'
 gem 'sass'
-gem "compass"
+gem 'compass'
+gem 'rack-ssl'
 
 # Deploy with Capistrano
 gem 'capistrano'
