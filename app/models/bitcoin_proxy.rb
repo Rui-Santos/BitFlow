@@ -27,6 +27,10 @@ class BitcoinProxy
   def self.all_addresses(accountName)
     ServiceProxy.new('http://bitflow:as@127.0.0.1:8332').getaddressesbyaccount(accountName)
   end
+  
+  def self.sendfrom(accountName, address, amount, comment, comment_to)
+    ServiceProxy.new('http://bitflow:as@127.0.0.1:8332').sendfrom(accountName, address, amount, comment, comment_to)
+  end
 
 end
 
