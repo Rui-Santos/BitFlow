@@ -21,3 +21,20 @@ pid "#{shared_folder}/pids/unicorn.pid"
 # Set the path of the log files inside the log folder of the testapp
 stderr_path "#{source_folder}/log/unicorn.stderr.log"
 stdout_path "#{source_folder}/log/unicorn.stdout.log"
+
+before_fork do |server, worker|
+  defined?(ActiveRecord::Base) && ActiveRecord::Base.connection.disconnect!
+
+  old_pid = RAILS_ROOT + '/tmp/pids/unicorn.pid.oldbin'
+  if File.exists?(old_pid) && server.pid != old_pid
+    begin
+      Process.kill("QUIT", File.read(old_pid).to_i)
+    rescue Errno::ENOENT, Errno::ESRCH
+      puts "Old master alerady dead"
+    end
+  end
+end
+
+after_fork do |server, worker|
+  defined?(ActiveRecord::Base) && ActiveRecord::Base.establish_connection
+end
