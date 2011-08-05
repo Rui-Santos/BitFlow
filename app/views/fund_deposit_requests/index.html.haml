@@ -1,0 +1,37 @@
+#user-fund-deposit-request
+  %table
+    %caption
+      %em My Fund Deposit Requests
+    %thead
+      %tr
+        %th Bank Name
+        %th Account Number
+        %th Amount
+        %th Net Amount
+        %th Currency
+        %th Requested at
+        %th Status
+        %th Last updated at
+        %th.last
+    %tbody
+      - @fund_deposit_requests.each do |fund_deposit_request|
+        %tr{class: cycle("odd", "even")}
+          %td= fund_deposit_request.bankaccount.name
+          %td= fund_deposit_request.bankaccount.number
+          %td= fund_deposit_request.amount
+          %td= fund_deposit_request.net_amount
+          %td= fund_deposit_request.currency
+          %td= fund_deposit_request.created_at
+          %td= fund_deposit_request.status
+          %td= fund_deposit_request.updated_at
+          %td= link_to('Cancel', fund_deposit_request, :confirm => 'Are you sure to cancel this fund deposit request?', :method => :delete) if fund_deposit_request.status == 'pending'
+      %tr{class: cycle("odd", "even")}
+        %td
+        %td
+        %td
+        %td
+        %td
+        %td
+        %td
+        %td
+        %td= link_to 'Request Fund deposit', new_fund_deposit_request_path

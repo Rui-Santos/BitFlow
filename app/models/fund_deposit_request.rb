@@ -1,4 +1,4 @@
-class FundDeposit < ActiveRecord::Base
+class FundDepositRequest < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :bankaccount

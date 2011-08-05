@@ -4,7 +4,7 @@ BitFlow::Application.routes.draw do
 
   resources :btc_fund_transfers
   resources :user_wallets
-  resources :fund_deposits
+  resources :fund_deposit_requests
   resources :bankaccounts, :only => [:index, :new, :create, :destroy]
   resources :asks, :except => [:edit, :update]
   resources :bids, :except => [:edit, :update]
@@ -38,10 +38,10 @@ BitFlow::Application.routes.draw do
   namespace :admin do
     root :to => 'settings#edit'
     match '/signin_help' => 'home#signin_help'
-    match 'fund_deposits/search' => 'fund_deposits#search', :via => :post
+    match 'fund_deposit_requests/search' => 'fund_deposit_requests#search', :via => :post
     resources :orders, :only => [:index, :show], :controllers => 'orders'
     resources :trades, :only => [:index, :show], :controllers => 'trades'
-    resources :fund_deposits, :only => [:index, :update], :controllers => 'admin/fund_deposits'
+    resources :fund_deposit_requests, :only => [:index, :update], :controllers => 'admin/fund_deposit_requests'
     resources :search_criterias, :controllers => 'admin/fund_deposits'
     match 'settings/update' => 'settings#update', :via => :post
   end
