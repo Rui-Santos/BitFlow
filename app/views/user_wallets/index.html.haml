@@ -28,12 +28,12 @@
         %th Status
         %th.last Notes
     %tbody
-      - @btc_fund_transfers.each do |btc_fund_transfer|
+      - @fund_transaction_details.each do |fund_transaction_detail|
         %tr{class: cycle("odd", "even")}
-          %td= btc_fund_transfer.created_at
-          %td= description btc_fund_transfer.description
-          %td= btc_change btc_fund_transfer.amount.to_f, btc_fund_transfer.transaction_type
-          %td= btc_fund_transfer.status
-          %td= btc_notes btc_fund_transfer.destination_btc_address, btc_fund_transfer.send_message
+          %td= fund_transaction_detail.created_at
+          %td= description fund_transaction_detail
+          %td= btc_change fund_transaction_detail
+          %td= fund_transaction_detail.status
+          %td= btc_notes fund_transaction_detail
       %tr{class: cycle("odd", "even")}
-        %td= link_to 'Send Payment', new_btc_fund_transfer_path	     
+        %td= link_to 'Send Payment', new_btc_withdraw_request_path	     

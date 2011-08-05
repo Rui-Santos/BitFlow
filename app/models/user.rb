@@ -14,34 +14,27 @@ class User < ActiveRecord::Base
   has_many :asks
   has_many :funds
   has_many :bankaccounts
-  has_many :fund_deposits
   has_one :user_wallet
-  has_many :btc_fund_transfers
 
   def initialize(params =nil)
     @referrer_code = params.delete(:referrer_code) if params
     super(params)
   end
-  
   def referrer_code
     @referrer_code
   end
-
   def referral_code_unused?
     User.where(:referrer_fund_id => usd.id).first.nil?
   end
-  
   def btc
-    Fund.find_btc(self.id)
+    self.funds.detect {|f| f.fund_type == Fund::Type::BTC}
   end
-
   def usd
-    Fund.find_usd(self.id)
+    self.funds.detect {|f| f.fund_type == Fund::Type::USD}
   end
   def undiscounted_commission?
     self.referrer_fund_id.nil? || self.referrer_fund_id == 0 || referral_code_unused?
   end
-  
   def commission
     if undiscounted_commission?
       Setting.admin.data[:commission_fee]
@@ -52,7 +45,4 @@ class User < ActiveRecord::Base
       commission * ((100 - discount)/100)
     end
   end
-  
-  
-  
 end

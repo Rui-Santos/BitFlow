@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110805105851) do
+ActiveRecord::Schema.define(:version => 20110805125922) do
 
   create_table "asks", :force => true do |t|
     t.decimal  "price",            :precision => 15, :scale => 10
@@ -43,15 +43,12 @@ ActiveRecord::Schema.define(:version => 20110805105851) do
     t.decimal  "amount_remaining", :precision => 15, :scale => 10, :default => 0.0
   end
 
-  create_table "btc_fund_transfers", :force => true do |t|
+  create_table "btc_withdraw_requests", :force => true do |t|
     t.string   "destination_btc_address"
     t.decimal  "amount",                  :precision => 15, :scale => 10
     t.integer  "user_id"
-    t.integer  "fund_id"
-    t.string   "send_message"
+    t.string   "message"
     t.string   "status"
-    t.string   "transaction_type"
-    t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -69,15 +66,19 @@ ActiveRecord::Schema.define(:version => 20110805105851) do
   end
 
   create_table "fund_transaction_details", :force => true do |t|
-    t.decimal  "amount",     :precision => 15, :scale => 10
+    t.decimal  "amount",                  :precision => 15, :scale => 10
     t.string   "tx_type"
-    t.string   "notes"
     t.integer  "user_id"
     t.integer  "fund_id"
     t.string   "tx_code"
     t.string   "currency"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "status"
+    t.string   "message"
+    t.integer  "trade_id"
+    t.integer  "btc_withdraw_request_id"
+    t.integer  "fund_deposit_request_id"
   end
 
   create_table "funds", :force => true do |t|

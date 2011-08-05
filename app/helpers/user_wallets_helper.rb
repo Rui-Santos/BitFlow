@@ -1,21 +1,21 @@
 module UserWalletsHelper
-	def description desc
-		if desc.to_s == BtcFundTransfer::Description::PaymentSent.to_s
+	def description fund_transaction_detail
+		if fund_transaction_detail.tx_code.to_s == FundTransactionDetail::TransactionCode::PAYMENT_SENT.to_s
 			'Payment Sent'
 		else
 			'Unknown'
 		end
 	end
 
-	def btc_change amount, tx_type
-		if tx_type.to_s == BtcFundTransfer::TransactionType::CREDIT.to_s
-			"+ #{amount} BTC"
+	def btc_change fund_transaction_detail
+		if fund_transaction_detail.tx_type.to_s == FundTransactionDetail::TransactionType::CREDIT
+			"+ #{fund_transaction_detail.amount} BTC"
 		else
-			"- #{amount} BTC"
+			"- #{fund_transaction_detail.amount} BTC"
 		end
 	end
 
-	def btc_notes destination_btc_address, send_message
-		"Sent to '#{destination_btc_address}' with message '#{send_message}'"
+	def btc_notes fund_transaction_detail
+		"Sent to '#{fund_transaction_detail.btc_withdraw_request.destination_btc_address}' with message '#{fund_transaction_detail.btc_withdraw_request.message}'"
 	end
 end

@@ -2,7 +2,7 @@ BitFlow::Application.routes.draw do
 
   devise_for :users, :controllers => { :registrations => "registrations" }
 
-  resources :btc_fund_transfers
+  resources :btc_withdraw_requests
   resources :user_wallets
   resources :fund_deposit_requests
   resources :bankaccounts, :only => [:index, :new, :create, :destroy]
