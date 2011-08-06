@@ -40,7 +40,7 @@ class BankaccountsController < ApplicationController
   def destroy
 
     @bankaccount = Bankaccount.find(params[:id])
-    fd = FundDeposit.where(:bankaccount_id => params[:id], :status => FundDeposit::Status::PENDING)
+    fd = FundDepositRequest.where(:bankaccount_id => params[:id], :status => FundDepositRequest::Status::PENDING)
     if fd && fd.size > 0
       @bankaccount.errors.add(:base, 'Bank Name and Account Number cannot be removed as it is listed in a pending fund deposit request.')
     else

@@ -19,6 +19,7 @@ class FundTransactionDetail < ActiveRecord::Base
     PAYMENT_SENT = :payment_sent
     BITCOIN_SOLD = :bitcoin_sold
     BITCOIN_PURCHASED = :bitcoin_purchased
+    COMMISSION = :commission
   end
   
 end

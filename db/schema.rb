@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110805200432) do
+ActiveRecord::Schema.define(:version => 20110806042436) do
 
   create_table "asks", :force => true do |t|
     t.decimal  "price",            :precision => 15, :scale => 10
@@ -80,6 +80,8 @@ ActiveRecord::Schema.define(:version => 20110805200432) do
     t.integer  "trade_id"
     t.integer  "btc_withdraw_request_id"
     t.integer  "fund_deposit_request_id"
+    t.integer  "ask_id"
+    t.integer  "bid_id"
   end
 
   create_table "funds", :force => true do |t|

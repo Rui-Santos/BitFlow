@@ -23,26 +23,70 @@ class User < ActiveRecord::Base
   def referrer_code
     @referrer_code
   end
-  def referral_code_unused?
-    User.where(:referrer_fund_id => usd.id).first.nil?
-  end
   def btc
     self.funds.detect {|f| f.fund_type == Fund::Type::BTC}
   end
   def usd
     self.funds.detect {|f| f.fund_type == Fund::Type::USD}
   end
-  def undiscounted_commission?
-    self.referrer_fund_id.nil? || self.referrer_fund_id == 0 || referral_code_unused?
+  def full_commission?
+    self.referrer_fund_id.nil? || self.referrer_fund_id == 0
   end
   def commission
-    if undiscounted_commission?
+    if full_commission?
       Setting.admin.data[:commission_fee]
     else
       settings = Setting.admin
       commission = settings.data[:commission_fee]
       discount = settings.data[:referral_discount_percentage]
       commission * ((100 - discount)/100)
+    end
+  end
+  def debit_commission(vals)
+    amount = commission
+    if full_commission?
+      usd.debit! :amount => amount,
+                :tx_code => FundTransactionDetail::TransactionCode::COMMISSION,
+                :currency => 'USD',
+                :status => FundTransactionDetail::Status::COMMITTED,
+                :user_id => self.id,
+                :ask_id => vals[:ask_id],
+                :bid_id => vals[:bid_id]
+      AdminUser.usd.credit! :amount => amount,
+                          :tx_code => FundTransactionDetail::TransactionCode::COMMISSION,
+                          :currency => 'USD',
+                          :status => FundTransactionDetail::Status::COMMITTED,
+                          :user_id => AdminUser.id,
+                          :ask_id => vals[:ask_id],
+                          :bid_id => vals[:bid_id]
+    else
+      discount = Setting.admin.data[:referral_discount_percentage]
+      
+      referrer_usd = Fund.find(referrer_fund_id)
+      refferer_credit = amount * (discount/100)
+      admin_credit = amount - refferer_credit
+      
+      usd.debit! :amount => amount,
+                :tx_code => FundTransactionDetail::TransactionCode::COMMISSION,
+                :currency => 'USD',
+                :status => FundTransactionDetail::Status::COMMITTED,
+                :user_id => self.id,
+                :ask_id => vals[:ask_id],
+                :bid_id => vals[:bid_id]
+      AdminUser.usd.credit! :amount => admin_credit,
+                          :tx_code => FundTransactionDetail::TransactionCode::COMMISSION,
+                          :currency => 'USD',
+                          :status => FundTransactionDetail::Status::COMMITTED,
+                          :user_id => AdminUser.id,
+                          :ask_id => vals[:ask_id],
+                          :bid_id => vals[:bid_id]
+      referrer_usd.credit! :amount => refferer_credit,
+                          :tx_code => FundTransactionDetail::TransactionCode::COMMISSION,
+                          :currency => 'USD',
+                          :status => FundTransactionDetail::Status::COMMITTED,
+                          :user_id => referrer_usd.user.id,
+                          :ask_id => vals[:ask_id],
+                          :bid_id => vals[:bid_id]
     end
   end
 end

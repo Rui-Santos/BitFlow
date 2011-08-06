@@ -29,7 +29,8 @@ class BitcoinProxy
   end
   
   def self.sendfrom(accountName, address, amount, comment, comment_to)
-    ServiceProxy.new('http://bitflow:as@127.0.0.1:8332').sendfrom(accountName, address, amount, comment, comment_to)
+    # ServiceProxy.new('http://bitflow:as@127.0.0.1:8332').sendfrom(accountName, address, amount, comment, comment_to)
+    puts "Sending #{amount}BTC from #{accountName} to #{address} with comment #{comment} and comment_to #{comment_to}"
   end
 
 end

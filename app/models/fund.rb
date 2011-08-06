@@ -7,7 +7,7 @@ class Fund < ActiveRecord::Base
     USD = 'USD'
   end
   
-  def debit vals
+  def debit! vals
     update_attributes(:amount => (amount - vals[:amount]),
                       :available => (amount - vals[:amount] - reserved))
     FundTransactionDetail.create :amount => vals[:amount],
@@ -18,9 +18,12 @@ class Fund < ActiveRecord::Base
                               :message => vals[:message],
                               :user_id => vals[:user_id],
                               :fund_id => self.id,
-                              :btc_withdraw_request_id => vals[:btc_withdraw_request_id]
+                              :btc_withdraw_request_id => vals[:btc_withdraw_request_id],
+                              :trade_id => vals[:trade_id],
+                              :ask_id => vals[:ask_id],
+                              :bid_id => vals[:bid_id]
   end
-  def credit vals
+  def credit! vals
     update_attributes(:amount => (amount + vals[:amount]),
                       :available => (amount + vals[:amount] - reserved))
     FundTransactionDetail.create :amount => vals[:amount],
@@ -32,7 +35,18 @@ class Fund < ActiveRecord::Base
                               :user_id => vals[:user_id],
                               :fund_id => self.id,
                               :btc_withdraw_request_id => vals[:btc_withdraw_request_id],
-                              :fund_deposit_request_id => vals[:fund_deposit_request_id]
+                              :fund_deposit_request_id => vals[:fund_deposit_request_id],
+                              :trade_id => vals[:trade_id],
+                              :ask_id => vals[:ask_id],
+                              :bid_id => vals[:bid_id]
+  end
+  def reserve! reserve_amount
+    update_attributes(:reserved => (reserved + reserve_amount),
+                      :available => (amount - (reserved + reserve_amount)))
+  end
+  def unreserve! reserve_amount
+    update_attributes(:reserved => (reserved - reserve_amount),
+                      :available => (amount - (reserved - reserve_amount)))
   end
   def self.update_seller_btc_fund_on_execution(ask)
     ask_btc_fund = Fund.find_btc(ask.user_id)

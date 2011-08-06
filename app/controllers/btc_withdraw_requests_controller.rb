@@ -17,7 +17,7 @@ class BtcWithdrawRequestsController < ApplicationController
           format.html { render :action => "new" }
         end
       else
-        flash.now[:notice] = 'Insufficient BTC fund'
+        flash.now[:notice] = 'Not enough Bitcoin fund available'
         format.html { render :action => "new" }
       end
     end

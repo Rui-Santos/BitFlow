@@ -3,8 +3,6 @@ class Order < ActiveRecord::Base
   validates_numericality_of :price, :amount, :greater_than => 0.0
   
   belongs_to :user
-  
-  after_create :create_trades unless AppConfig.is?('SKIP_TRADE_CREATION', false)
 
   module  Status
     ACTIVE = :active

@@ -12,7 +12,11 @@
   end
 
   def create
-    @ask = Ask.new(:user_id => current_user.id, :amount => params[:ask][:amount], :price => params[:ask][:price])
+    @ask = Ask.new(:user_id => current_user.id, 
+                    :amount => params[:ask][:amount], 
+                    :price => params[:ask][:price],
+                    :amount_remaining => params[:ask][:amount],
+                    :status => Order::Status::ACTIVE)
 
     respond_to do |format|
       if @ask.save
