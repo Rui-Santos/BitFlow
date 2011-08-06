@@ -5,9 +5,8 @@ class OrdersController < ApplicationController
     @bids = Bid.user_transactions(current_user).page(params[:page] || 1)
     respond_to do |format|
       format.html {}
-      format.json { render :json => {:asks => @asks, :bids => @bids}}
+      format.json { render :json => {:asks => @asks, :bids => @bids} }
     end
-    
   end
 
   def new
