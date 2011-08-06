@@ -20,10 +20,12 @@ class UserObserver < ActiveRecord::Observer
                                     :balance => 0.0, 
                                     :user_id => user.id
       unless user_wallet.save
-        user.errors.add('Error in Wallet creation')
+        user.errors.add(:base, 'Error in Wallet creation')
+        return false
       end
     rescue => e
-      user.errors.add('Error in Bitcoin Address creation')
+      user.errors.add(:base, "Error in Bitcoin Address creation: #{e.inspect}")
+      return false
     end
   end
 end

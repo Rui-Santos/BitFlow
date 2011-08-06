@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :referral_code, :allow_blank => true
   
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :referral_code
 
   has_many :hosts
   has_many :bids

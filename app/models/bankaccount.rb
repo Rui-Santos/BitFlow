@@ -10,7 +10,7 @@ class Bankaccount < ActiveRecord::Base
     bank_account = self
     in_db = Bankaccount.where(:name => bank_account.name, :number => bank_account.number, :status => bank_account.status).first
     if in_db
-      bank_account.errors.add_to_base('Bank Name and Account Number already exists')
+      bank_account.errors.add(:base, 'Bank Name and Account Number already exists')
       return false
     else
       return true
