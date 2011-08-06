@@ -37,9 +37,9 @@ class User < ActiveRecord::Base
       Setting.admin.data[:commission_fee]
     else
       settings = Setting.admin
-      commission = settings.data[:commission_fee]
-      discount = settings.data[:referral_discount_percentage]
-      commission * ((100 - discount)/100)
+      commission = settings.data[:commission_fee].to_f
+      discount = settings.data[:referral_discount_percentage].to_f
+      commission * ((100.0 - discount)/100.0)
     end
   end
   def debit_commission(vals)
@@ -60,10 +60,10 @@ class User < ActiveRecord::Base
                           :ask_id => vals[:ask_id],
                           :bid_id => vals[:bid_id]
     else
-      discount = Setting.admin.data[:referral_discount_percentage]
+      discount = Setting.admin.data[:referral_discount_percentage].to_f
       
       referrer_usd = Fund.find(referrer_fund_id)
-      refferer_credit = amount * (discount/100)
+      refferer_credit = amount * (discount/100.0)
       admin_credit = amount - refferer_credit
       
       usd.debit! :amount => amount,
