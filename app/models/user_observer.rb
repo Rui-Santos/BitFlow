@@ -1,9 +1,4 @@
 class UserObserver < ActiveRecord::Observer
-  def after_create(user)
-    user.funds = [Fund.new(:fund_type => Fund::Type::BTC), Fund.new(:fund_type => Fund::Type::USD)]
-    user.token = user.id 
-    user.secret = String.uuid
-  end
   def before_create(user)
     user.referral_code = user.email + "77"
 
@@ -13,6 +8,22 @@ class UserObserver < ActiveRecord::Observer
       user.referrer_fund_id = referrer_usd_fund.id
     end
   end
-
-  
+  def after_create(user)
+    user.funds = [Fund.new(:fund_type => Fund::Type::BTC), Fund.new(:fund_type => Fund::Type::USD)]
+    user.token = user.id 
+    user.secret = String.uuid
+    begin
+      address = BitcoinProxy.new_address(user.email)
+      user_wallet = UserWallet.new :name => user.email, 
+                                    :status => UserWallet::Status::ACTIVE, 
+                                    :address => address, 
+                                    :balance => 0.0, 
+                                    :user_id => user.id
+      unless user_wallet.save
+        user.errors.add('Error in Wallet creation')
+      end
+    rescue => e
+      user.errors.add('Error in Bitcoin Address creation')
+    end
+  end
 end

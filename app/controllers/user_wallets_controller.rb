@@ -27,7 +27,7 @@ class UserWalletsController < ApplicationController
           flash.now[:notice] = 'Error in Bitcoin Address creation'
         end
       end
-      @btc_fund_transfers = BtcFundTransfer.order("updated_at desc").where(:user_id => current_user.id)
+      @fund_transaction_details = FundTransactionDetail.order("updated_at desc").where(:user_id => current_user.id, :currency => 'BTC')
       format.html { render(:action => 'index') }
     end
   end
