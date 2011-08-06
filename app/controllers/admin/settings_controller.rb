@@ -12,7 +12,7 @@ module Admin
       redirect_to :action => :edit
     end
     
-    def parse_settings_from_request setting_params
+    def parse_settings_from_request(setting_params)
       symbolized_values = {}
       setting_params.each do |k, v|
         symbolized_values[(k.to_sym rescue k)] = v.to_f

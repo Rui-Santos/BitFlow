@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p.api_key
+  API Token 
+  - current_user.token
+  %br
+  API Secret 
+  -current_user.secret
+  
+%p.change_email
+  = render 'email_form'
+  

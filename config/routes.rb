@@ -5,6 +5,8 @@ BitFlow::Application.routes.draw do
   resources :btc_fund_transfers
   resources :user_wallets
   resources :fund_deposits
+  resources :users, :only => [:show, :update]
+  
   resources :bankaccounts, :only => [:index, :new, :create, :destroy]
   resources :asks, :except => [:edit, :update]
   resources :bids, :except => [:edit, :update]
@@ -41,13 +43,16 @@ BitFlow::Application.routes.draw do
     match 'fund_deposits/search' => 'fund_deposits#search', :via => :post
     resources :orders, :only => [:index, :show], :controllers => 'orders'
     resources :trades, :only => [:index, :show], :controllers => 'trades'
+
     resources :fund_deposits, :only => [:index, :update], :controllers => 'admin/fund_deposits'
+
     resources :search_criterias, :controllers => 'admin/fund_deposits'
     match 'settings/update' => 'settings#update', :via => :post
   end
 
   # api
   match '/v1/balance' => 'api/trade_api#balance'
+  match '/v1/orders' => 'api/trade_api#orders'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
