@@ -8,11 +8,15 @@
         %th Amount
         %th Reserved
         %th Available
+        %th.last History
     %tbody
       - funds.each do |fund|
         %tr{class: cycle("odd", "even")}
           %td #{fund["fund_type"]}
           %td #{fund["amount"].to_f}
           %td #{fund["reserved"].to_f} 
-          %td #{fund["available"].to_f} 
-      
+          %td #{fund["available"].to_f}
+          - if fund["fund_type"] == 'BTC'
+            %td= link_to "BTC Fund History", user_wallets_url
+          - if fund["fund_type"] == 'USD'
+            %td= link_to "USD Fund History", usd_fund_transaction_details_url

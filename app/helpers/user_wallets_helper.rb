@@ -16,10 +16,18 @@ module UserWalletsHelper
 	end
 
 	def btc_change fund_transaction_detail
+		currency_change fund_transaction_detail, 'BTC'
+	end
+
+	def usd_change fund_transaction_detail
+		currency_change fund_transaction_detail, 'USD'
+	end
+	
+	def currency_change fund_transaction_detail, currency
 		if fund_transaction_detail.tx_type.to_s == FundTransactionDetail::TransactionType::CREDIT.to_s
-			"+ #{fund_transaction_detail.amount} BTC"
+			"+ #{fund_transaction_detail.amount} #{currency}"
 		else
-			"- #{fund_transaction_detail.amount} BTC"
+			"- #{fund_transaction_detail.amount} #{currency}"
 		end
 	end
 
@@ -27,7 +35,7 @@ module UserWalletsHelper
 	  unless fund_transaction_detail.btc_withdraw_request.nil?
 		  "Sent to '#{fund_transaction_detail.btc_withdraw_request.destination_btc_address}' with message '#{fund_transaction_detail.btc_withdraw_request.message}'"
 	  else
-	    ""
+	    "#{fund_transaction_detail.message}"
 	  end
 	end
 end
