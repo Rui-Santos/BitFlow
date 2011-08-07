@@ -2,6 +2,7 @@
   - if current_user.try(:admin?)
     %li= link_to_current 'Settings', admin_root_url
     %li= link_to_current 'Manage Fund Deposits', admin_fund_deposit_requests_url
+    %li= link_to_current 'Manage Fund Withdrawals', admin_fund_withdraw_requests_url
     %li= link_to_current 'Orders', admin_orders_url
     %li= link_to_current 'Trades', admin_trades_url
   - else
@@ -14,7 +15,7 @@
     / %li= link_to_current 'BTC Fixed Mining'
     / %li= link_to_current 'BTC Mining Contract'
     %li= link_to_current 'Deposit Funds', fund_deposit_requests_url
-    / %li= link_to_current 'Withdraw Funds', withdraw_funds_url
+    %li= link_to_current 'Withdraw Funds', fund_withdraw_requests_url
     %li= link_to_current 'Manage Bank Accounts', bankaccounts_url
 
 

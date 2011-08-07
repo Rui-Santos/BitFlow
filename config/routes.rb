@@ -2,6 +2,7 @@ BitFlow::Application.routes.draw do
 
   devise_for :users, :controllers => { :registrations => "registrations" }
 
+  resources :fund_withdraw_requests
   resources :usd_fund_transaction_details
   resources :btc_withdraw_requests
   resources :user_wallets
@@ -45,8 +46,9 @@ BitFlow::Application.routes.draw do
     resources :orders, :only => [:index, :show], :controllers => 'orders'
     resources :trades, :only => [:index, :show], :controllers => 'trades'
     resources :fund_deposit_requests, :only => [:index, :update], :controllers => 'admin/fund_deposit_requests'
-    resources :search_criterias, :controllers => 'admin/fund_deposits'
+    resources :search_criterias, :controllers => 'admin/fund_deposit_requests'
     match 'settings/update' => 'settings#update', :via => :post
+    resources :fund_withdraw_requests, :only => [:index, :update, :show, :edit], :controllers => 'admin/fund_withdraw_requests'
   end
 
   # api

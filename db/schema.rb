@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110806042436) do
+ActiveRecord::Schema.define(:version => 20110807061953) do
 
   create_table "asks", :force => true do |t|
     t.decimal  "price",            :precision => 15, :scale => 10
@@ -67,7 +67,7 @@ ActiveRecord::Schema.define(:version => 20110806042436) do
   end
 
   create_table "fund_transaction_details", :force => true do |t|
-    t.decimal  "amount",                  :precision => 15, :scale => 10
+    t.decimal  "amount",                   :precision => 15, :scale => 10
     t.string   "tx_type"
     t.integer  "user_id"
     t.integer  "fund_id"
@@ -82,6 +82,21 @@ ActiveRecord::Schema.define(:version => 20110806042436) do
     t.integer  "fund_deposit_request_id"
     t.integer  "ask_id"
     t.integer  "bid_id"
+    t.integer  "fund_withdraw_request_id"
+  end
+
+  create_table "fund_withdraw_requests", :force => true do |t|
+    t.string   "currency"
+    t.decimal  "amount",              :precision => 15, :scale => 10
+    t.integer  "user_id"
+    t.string   "message"
+    t.string   "status"
+    t.string   "status_comment"
+    t.decimal  "fee",                 :precision => 15, :scale => 10
+    t.string   "beneficiary_name"
+    t.string   "beneficiary_address"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "funds", :force => true do |t|

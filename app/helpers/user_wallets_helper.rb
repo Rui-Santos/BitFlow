@@ -10,6 +10,10 @@ module UserWalletsHelper
 		  'Bitcoin Purchased'
     elsif fund_transaction_detail.tx_code.to_s == FundTransactionDetail::TransactionCode::COMMISSION.to_s
 		  'Commission'
+    elsif fund_transaction_detail.tx_code.to_s == FundTransactionDetail::TransactionCode::WITHDRAWAL.to_s
+		  'Withdrawal'
+    elsif fund_transaction_detail.tx_code.to_s == FundTransactionDetail::TransactionCode::WITHDRAWAL_FEE.to_s
+		  'Withdrawal Fee'
     else
 			'Unknown'
 		end
