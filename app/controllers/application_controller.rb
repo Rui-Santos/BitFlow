@@ -50,7 +50,7 @@ class ApplicationController < ActionController::Base
     if model.user_id == current_user.id
       yield
     else
-      model.errors.add_to_base('You are not authorized for this action')
+      model.errors.add(:base, 'You are not authorized for this action')
     end
   end
 end

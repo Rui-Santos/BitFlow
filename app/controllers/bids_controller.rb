@@ -34,7 +34,7 @@ class BidsController < ApplicationController
     @bid = Bid.find(params[:id])
     authorised_block(@bid) do 
       @bid.update_attribute :status, Order::Status::CANCELLED
-      Fund.update_buyer_usd_fund_on_cancel @bid
+      @bid.user.usd.unreserve!(@bid.amount_remaining * @bid.price)
     end
     
     respond_to do |format|

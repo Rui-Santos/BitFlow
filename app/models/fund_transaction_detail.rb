@@ -20,6 +20,8 @@ class FundTransactionDetail < ActiveRecord::Base
     BITCOIN_SOLD = :bitcoin_sold
     BITCOIN_PURCHASED = :bitcoin_purchased
     COMMISSION = :commission
+    WITHDRAWAL = :withdrawal
+    WITHDRAWAL_FEE = :withdrawal_fee
   end
   
 end

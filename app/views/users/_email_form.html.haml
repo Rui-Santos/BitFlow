@@ -2,5 +2,8 @@
   = f.inputs "Change Email" do
     = f.semantic_errors :email
     = f.input :email, :label => 'Email', :required => true
-
+    = f.commit_button
+  = f.inputs "Change Referral Code" do
+    = f.semantic_errors :referral_code
+    = f.input :referral_code, :label => 'Referral Code', :required => true
     = f.commit_button
