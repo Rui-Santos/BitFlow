@@ -3,7 +3,7 @@ class AskObserver < ActiveRecord::Observer
     btc_fund = ask.user.btc
     usd_fund = ask.user.usd
     commission = ask.user.commission
-    if ask.amount > btc_fund.available
+    if ask.amount > btc_fund.available || ask.amount > BitcoinProxy.balance(ask.user.email)
       ask.errors.add(:base, "Not enough Bitcoin fund available")
       return false
     end
@@ -75,7 +75,8 @@ class AskObserver < ActiveRecord::Observer
       else
         bid.update_attribute(:amount_remaining, bid_amount_remaining)
       end
-      # BitcoinProxy.sendfrom(ask.user.user_wallet.name, bid.user.user_wallet.address, traded_amount, "trade #{trade.id}", "trade #{trade.id}")
+      tx_id = BitcoinProxy.send_from(ask.user.user_wallet.name, bid.user.user_wallet.address, traded_amount, "trade #{trade.id}", "trade #{trade.id}")
+      trade.update_attribute(:btc_tx_id, tx_id)
     end
     ask.amount_remaining = ask_amount_remaining
     ask.status = Order::Status::COMPLETE if ask.amount_remaining == 0

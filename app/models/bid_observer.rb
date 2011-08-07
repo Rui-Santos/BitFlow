@@ -71,7 +71,8 @@ class BidObserver < ActiveRecord::Observer
       else
         ask.update_attribute(:amount_remaining, ask_amount_remaining)
       end
-      # BitcoinProxy.sendfrom(ask.user.user_wallet.name, bid.user.user_wallet.address, traded_amount, "trade #{trade.id}", "trade #{trade.id}")
+      tx_id = BitcoinProxy.send_from(ask.user.user_wallet.name, bid.user.user_wallet.address, traded_amount, "trade #{trade.id}", "trade #{trade.id}")
+      trade.update_attribute(:btc_tx_id, tx_id)
     end
     bid.amount_remaining = bid_amount_remaining
     bid.status = Order::Status::COMPLETE if bid.amount_remaining == 0
