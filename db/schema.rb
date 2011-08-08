@@ -57,15 +57,16 @@ ActiveRecord::Schema.define(:version => 20110808172755) do
   end
 
   create_table "fund_deposit_requests", :force => true do |t|
-    t.decimal  "amount",         :precision => 15, :scale => 10
+    t.decimal  "amount_requested", :precision => 15, :scale => 10
     t.integer  "bankaccount_id"
     t.integer  "user_id"
     t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "currency"
-    t.decimal  "net_amount",     :precision => 15, :scale => 10
+    t.decimal  "amount_received",  :precision => 15, :scale => 10
     t.string   "deposit_code"
+    t.decimal  "fee",              :precision => 15, :scale => 10
   end
 
   create_table "fund_transaction_details", :force => true do |t|

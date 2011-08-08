@@ -1,0 +1,26 @@
+= semantic_form_for @fund_deposit_request, :url => "/admin/fund_deposit_requests/#{@fund_deposit_request.id}" do |f|
+  = f.inputs "Fund Deposit Request Details" do
+    = f.semantic_errors
+    %table
+      %tbody
+        %tr{class: cycle("odd", "even")}
+          %td= 'User Email:'
+          %td= @fund_deposit_request.user.email
+        %tr{class: cycle("odd", "even")}
+          %td= 'Bank Name:'
+          %td= @fund_deposit_request.bankaccount.name
+        %tr{class: cycle("odd", "even")}
+          %td= 'Account Number:'
+          %td= @fund_deposit_request.bankaccount.number
+        %tr{class: cycle("odd", "even")}
+          %td= 'Amount Requested:'
+          %td= "#{@fund_deposit_request.amount_requested} #{@fund_deposit_request.currency}"
+        %tr{class: cycle("odd", "even")}
+          %td= 'Created At:'
+          %td= @fund_deposit_request.created_at
+        %tr{class: cycle("odd", "even")}
+          %td= 'Updated At:'
+          %td= @fund_deposit_request.updated_at
+    = f.input :amount_received
+    = f.input :fee
+    = f.buttons :commit

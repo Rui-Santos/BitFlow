@@ -7,9 +7,36 @@ module Admin
         format.html
       end
     end
+    def show
+      @fund_deposit_request = FundDepositRequest.find(params[:id])
+    end
     def update
       @fund_deposit_request = FundDepositRequest.find(params[:id])
-      @fund_deposit_request.update_attribute :status, FundDepositRequest::Status::COMPLETE
+      fee = params[:fund_deposit_request][:fee]
+      amount_received = params[:fund_deposit_request][:amount_received].to_f
+      @fund_deposit_request.update_attributes :status => FundDepositRequest::Status::COMPLETE, 
+                                              :amount_received => amount_received,
+                                              :fee => fee
+      @fund_deposit_request.user.usd.credit! :amount => amount_received,
+                                            :currency => 'USD',
+                                            :tx_code => FundTransactionDetail::TransactionCode::PAYMENT_RECEIVED,
+                                            :status => FundTransactionDetail::Status::COMMITTED,
+                                            :user_id => @fund_deposit_request.user.id,
+                                            :fund_deposit_request_id => @fund_deposit_request.id
+      unless fee.blank?
+        AdminUser.usd.credit! :amount => fee.to_f,
+                              :currency => 'USD',
+                              :tx_code => FundTransactionDetail::TransactionCode::DEPOSIT_FEE,
+                              :status => FundTransactionDetail::Status::COMMITTED,
+                              :user_id => AdminUser.id,
+                              :fund_deposit_request_id => @fund_deposit_request.id
+        @fund_deposit_request.user.usd.debit! :amount => fee.to_f,
+                              :currency => 'USD',
+                              :tx_code => FundTransactionDetail::TransactionCode::DEPOSIT_FEE,
+                              :status => FundTransactionDetail::Status::COMMITTED,
+                              :user_id => @fund_deposit_request.user.id,
+                              :fund_deposit_request_id => @fund_deposit_request.id
+      end
       respond_to do |format|
         format.html { redirect_to(admin_fund_deposit_requests_url) }
       end

@@ -45,7 +45,7 @@ BitFlow::Application.routes.draw do
     match 'fund_deposit_requests/search' => 'fund_deposit_requests#search', :via => :post
     resources :orders, :only => [:index, :show], :controllers => 'orders'
     resources :trades, :only => [:index, :show], :controllers => 'trades'
-    resources :fund_deposit_requests, :only => [:index, :update], :controllers => 'admin/fund_deposit_requests'
+    resources :fund_deposit_requests, :only => [:index, :update, :show, :edit], :controllers => 'admin/fund_deposit_requests'
     resources :search_criterias, :controllers => 'admin/fund_deposit_requests'
     match 'settings/update' => 'settings#update', :via => :post
     resources :fund_withdraw_requests, :only => [:index, :update, :show, :edit], :controllers => 'admin/fund_withdraw_requests'

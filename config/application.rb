@@ -22,7 +22,6 @@ module BitFlow
     # Activate observers that should always be running.
     config.active_record.observers = [:user_observer, 
                                       :btc_withdraw_request_observer, 
-                                      :fund_deposit_request_observer, 
                                       :ask_observer, 
                                       :bid_observer,
                                       :fund_withdraw_request_observer]
