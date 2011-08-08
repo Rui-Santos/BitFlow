@@ -18,7 +18,6 @@ class FundWithdrawRequestsController < ApplicationController
     @fund_withdraw_request = FundWithdrawRequest.new(params[:fund_withdraw_request])
     @fund_withdraw_request.user_id = current_user.id
     @fund_withdraw_request.status = FundWithdrawRequest::Status::PENDING
-    @fund_withdraw_request.fee = Setting.admin.data[:fund_withdrawal_fee].to_f
     respond_to do |format|
       if @fund_withdraw_request.save
         format.html { redirect_to(fund_withdraw_requests_url, :notice => 'Fund withdrawal request was successfully created.') }

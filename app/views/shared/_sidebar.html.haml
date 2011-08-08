@@ -1,6 +1,7 @@
 %ul#sidebar-links
   - if current_user.try(:admin?)
     %li= link_to_current 'Settings', admin_root_url
+    %li= link_to_current 'Funds', admin_funds_url    
     %li= link_to_current 'Manage Fund Deposits', admin_fund_deposit_requests_url
     %li= link_to_current 'Manage Fund Withdrawals', admin_fund_withdraw_requests_url
     %li= link_to_current 'Orders', admin_orders_url

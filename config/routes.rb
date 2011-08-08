@@ -43,6 +43,7 @@ BitFlow::Application.routes.draw do
     root :to => 'settings#edit'
     match '/signin_help' => 'home#signin_help'
     match 'fund_deposit_requests/search' => 'fund_deposit_requests#search', :via => :post
+    resources :funds, :only => [:index], :controllers => 'funds'
     resources :orders, :only => [:index, :show], :controllers => 'orders'
     resources :trades, :only => [:index, :show], :controllers => 'trades'
     resources :fund_deposit_requests, :only => [:index, :update, :show, :edit], :controllers => 'admin/fund_deposit_requests'

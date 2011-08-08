@@ -1,0 +1,36 @@
+#admin-funds
+  %table
+    %caption
+      %em My Funds
+    %thead
+      %tr
+        %th Type
+        %th Amount
+        %th Reserved
+        %th.last Available
+    %tbody
+      - @funds.each do |fund|
+        %tr{class: cycle("odd", "even")}
+          %td #{fund["fund_type"]}
+          %td #{fund["amount"].to_f}
+          %td #{fund["reserved"].to_f} 
+          %td #{fund["available"].to_f}
+  %table
+    %caption
+      %em My USD Fund History
+    %thead
+      %tr
+        %th Date
+        %th Description
+        %th USD Change
+        %th Status
+        %th.last Notes
+    %tbody
+      - @usd_fund_transaction_details.each do |fund_transaction_detail|
+        %tr{class: cycle("odd", "even")}
+          %td= fund_transaction_detail.created_at
+          %td= description fund_transaction_detail
+          %td= usd_change fund_transaction_detail
+          %td= fund_transaction_detail.status
+          %td= btc_notes fund_transaction_detail
+  
