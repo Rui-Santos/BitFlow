@@ -1,8 +1,7 @@
 = semantic_form_for @fund_withdraw_request do |f|
   = f.inputs "Request Fund Withdrawal" do
     = f.semantic_errors
-    = f.input :beneficiary_name, :label => 'Beneficiary Name', :required => true
-    = f.input :beneficiary_address, :label => 'Beneficiary Address', :required => true
+    = f.input :bankaccount, :label => 'Bank Details', :as => :select, :collection => @bank_accounts, :include_blank => true, :label_method => :name_account, :required => true
     = f.input :amount, :label => 'Amount', :required => true
     = f.input :currency, :label => 'Currency', :as => :select, :collection => @currencies, :include_blank => false, :required => true
     = f.input :message, :label => 'Message', :required => false

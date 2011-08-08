@@ -1,15 +1,36 @@
 = semantic_form_for @fund_withdraw_request, :url => "/admin/fund_withdraw_requests/#{@fund_withdraw_request.id}" do |f|
   = f.inputs "Fund Withdrawal Request Details" do
     = f.semantic_errors
-    = f.input :beneficiary_name, :label => "Beneficiary Name", :input_html => { :disabled => true }
-    = f.input :beneficiary_address, :label => "Beneficiary Address", :input_html => { :disabled => true }
-    = f.input :amount, :label => "Amount", :input_html => { :disabled => true }
-    = f.input :currency, :label => "Currency", :input_html => { :disabled => true }
-    = f.input :fee, :label => "Fee(USD)", :input_html => { :disabled => true }
-    = f.input :status, :label => "Status", :input_html => { :disabled => true }
-    = f.input :message, :label => "Message", :input_html => { :disabled => true }
-    = f.label "Fund Available "
-    = @fund_withdraw_request.user.usd.available.to_s + " USD"
+    %table
+      %tbody
+        %tr{class: cycle("odd", "even")}
+          %td= 'User Email:'
+          %td= @fund_withdraw_request.user.email
+        %tr{class: cycle("odd", "even")}
+          %td= 'Bank Name:'
+          %td= @fund_withdraw_request.bankaccount.name
+        %tr{class: cycle("odd", "even")}
+          %td= 'Account Number:'
+          %td= @fund_withdraw_request.bankaccount.number
+        %tr{class: cycle("odd", "even")}
+          %td= 'Amount Requested:'
+          %td= "#{@fund_withdraw_request.amount} #{@fund_withdraw_request.currency}"
+        %tr{class: cycle("odd", "even")}
+          %td= 'Status:'
+          %td= @fund_withdraw_request.status
+        %tr{class: cycle("odd", "even")}
+          %td= 'Message:'
+          %td= @fund_withdraw_request.message
+        %tr{class: cycle("odd", "even")}
+          %td= 'Created At:'
+          %td= @fund_withdraw_request.created_at
+        %tr{class: cycle("odd", "even")}
+          %td= 'Updated At:'
+          %td= @fund_withdraw_request.updated_at
+        %tr{class: cycle("odd", "even")}
+          %td= 'Fund Available [Fee cannot be more than it]:'
+          %td= @fund_withdraw_request.user.usd.available.to_s + " USD"
+    = f.input :fee
     = f.input :decision, :lable => "Action", :as => :select, :collection => ["Accept", "Decline"], :required => true, :include_blank => false
     = f.input :status_comment, :label => "Declination Reason"
     = f.buttons :commit

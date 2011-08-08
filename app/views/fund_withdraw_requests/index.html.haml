@@ -4,22 +4,22 @@
       %em My Fund Withdrawal Requests
     %thead
       %tr
-        %th Beneficiary's Name
+        %th Bank Name
+        %th Account Number
         %th Amount
         %th Fee (USD)
         %th Message
-        %th.last Status
-        %th Requested at
-        %th.last Beneficiary's Address
+        %th Status
+        %th.last Requested at
     %tbody
       - @fund_withdraw_requests.each do |fund_withdraw_request|
         %tr{class: cycle("odd", "even")}
-          %td= fund_withdraw_request.beneficiary_name
+          %td= fund_withdraw_request.bankaccount.name
+          %td= fund_withdraw_request.bankaccount.number
           %td= append_currency_to_amount fund_withdraw_request
           %td= fund_withdraw_request.fee
           %td= fund_withdraw_request.message
           %td= explain_status fund_withdraw_request
           %td= fund_withdraw_request.created_at
-          %td= fund_withdraw_request.beneficiary_address
       %tr{class: cycle("odd", "even")}
         %td= link_to 'Request Fund withdrawal', new_fund_withdraw_request_path

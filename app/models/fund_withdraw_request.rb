@@ -1,10 +1,10 @@
 class FundWithdrawRequest < ActiveRecord::Base
   
   belongs_to :user
+  belongs_to :bankaccount  
   
-  validates_presence_of :beneficiary_name, :beneficiary_address, :amount, :currency
+  validates_presence_of :bankaccount_id, :amount, :currency
   validates_numericality_of :amount, :greater_than => 0.0
-  
   
   module  Status
     PENDING = :pending

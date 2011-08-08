@@ -5,7 +5,11 @@ module FundWithdrawRequestsHelper
   
   def explain_status fund_withdraw_request
     if fund_withdraw_request.status.to_s == FundWithdrawRequest::Status::DECLINED.to_s
-      "#{fund_withdraw_request.status}(#{fund_withdraw_request.status_comment})"
+      if fund_withdraw_request.status_comment.blank?
+        fund_withdraw_request.status
+      else
+        "#{fund_withdraw_request.status}:#{fund_withdraw_request.status_comment}"
+      end
     else
       fund_withdraw_request.status
     end

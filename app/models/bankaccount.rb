@@ -1,6 +1,7 @@
 class Bankaccount < ActiveRecord::Base
   belongs_to :user
-  has_many :fund_deposits
+  has_many :fund_deposit_requests
+  has_many :fund_withdraw_requests  
 
   validates_presence_of :name, :number
 

@@ -4,24 +4,24 @@
       %em Manage Fund Withdrawal Requests
     %thead
       %tr
-        %th Beneficiary's Name
+        %th User Email
+        %th Bank Name
+        %th Account Number
         %th Amount
         %th Fee (USD)
         %th Fund Available
         %th Message
-        %th.last Status
-        %th Requested at
-        %th Beneficiary's Address
-        %th.last
+        %th Status
+        %th.last Requested at
     %tbody
       - @fund_withdraw_requests.each do |fund_withdraw_request|
         %tr{class: cycle("odd", "even")}
-          %td= fund_withdraw_request.beneficiary_name
-          %td= append_currency_to_amount fund_withdraw_request
+          %td= fund_withdraw_request.user.email
+          %td= fund_withdraw_request.bankaccount.name
+          %td= fund_withdraw_request.bankaccount.number
+          %td= fund_withdraw_request.status == 'pending' ? link_to("#{append_currency_to_amount(fund_withdraw_request)}", "/admin/fund_withdraw_requests/#{fund_withdraw_request.id}") : "#{append_currency_to_amount(fund_withdraw_request)}"
           %td= fund_withdraw_request.fee
           %td= fund_withdraw_request.user.usd.available.to_s + " USD"
           %td= fund_withdraw_request.message
           %td= explain_status fund_withdraw_request
           %td= fund_withdraw_request.created_at
-          %td= fund_withdraw_request.beneficiary_address
-          %td= link_to('Process', "/admin/fund_withdraw_requests/#{fund_withdraw_request.id}") if fund_withdraw_request.status == 'pending'
