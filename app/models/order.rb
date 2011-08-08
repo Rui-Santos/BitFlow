@@ -3,7 +3,7 @@ class Order < ActiveRecord::Base
   validates_numericality_of :price, :amount, :greater_than => 0.0
   
   belongs_to :user
-
+  after_initialize :default_order_type
   module  Status
     ACTIVE = :active
     COMPLETE = :complete
@@ -11,6 +11,12 @@ class Order < ActiveRecord::Base
     CANCELLED = :cancelled
   end
 
+  module Type
+    MARKET = :market
+    LIMIT  = :limit
+  end
+
+  
   scope :active, lambda {
     where("status = '#{Order::Status::ACTIVE}'")
   }
@@ -25,6 +31,10 @@ class Order < ActiveRecord::Base
     where("user_id = ?", user.id).order(:updated_at).reverse_order
   }
 
+  def default_order_type
+    order_type = Order::Type::LIMIT
+  end
+  
   # the return values would in the form of a hash - no object conversion
   def self.non_executed(user, row_limit = 5)
     historic_data_query = <<-HISTORIC_DATA_QUERY
@@ -67,6 +77,14 @@ class Order < ActiveRecord::Base
 
   def active?
     status == Status::ACTIVE || status.to_sym == Status::ACTIVE
+  end
+  
+  def market?
+    order_type == Type::MARKET || order_type.to_sym == Type::MARKET
+  end
+
+  def limit?
+    order_type == Type::LIMIT || order_type.to_sym == Type::LIMIT
   end
 
   def complete?

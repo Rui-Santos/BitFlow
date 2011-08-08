@@ -27,8 +27,6 @@ BitFlow::Application.configure do
   config.after_initialize do
     Configuration.bitcoind_json_rpc_user = 'bitflow'
     Configuration.bitcoind_json_rpc_password = 'as'
-    
-    puts("Bitcoin Server Info: #{BitcoinProxy.info}")
   end
 
 end

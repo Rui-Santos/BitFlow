@@ -9,6 +9,7 @@ class Ask < Order
   def match!
     Bid.order_queue(self.price)
   end
+
   
   def to_json(*args)
     super(*args).merge(:type => 'ask')

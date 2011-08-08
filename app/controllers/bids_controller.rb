@@ -17,7 +17,8 @@ class BidsController < ApplicationController
                     :amount => params[:bid][:amount], 
                     :price => params[:bid][:price], 
                     :amount_remaining => params[:bid][:amount],
-                    :status => Order::Status::ACTIVE)
+                    :status => Order::Status::ACTIVE,
+                    :order_type => params[:ask][:order_type])
 
     respond_to do |format|
       if @bid.save

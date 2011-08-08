@@ -10,7 +10,7 @@ class OrdersController < ApplicationController
   end
 
   def new
-    @ask = Ask.new
-    @bid = Bid.new
+    @ask = Ask.new(:order_type => params[:type])
+    @bid = Bid.new(:order_type => params[:type])
   end
 end

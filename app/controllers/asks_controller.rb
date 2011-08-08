@@ -8,7 +8,7 @@
   end
 
   def new
-    @ask = Ask.new
+    @ask = Ask.new(:order_type => params[:type])
   end
 
   def create
@@ -16,14 +16,15 @@
                     :amount => params[:ask][:amount], 
                     :price => params[:ask][:price],
                     :amount_remaining => params[:ask][:amount],
-                    :status => Order::Status::ACTIVE)
+                    :status => Order::Status::ACTIVE, 
+                    :order_type => params[:ask][:order_type])
 
     respond_to do |format|
       if @ask.save
         format.html { redirect_to(orders_url, :notice => 'Ask was successfully created.') }
         format.json { head  :created, :location => ask_path(@ask)}
       else
-        format.html { render :action => "new" }
+        format.html { render :action => :new }
         format.json { render :json => @ask.errors }
       end
     end

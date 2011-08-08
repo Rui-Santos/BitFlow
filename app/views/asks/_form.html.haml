@@ -2,5 +2,7 @@
   = f.inputs "#{@ask.new_record? ? 'New' : 'Edit'} Ask" do
     = f.semantic_errors
     = f.input :amount
+    = f.input :order_type, :as => :radio, :collection => [Order::Type::LIMIT, Order::Type::MARKET] if @ask.new_record?
+    = f.input :amount
     = f.input :price, :label => 'Price (in USD)'
     = f.commit_button
