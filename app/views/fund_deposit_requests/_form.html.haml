@@ -1,9 +1,9 @@
 = semantic_form_for @fund_deposit_request do |f|
-  = f.inputs "#{@fund_deposit_request.new_record? ? 'Request' : 'Edit'} Fund Deposit" do
+  = f.inputs "Request Fund Deposit" do
     = f.semantic_errors
     = f.input :bankaccount, :label => 'Bank Details', :as => :select, :collection => @bank_accounts, :include_blank => true, :label_method => :name_account, :required => true
-    = f.input :amount, :label => 'Amount', :required => true
-    = f.input :currency, :label => 'Currency', :as => :select, :collection => @currencies, :required => true
+    = f.input :amount_requested, :label => 'Amount Requested', :required => true
+    = f.input :currency, :label => 'Currency', :as => :select, :collection => @currencies, :required => true, :include_blank => false
     %h3
       IMPORTANT: Please remember to use <font color="red"><strong>#{current_user.email}</strong></font> as Deposit Code while transferring the amount to Bitflow account.
-    = f.commit_button :button_html => { :value => "#{@fund_deposit_request.new_record? ? 'Request' : 'Edit'} Fund Deposit"}
+    = f.commit_button :button_html => { :value => "Request Fund Deposit"}

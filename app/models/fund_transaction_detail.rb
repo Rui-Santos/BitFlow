@@ -22,6 +22,7 @@ class FundTransactionDetail < ActiveRecord::Base
     COMMISSION = :commission
     WITHDRAWAL = :withdrawal
     WITHDRAWAL_FEE = :withdrawal_fee
+    DEPOSIT_FEE = :deposit_fee    
   end
   
 end

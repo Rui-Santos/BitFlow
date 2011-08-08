@@ -8,21 +8,17 @@
         %th User Email
         %th Bank Name
         %th Account Number
-        %th Amount
-        %th Net Amount
+        %th Amount Requested
         %th Currency
         %th Requested at
-        %th Last updated at
-        %th.last
+        %th.last Last updated at
     %tbody
       - @fund_deposit_requests.each do |fund_deposit_request|
         %tr{class: cycle("odd", "even")}
           %td= fund_deposit_request.user.email
           %td= fund_deposit_request.bankaccount.name
           %td= fund_deposit_request.bankaccount.number
-          %td= fund_deposit_request.amount
-          %td= fund_deposit_request.net_amount
+          %td= link_to("#{fund_deposit_request.amount_requested}", "/admin/fund_deposit_requests/#{fund_deposit_request.id}") if fund_deposit_request.status == 'pending'
           %td= fund_deposit_request.currency
           %td= fund_deposit_request.created_at
           %td= fund_deposit_request.updated_at
-          %td= link_to('Confirm', "/admin/fund_deposit_requests/#{fund_deposit_request.id}", :confirm => 'Are you sure to confirm this fund deposit request?', :method => :put) if fund_deposit_request.status == 'pending'
