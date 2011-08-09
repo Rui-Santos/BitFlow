@@ -4,4 +4,17 @@
     = f.input :email, :label => 'Email'
     = f.label 'or'
     = f.input :account_number, :label => 'Account Number'
-    = f.commit_button :button_html => { :value => "Search"}
+    = f.input :operation, :as => :hidden, :value => 'search'
+    = f.buttons do
+      = f.commit_button :button_html => { :value => "Search", :id => 'search', :name => 'search'}
+      = f.commit_button :button_html => { :type => 'button', :value => "Create Missing Request", :id => 'create_request', :name => 'create_request'}
+
+- content_for(:javascript) do
+  :javascript
+    $(function() {
+      $("#create_request").click(function(event) {
+        event.preventDefault();
+        $("#search_criteria_operation").val("create_request");
+        $("#new_search_criteria").submit();
+      });
+    });
