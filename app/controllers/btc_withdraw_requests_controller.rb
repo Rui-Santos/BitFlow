@@ -2,7 +2,7 @@ class BtcWithdrawRequestsController < ApplicationController
   def new
     @btc_withdraw_request = BtcWithdrawRequest.new
     respond_to do |format|
-      format.html # new.html.erb
+      format.html
     end
   end
   def create
@@ -10,14 +10,9 @@ class BtcWithdrawRequestsController < ApplicationController
       @btc_withdraw_request = BtcWithdrawRequest.new(params[:btc_withdraw_request])
       @btc_withdraw_request.user_id = current_user.id
       @btc_withdraw_request.status = BtcWithdrawRequest::Status::PENDING
-      if current_user.btc.available >= @btc_withdraw_request.amount
-        if @btc_withdraw_request.save
-          format.html { redirect_to(user_wallets_path, :notice => 'Payment request was successfully created.') }
-        else
-          format.html { render :action => "new" }
-        end
+      if @btc_withdraw_request.save
+        format.html { redirect_to(user_wallets_path, :notice => 'Payment request was successfully created and reserved.') }
       else
-        flash.now[:notice] = 'Not enough Bitcoin fund available'
         format.html { render :action => "new" }
       end
     end

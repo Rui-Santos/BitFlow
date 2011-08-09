@@ -32,12 +32,13 @@ class BidsController < ApplicationController
   end
   
   def destroy
-    @bid = Bid.find(params[:id])
-    authorised_block(@bid) do 
-      @bid.update_attribute :status, Order::Status::CANCELLED
-      @bid.user.usd.unreserve!(@bid.amount_remaining * @bid.price)
+    Order.transaction do
+      @bid = Bid.find(params[:id])
+      authorised_block(@bid) do 
+        @bid.update_attribute :status, Order::Status::CANCELLED
+        @bid.user.usd.unreserve!(@bid.amount_remaining * @bid.price)
+      end
     end
-    
     respond_to do |format|
       format.html { redirect_to(:back) }
       format.json  { head :ok }

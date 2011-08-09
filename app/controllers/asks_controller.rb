@@ -18,7 +18,6 @@
                     :amount_remaining => params[:ask][:amount],
                     :status => Order::Status::ACTIVE, 
                     :order_type => params[:ask][:order_type])
-
     respond_to do |format|
       if @ask.save
         format.html { redirect_to(orders_url, :notice => 'Ask was successfully created.') }
@@ -31,12 +30,13 @@
   end
 
   def destroy
-    @ask = Ask.find(params[:id])
-    authorised_block(@ask) do
-      @ask.update_attribute :status, Order::Status::CANCELLED
-      @ask.user.btc.unreserve!(@ask.amount_remaining)
+    Order.transaction do
+      @ask = Ask.find(params[:id])
+      authorised_block(@ask) do
+        @ask.update_attribute :status, Order::Status::CANCELLED
+        @ask.user.btc.unreserve!(@ask.amount_remaining)
+      end
     end
-    
     respond_to do |format|
       format.html { redirect_to(:back) }
       format.json { head :ok }
