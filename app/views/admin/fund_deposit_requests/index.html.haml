@@ -11,14 +11,16 @@
         %th Amount Requested
         %th Currency
         %th Requested at
-        %th.last Last updated at
+        %th Last updated at
+        %th.last Status
     %tbody
       - @fund_deposit_requests.each do |fund_deposit_request|
         %tr{class: cycle("odd", "even")}
           %td= fund_deposit_request.user.email
           %td= fund_deposit_request.bankaccount.name
           %td= fund_deposit_request.bankaccount.number
-          %td= link_to("#{fund_deposit_request.amount_requested}", "/admin/fund_deposit_requests/#{fund_deposit_request.id}") if fund_deposit_request.status == 'pending'
+          %td= fund_deposit_request.amount_requested
           %td= fund_deposit_request.currency
           %td= fund_deposit_request.created_at
           %td= fund_deposit_request.updated_at
+          %td= fund_deposit_request.status.to_s == 'pending' ? link_to("#{fund_deposit_request.status}", "/admin/fund_deposit_requests/#{fund_deposit_request.id}"):fund_deposit_request.status

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110809175717) do
+ActiveRecord::Schema.define(:version => 20110809191048) do
 
   create_table "asks", :force => true do |t|
     t.decimal  "price",            :precision => 15, :scale => 10
@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(:version => 20110809175717) do
     t.decimal  "amount_received",  :precision => 15, :scale => 10
     t.string   "deposit_code"
     t.decimal  "fee",              :precision => 15, :scale => 10
+    t.boolean  "created_by_admin",                                 :default => false
   end
 
   create_table "fund_transaction_details", :force => true do |t|
