@@ -2,6 +2,7 @@ class FundTransactionDetail < ActiveRecord::Base
 	belongs_to :user
 	belongs_to :fund
 	belongs_to :btc_withdraw_request
+	belongs_to :trade
 
 	module Status
     PENDING = :pending
@@ -22,7 +23,8 @@ class FundTransactionDetail < ActiveRecord::Base
     COMMISSION = :commission
     WITHDRAWAL = :withdrawal
     WITHDRAWAL_FEE = :withdrawal_fee
-    DEPOSIT_FEE = :deposit_fee    
+    DEPOSIT_FEE = :deposit_fee
+    BITCOIN_FEE = :bitcoin_fee    
   end
   
 end

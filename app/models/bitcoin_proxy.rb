@@ -83,5 +83,8 @@ class BitcoinProxy
     ServiceProxy.new("http://#{Configuration.bitcoind_json_rpc_user}:#{Configuration.bitcoind_json_rpc_password}@127.0.0.1:8332").gettransaction(tx_id)
   end
   
+  def self.set_account(address, account_name)
+    ServiceProxy.new("http://#{Configuration.bitcoind_json_rpc_user}:#{Configuration.bitcoind_json_rpc_password}@127.0.0.1:8332").setaccount(address, account_name)
+  end
 end
 

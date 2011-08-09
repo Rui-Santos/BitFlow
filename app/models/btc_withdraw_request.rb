@@ -5,6 +5,7 @@ class BtcWithdrawRequest < ActiveRecord::Base
   validates_numericality_of :amount, :greater_than => 0.0
 
   module Status
+    CREATED = :created
     PENDING = :pending
     COMPLETE = :complete
   end

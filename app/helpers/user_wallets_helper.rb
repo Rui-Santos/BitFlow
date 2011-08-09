@@ -16,6 +16,8 @@ module UserWalletsHelper
 		  'Withdrawal Fee'
     elsif fund_transaction_detail.tx_code.to_s == FundTransactionDetail::TransactionCode::DEPOSIT_FEE.to_s
 		  'Deposit Fee'
+    elsif fund_transaction_detail.tx_code.to_s == FundTransactionDetail::TransactionCode::BITCOIN_FEE.to_s
+		  'Bitcoin Fee'
     else
 			'Unknown'
 		end

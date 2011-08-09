@@ -9,7 +9,7 @@ class BtcWithdrawRequestsController < ApplicationController
     respond_to do |format|
       @btc_withdraw_request = BtcWithdrawRequest.new(params[:btc_withdraw_request])
       @btc_withdraw_request.user_id = current_user.id
-      @btc_withdraw_request.status = BtcWithdrawRequest::Status::PENDING
+      @btc_withdraw_request.status = BtcWithdrawRequest::Status::CREATED
       if @btc_withdraw_request.save
         format.html { redirect_to(user_wallets_path, :notice => 'Payment request was successfully created and reserved.') }
       else
@@ -17,5 +17,4 @@ class BtcWithdrawRequestsController < ApplicationController
       end
     end
   end
-
 end

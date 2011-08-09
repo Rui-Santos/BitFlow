@@ -17,4 +17,11 @@ class Trade < ActiveRecord::Base
   def bought
     bid.amount.round(2)
   end
+  
+  module Status
+    CREATED = :created
+    PENDING = :pending
+    COMPLETE = :complete
+  end
+  
 end

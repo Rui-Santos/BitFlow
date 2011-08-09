@@ -27,7 +27,7 @@ class BidObserver < ActiveRecord::Observer
         traded_price = ask.price
         traded_amount = bid_amount_remaining
       end
-      trade = Trade.create(ask: ask, bid: bid, market_price: traded_price, amount: traded_amount)
+      trade = Trade.create(ask: ask, bid: bid, market_price: traded_price, amount: traded_amount, status: Trade::Status::CREATED)
       buyer_usd_fund.unreserve!(bid.price * traded_amount)
       buyer_usd_fund.debit! :amount => (traded_price * traded_amount),
                             :tx_code => FundTransactionDetail::TransactionCode::BITCOIN_PURCHASED,

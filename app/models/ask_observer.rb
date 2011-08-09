@@ -31,7 +31,7 @@ class AskObserver < ActiveRecord::Observer
         traded_price = ask.price
         traded_amount = ask_amount_remaining
       end
-      trade = Trade.create(ask: ask, bid: bid, market_price: traded_price, amount: traded_amount)
+      trade = Trade.create(ask: ask, bid: bid, market_price: traded_price, amount: traded_amount, status: Trade::Status::CREATED)
       buyer_usd_fund = bid.user.usd
       buyer_btc_fund = bid.user.btc
       buyer_usd_fund.unreserve!(bid.price * traded_amount)
