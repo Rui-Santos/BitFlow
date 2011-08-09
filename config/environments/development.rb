@@ -24,10 +24,5 @@ BitFlow::Application.configure do
   config.action_dispatch.best_standards_support = :builtin
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
 
-  config.after_initialize do
-    Configuration.bitcoind_json_rpc_user = 'bitflow'
-    Configuration.bitcoind_json_rpc_password = 'as'
-  end
-
 end
 

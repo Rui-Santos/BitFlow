@@ -6,3 +6,4 @@ tmp/
 .idea/
 *.DS_Store
 .redcar/
+config/initializers/configuration.rb

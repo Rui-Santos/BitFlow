@@ -22,6 +22,9 @@ set :rails_env, 'production'
 set :normalize_asset_timestamps, false  # does not normalize the javascript/stylesheets etc.
 
 before 'deploy:symlink', 'bitflow:copy_config'
+after 'deploy:symlink' do
+  bitflow.symlink_files
+end
 after "deploy:restart" , "bitflow:restart"
 after "deploy", "deploy:migrate"
 
@@ -29,6 +32,11 @@ namespace :bitflow do
   desc "copies db configs to the right place"
   task :copy_config do
     run "cp -f #{release_path}/config/deploy/#{stage}/database.yml #{release_path}/config/database.yml"
+  end
+  
+  desc "creates sym links"
+  task :symlink_files do
+      run "ln -nfs #{shared_path}/initializers/configuration.rb #{latest_release}/initializers/configuration.rb"
   end
   
   desc "restarts unicorn"

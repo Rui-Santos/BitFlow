@@ -50,12 +50,5 @@ BitFlow::Application.configure do
 
   require 'rack/ssl'
   config.middleware.use Rack::SSL
-  
-  config.after_initialize do
-    Configuration.bitcoind_json_rpc_user = 'as'
-    Configuration.bitcoind_json_rpc_password = 'as'
     
-    puts("Bitcoin Server Info: #{BitcoinProxy.info}")
-  end
-  
 end

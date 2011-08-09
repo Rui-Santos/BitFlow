@@ -34,11 +34,4 @@ BitFlow::Application.configure do
   config.active_support.deprecation = :stderr
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
   
-  config.after_initialize do
-    Configuration.bitcoind_json_rpc_user = 'bitflow'
-    Configuration.bitcoind_json_rpc_password = 'as'
-    
-    puts("Bitcoin Server Info: #{BitcoinProxy.info}")
-  end
-  
 end
