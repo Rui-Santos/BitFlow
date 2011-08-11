@@ -68,32 +68,6 @@ class BitcoindSyncher
     end
   end
   
-  def self.complete_btc_withdraw_request(tx_details, pending_btc_withdraw_request)
-    confirmations = tx_details["confirmations"].to_f
-    if confirmations > 5
-      BtcWithdrawRequest.transaction do
-        pending_btc_withdraw_request.update_attribute :status, BtcWithdrawRequest::Status::COMPLETE
-        pending_btc_withdraw_request.user.btc.unreserve!(pending_btc_withdraw_request.amount)
-        pending_btc_withdraw_request.user.btc.debit! :amount => pending_btc_withdraw_request.amount,
-                                                      :tx_code => FundTransactionDetail::TransactionCode::PAYMENT_SENT,
-                                                      :currency => 'BTC',
-                                                      :status => FundTransactionDetail::Status::COMMITTED,
-                                                      :message => pending_btc_withdraw_request.message,
-                                                      :user_id => pending_btc_withdraw_request.user_id,
-                                                      :btc_withdraw_request_id => pending_btc_withdraw_request.id
-        fee = tx_details["fee"].try(:to_f).try(:abs)
-        if fee && fee > 0.0
-            pending_btc_withdraw_request.user.btc.debit! :amount => fee,
-                                                          :tx_code => FundTransactionDetail::TransactionCode::BITCOIN_FEE,
-                                                          :currency => 'BTC',
-                                                          :status => FundTransactionDetail::Status::COMMITTED,
-                                                          :user_id => pending_btc_withdraw_request.user_id,
-                                                          :btc_withdraw_request_id => pending_btc_withdraw_request.id
-        end
-      end
-    end
-  end
-  
   def self.initiate_trade_btc_transfer_on_bitcoind
     trades = Trade.where(:status => Trade::Status::CREATED)
     if trades
@@ -126,6 +100,33 @@ class BitcoindSyncher
             x_det["category"] == 'send' && x_det["comment"] == comment && x_det["to"] == comment
           end
           complete_btc_trade_request tx_details, pending_trade_request
+        end
+      end
+    end
+  end
+  
+  private
+  def self.complete_btc_withdraw_request(tx_details, pending_btc_withdraw_request)
+    confirmations = tx_details["confirmations"].to_f
+    if confirmations > 5
+      BtcWithdrawRequest.transaction do
+        pending_btc_withdraw_request.update_attribute :status, BtcWithdrawRequest::Status::COMPLETE
+        pending_btc_withdraw_request.user.btc.unreserve!(pending_btc_withdraw_request.amount)
+        pending_btc_withdraw_request.user.btc.debit! :amount => pending_btc_withdraw_request.amount,
+                                                      :tx_code => FundTransactionDetail::TransactionCode::PAYMENT_SENT,
+                                                      :currency => 'BTC',
+                                                      :status => FundTransactionDetail::Status::COMMITTED,
+                                                      :message => pending_btc_withdraw_request.message,
+                                                      :user_id => pending_btc_withdraw_request.user_id,
+                                                      :btc_withdraw_request_id => pending_btc_withdraw_request.id
+        fee = tx_details["fee"].try(:to_f).try(:abs)
+        if fee && fee > 0.0
+            pending_btc_withdraw_request.user.btc.debit! :amount => fee,
+                                                          :tx_code => FundTransactionDetail::TransactionCode::BITCOIN_FEE,
+                                                          :currency => 'BTC',
+                                                          :status => FundTransactionDetail::Status::COMMITTED,
+                                                          :user_id => pending_btc_withdraw_request.user_id,
+                                                          :btc_withdraw_request_id => pending_btc_withdraw_request.id
         end
       end
     end
