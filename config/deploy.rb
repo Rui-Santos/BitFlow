@@ -2,6 +2,7 @@ $:.unshift(File.expand_path('./lib', ENV['rvm_path']))
 require 'capistrano/ext/multistage'
 require 'bundler/capistrano'
 require "rvm/capistrano"                  # Load RVM's capistrano plugin.
+require 'whenever/capistrano'
 
 
 set :application, "BitFlow"
