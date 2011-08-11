@@ -38,7 +38,7 @@ namespace :bitflow do
   
   desc "creates sym links"
   task :symlink_files do
-    run "ln -nfs #{shared_path}/initializers/configuration.rb #{latest_release}/initializers/configuration.rb"
+    run "ln -nfs #{shared_path}/initializers/configuration.rb #{release_path}/initializers/configuration.rb"
   end
   
   desc "restarts unicorn"
