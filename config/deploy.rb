@@ -1,5 +1,6 @@
 $:.unshift(File.expand_path('./lib', ENV['rvm_path']))
 require 'capistrano/ext/multistage'
+
 require 'bundler/capistrano'
 require "rvm/capistrano"                  # Load RVM's capistrano plugin.
 require 'whenever/capistrano'
@@ -22,11 +23,10 @@ set :deploy_via, :remote_cache
 set :rails_env, 'production'
 set :normalize_asset_timestamps, false  # does not normalize the javascript/stylesheets etc.
 set :whenever_command, "bundle exec whenever"
+set :whenever_environment, defer { stage }
 
 before 'deploy:symlink', 'bitflow:copy_config'
-after 'deploy:symlink' do
-  bitflow.symlink_files
-end
+after 'deploy:symlink', 'bitflow:symlink_files'
 after "deploy:restart" , "bitflow:restart"
 after "deploy", "deploy:migrate"
 
@@ -38,7 +38,7 @@ namespace :bitflow do
   
   desc "creates sym links"
   task :symlink_files do
-      run "ln -nfs #{shared_path}/initializers/configuration.rb #{latest_release}/initializers/configuration.rb"
+    run "ln -nfs #{shared_path}/initializers/configuration.rb #{latest_release}/initializers/configuration.rb"
   end
   
   desc "restarts unicorn"
