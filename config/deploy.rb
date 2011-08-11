@@ -21,6 +21,7 @@ set :default_stage, 'staging'
 set :deploy_via, :remote_cache
 set :rails_env, 'production'
 set :normalize_asset_timestamps, false  # does not normalize the javascript/stylesheets etc.
+set :whenever_command, "bundle exec whenever"
 
 before 'deploy:symlink', 'bitflow:copy_config'
 after 'deploy:symlink' do
