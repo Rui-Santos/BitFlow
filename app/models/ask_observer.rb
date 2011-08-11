@@ -88,6 +88,7 @@ class AskObserver < ActiveRecord::Observer
     
     ask.amount_remaining = ask_amount_remaining
     ask.status = Order::Status::COMPLETE if ask.amount_remaining == 0
+    ask.statys = Order::Status::CACELLED if ask.amount_remaining > 0 && ask.market?
     ask.save
   end
 end
