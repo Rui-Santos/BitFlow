@@ -23,6 +23,7 @@ gem 'haml-rails'
 gem 'sass'
 gem 'compass'
 gem 'rack-ssl'
+gem 'whenever', :require => false
 
 # Deploy with Capistrano
 gem 'capistrano'
