@@ -20,10 +20,11 @@ class AskObserver < ActiveRecord::Observer
     return if  AppConfig.is?('SKIP_TRADE_CREATION', false)
     seller_usd_fund = ask.user.usd
     ask_amount_remaining = ask.amount_remaining
+   
     ask.match!.each do |bid|
       break if ask_amount_remaining == 0
-      traded_price = 0.0;
-      traded_amount = 0.0;
+      traded_price = 0.0
+      traded_amount = 0.0
       if ask_amount_remaining >= bid.amount_remaining
         traded_price = ask.price
         traded_amount = bid.amount_remaining
@@ -31,9 +32,11 @@ class AskObserver < ActiveRecord::Observer
         traded_price = ask.price
         traded_amount = ask_amount_remaining
       end
+
       trade = Trade.create(ask: ask, bid: bid, market_price: traded_price, amount: traded_amount, status: Trade::Status::CREATED)
       buyer_usd_fund = bid.user.usd
       buyer_btc_fund = bid.user.btc
+      
       buyer_usd_fund.unreserve!(bid.price * traded_amount)
       buyer_usd_fund.debit! :amount => (traded_price * traded_amount),
                             :tx_code => FundTransactionDetail::TransactionCode::BITCOIN_PURCHASED,
@@ -43,6 +46,7 @@ class AskObserver < ActiveRecord::Observer
                             :trade_id => trade.id,
                             :ask_id => ask.id,
                             :bid_id => bid.id
+                            
       buyer_btc_fund.credit! :amount => traded_amount,
                             :tx_code => FundTransactionDetail::TransactionCode::BITCOIN_PURCHASED,
                             :currency => 'BTC',
@@ -51,7 +55,9 @@ class AskObserver < ActiveRecord::Observer
                             :trade_id => trade.id,
                             :ask_id => ask.id,
                             :bid_id => bid.id
+
       seller_btc_fund.unreserve!(traded_amount)
+      
       seller_usd_fund.credit! :amount => (traded_price * traded_amount),
                               :tx_code => FundTransactionDetail::TransactionCode::BITCOIN_SOLD,
                               :currency => 'USD',
@@ -60,6 +66,7 @@ class AskObserver < ActiveRecord::Observer
                               :trade_id => trade.id,
                               :ask_id => ask.id,
                               :bid_id => bid.id
+      
       seller_btc_fund.debit! :amount => traded_amount,
                               :tx_code => FundTransactionDetail::TransactionCode::BITCOIN_SOLD,
                               :currency => 'BTC',
@@ -68,16 +75,17 @@ class AskObserver < ActiveRecord::Observer
                               :trade_id => trade.id,
                               :ask_id => ask.id,
                               :bid_id => bid.id
+      
       ask_amount_remaining = ask_amount_remaining - traded_amount
       bid_amount_remaining = bid.amount_remaining - traded_amount
+      
       if bid_amount_remaining == 0
         bid.update_attributes(:amount_remaining => bid_amount_remaining, :status => Order::Status::COMPLETE)
       else
         bid.update_attribute(:amount_remaining, bid_amount_remaining)
       end
-      # tx_id = BitcoinProxy.send_from(ask.user.user_wallet.name, bid.user.user_wallet.address, traded_amount, "trade #{trade.id}", "trade #{trade.id}")
-      # trade.update_attribute(:btc_tx_id, tx_id)
     end
+    
     ask.amount_remaining = ask_amount_remaining
     ask.status = Order::Status::COMPLETE if ask.amount_remaining == 0
     ask.save
