@@ -29,21 +29,13 @@ class Trade < ActiveRecord::Base
     if Trade::Status::CREATED
       Trade.transaction do
         update_attribute :status, Trade::Status::PENDING
-        
-        puts "Trade[#{id}] status -> PENDING"
-        
-        btc_tx_id = BitcoinProxy.send_from(ask.user.user_wallet.name, 
+        btc_tx_id = BitcoinProxy.send_from(ask.user.user_wallet.name,
                               bid.user.user_wallet.address, 
                               trade.amount, 
                               "bf-trade #{id}",
                               "bf-trade #{id}",
                               5)
-                              
-        puts "Posted Trade[#{id}] on bitcoind"
-        
         update_attribute :btc_tx_id, btc_tx_id
-        
-        puts "Trade[#{id}] btc_tx_id -> #{btc_tx_id}"
       end
     end
   end
@@ -52,20 +44,13 @@ class Trade < ActiveRecord::Base
     if status == Trade::Status::PENDING
       if btc_tx_id
         tx_details = BitcoinProxy.get_transaction btc_tx_id
-      
-        puts "Trade[#{id}] :: fetched transaction details from bitcoind for btc_tx_id: #{btc_tx_id} => #{tx_details}"
-      
         _update_transaction_details tx_details
       else
-        puts "Trade[#{trade.id}] :: NO BTC_TX_ID found!!!!"
-      
         all_tx_details = BitcoinProxy.list_transactions(ask.user.user_wallet.name, 25)
         comment = "bf-trade #{id}"
         tx_details = all_tx_details.detect do |x_det|
           x_det["category"] == 'send' && x_det["comment"] == comment && x_det["to"] == comment
         end
-        puts "Trade[#{id}] :: Extracted transaction details from comments =>  #{tx_details}"
-      
         _update_transaction_details tx_details
       end
     end
@@ -77,11 +62,7 @@ class Trade < ActiveRecord::Base
     if confirmations > 5
       Trade.transaction do
         update_attribute :status, Trade::Status::COMPLETE
-        
         fund_transaction_details.each {|tx_detail| tx_detail.update_attribute :status, FundTransactionDetail::Status::COMMITTED}
-        
-        puts "Trade[#{id}] :: Updated Status->COMPLETE, Updated of all pending trade tx details Status->COMMITTED"
-        
         fee = tx_details["fee"].try(:to_f).try(:abs)
         if fee && fee > 0.0
           ask.user.btc.debit! :amount => fee,
@@ -92,8 +73,6 @@ class Trade < ActiveRecord::Base
                               :trade_id => id,
                               :ask_id => ask.id,
                               :bid_id => bid.id
-                              
-          puts "Trade[#{id}] :: bitcoind demanded a fee of #{fee}!!!"
         end
       end
     end
