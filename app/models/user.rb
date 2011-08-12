@@ -89,4 +89,20 @@ class User < ActiveRecord::Base
                           :bid_id => vals[:bid_id]
     end
   end
+  
+  def sync_with_bitcoind
+    user_wallet.update_direct_receipts
+    
+    pending_trades = Trade.find_by_sql("select trades.* from trades inner join asks on trades.ask_id = asks.id inner join users on users.id = asks.user_id where trades.status = '#{Trade::Status::PENDING}' and users.id = #{id}")
+    pending_trades.each {|trade| trade.update_transaction_details} if pending_trades
+    
+    pending_btc_withdraws = BtcWithdrawRequest.where(:status => BtcWithdrawRequest::Status::PENDING, :user_id => id)
+    pending_btc_withdraws.each {|btc_withdraw| btc_withdraw.update_transaction_details} if pending_btc_withdraws
+    
+    created_trades = Trade.find_by_sql("select trades.* from trades inner join asks on trades.ask_id = asks.id inner join users on users.id = asks.user_id where trades.status = '#{Trade::Status::CREATED}' and users.id = #{id}")
+    created_trades.each {|trade| trade.init_transactions} if created_trades
+    
+    created_btc_withdraws = BtcWithdrawRequest.where(:status => BtcWithdrawRequest::Status::CREATED, :user_id => id)
+    created_btc_withdraws.each {|btc_withdraw| btc_withdraw.init_transactions} if created_btc_withdraws
+  end
 end

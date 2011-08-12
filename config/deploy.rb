@@ -3,7 +3,6 @@ require 'capistrano/ext/multistage'
 
 require 'bundler/capistrano'
 require "rvm/capistrano"                  # Load RVM's capistrano plugin.
-require 'whenever/capistrano'
 
 
 set :application, "BitFlow"
@@ -22,8 +21,6 @@ set :default_stage, 'staging'
 set :deploy_via, :remote_cache
 set :rails_env, 'production'
 set :normalize_asset_timestamps, false  # does not normalize the javascript/stylesheets etc.
-set :whenever_command, "bundle exec whenever"
-set :whenever_environment, defer { stage }
 
 before 'deploy:symlink', 'bitflow:copy_config'
 after 'deploy:symlink', 'bitflow:symlink_files'

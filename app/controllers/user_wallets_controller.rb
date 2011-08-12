@@ -7,8 +7,10 @@ class UserWalletsController < ApplicationController
         begin
           bal = BitcoinProxy.balance(@user_wallet.name)
           @user_wallet.update_attribute :balance, bal  unless bal == @user_wallet.balance
+          current_user.sync_with_bitcoind
         rescue => e
-          flash.now[:notice] = 'Error in Wallet Balance fetch'
+          puts e.backtrace.join "\n"
+          flash.now[:notice] = "Error in Wallet Balance fetch: #{e.inspect}"
         end
       else
         begin
