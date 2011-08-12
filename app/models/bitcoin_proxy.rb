@@ -10,6 +10,7 @@ class BitcoinProxy
     def method_missing(name, *args, &block)
       begin
         postdata = {"method" => name, "params" => args, "id" => "jsonrpc"}.to_json
+        puts "postdata ******* #{postdata}"
         respdata = RestClient.post @service_url, postdata
         resp = JSON.parse respdata
         raise JSONRPCException.new, resp['error'] if resp["error"]

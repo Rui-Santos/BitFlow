@@ -108,7 +108,7 @@ class Order < ActiveRecord::Base
   end
 
   def currency=(cur)
-    write_attribute(cur || "USD")
+    write_attribute(:currency, (cur || "USD"))
   end
   
   def to_json(*args)

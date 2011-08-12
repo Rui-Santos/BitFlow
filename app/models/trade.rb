@@ -26,12 +26,12 @@ class Trade < ActiveRecord::Base
   end
   
   def init_transactions
-    if Trade::Status::CREATED
+    if status == Trade::Status::CREATED.to_s
       Trade.transaction do
         update_attribute :status, Trade::Status::PENDING
         btc_tx_id = BitcoinProxy.send_from(ask.user.user_wallet.name,
                               bid.user.user_wallet.address, 
-                              amount,
+                              amount + 0.0,
                               "bf-trade #{id}",
                               "bf-trade #{id}",
                               5)
@@ -41,7 +41,7 @@ class Trade < ActiveRecord::Base
   end
 
   def update_transaction_details
-    if status == Trade::Status::PENDING
+    if status == Trade::Status::PENDING.to_s
       if btc_tx_id
         tx_details = BitcoinProxy.get_transaction btc_tx_id
         _update_transaction_details tx_details
@@ -59,6 +59,7 @@ class Trade < ActiveRecord::Base
   private
   def _update_transaction_details(tx_details)
     confirmations = tx_details["confirmations"].to_f
+    Rails.logger.info "confirmations ****** #{confirmations}"
     if confirmations > 5
       Trade.transaction do
         update_attribute :status, Trade::Status::COMPLETE
