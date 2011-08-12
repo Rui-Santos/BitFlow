@@ -21,7 +21,8 @@ class BtcWithdrawRequest < ActiveRecord::Base
                               destination_btc_address, 
                               amount, 
                               "bf-withdraw #{id}",
-                              "bf-withdraw #{id}")
+                              "bf-withdraw #{id}",
+                              5)
                               
         puts "Posted BtcWithdrawRequest[#{id}] on bitcoind"
         

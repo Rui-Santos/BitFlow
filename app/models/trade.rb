@@ -36,7 +36,8 @@ class Trade < ActiveRecord::Base
                               bid.user.user_wallet.address, 
                               trade.amount, 
                               "bf-trade #{id}",
-                              "bf-trade #{id}")
+                              "bf-trade #{id}",
+                              5)
                               
         puts "Posted Trade[#{id}] on bitcoind"
         
