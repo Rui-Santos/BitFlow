@@ -8,7 +8,6 @@
           - order.errors[:base].each do |msg|
             = msg
       %div
-        = f.hidden_field :order_type, :value => Order::Type::LIMIT
         Buy
         %div{:class => order.errors[:amount].blank? ? "no-error" : "field error"}
           #{f.text_field(:amount, :size => 5)}
@@ -16,7 +15,7 @@
         %abbr{:title => "required"}*
         BTC
         %br/
-        = f.radio_button :order_type, "Limit", {:checked => true}
+        = f.radio_button :order_type, Order::Type::LIMIT, {:checked => true}
         With Limit Price of
         %div{:class => order.errors[:price].blank? ? "no-error" : "field error"}
           #{ f.text_field(:price, :size => 5) }
@@ -24,7 +23,7 @@
         %abbr{:title => "required"}*
         USD per BTC (limit order)
         %br/
-        = f.radio_button :order_type, "Market"
+        = f.radio_button :order_type, Order::Type::MARKET
         No matter what the market price per Bitcoin (market order)
         %br/
         %br/
