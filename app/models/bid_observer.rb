@@ -73,7 +73,11 @@ class BidObserver < ActiveRecord::Observer
       end
     end
     bid.amount_remaining = bid_amount_remaining
-    bid.status = Order::Status::COMPLETE if bid.amount_remaining == 0
+    if bid.amount_remaining == 0
+      bid.status = Order::Status::COMPLETE
+    else
+      bid.status = Order::Status::CANCELLED if bid.market?
+    end
     bid.save
   end
 end

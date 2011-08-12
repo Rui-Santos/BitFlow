@@ -3,7 +3,7 @@ class Order < ActiveRecord::Base
   validates_numericality_of :price, :amount, :greater_than => 0.0
   
   belongs_to :user
-  after_initialize :default_order_type
+  after_initialize :default_order_type!
   module  Status
     ACTIVE = :active
     COMPLETE = :complete
@@ -31,9 +31,22 @@ class Order < ActiveRecord::Base
     where("user_id = ?", user.id).order(:updated_at).reverse_order
   }
 
-  def default_order_type
+  def default_order_type!
     order_type = Order::Type::LIMIT
   end
+  
+  def self.market_order_queue(value)
+    active.oldest
+  end
+  
+  def match!
+    market? ? self.class.market_order_queue : self.class.order_queue(self.price)
+  end
+  
+  def self.order_queue(value)
+    active.lesser_price_than(value).oldest
+  end
+  
   
   # the return values would in the form of a hash - no object conversion
   def self.non_executed(user, row_limit = 5)
