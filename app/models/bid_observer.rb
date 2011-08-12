@@ -8,6 +8,7 @@ class BidObserver < ActiveRecord::Observer
       return false
     end
   end
+
   def after_create(bid)
     bid = bid.reload
     bid.user.debit_commission :bid_id => bid.id

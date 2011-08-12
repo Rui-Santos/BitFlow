@@ -1,6 +1,9 @@
 class Order < ActiveRecord::Base
-  validates_presence_of :price, :amount
-  validates_numericality_of :price, :amount, :greater_than => 0.0
+
+  validates_numericality_of :price, :greater_than => 0.0, :if => proc { |bid| bid.order_type == Type::LIMIT }
+  validates_numericality_of :amount, :greater_than => 0.0
+  validates_presence_of :price, :if => proc { |bid| bid.order_type == Type::LIMIT }
+  validates_presence_of :amount
 
   belongs_to :user
   after_initialize :default_order_type!
