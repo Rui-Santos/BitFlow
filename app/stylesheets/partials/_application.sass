@@ -92,5 +92,17 @@ form.formtastic abbr, form.formtastic acronym
 #new_search_criteria
   fieldset.buttons
     border: 0
-    
-    
+.new_order label
+  display: inline
+  width: auto
+body.bp .new_order .field.error
+  border: 0
+  margin: 0
+.new_order .field.error, .new_order .no-error, .new_order .field.error .field_with_errors
+  display: inline
+.new_order .field.error, .new_order .field.error .field_with_errors
+  input[type="text"]
+    border-color: red
+body.bp .new_order input[type="text"]
+  display: inline
+  width: 40px

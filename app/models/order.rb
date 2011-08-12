@@ -1,9 +1,10 @@
 class Order < ActiveRecord::Base
   validates_presence_of :price, :amount
   validates_numericality_of :price, :amount, :greater_than => 0.0
-  
+
   belongs_to :user
   after_initialize :default_order_type!
+
   module  Status
     ACTIVE = :active
     COMPLETE = :complete
