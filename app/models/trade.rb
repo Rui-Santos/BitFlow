@@ -6,10 +6,10 @@ class Trade < ActiveRecord::Base
   scope :user_transactions, lambda { |user|
     joins([:bids, :asks]).where('bids.user_id = ? and asks.user_id = ?', user.id, user.id).order(:updated_at).reverse_order
   }
-
-  # def amount
-  #   bid.amount
-  # end
+  
+  def self.latest_market_price
+    Trade.where("market_price IS NOT NULL").last.try(:market_price)
+  end
 
   def sold
     ask.amount.round(2)

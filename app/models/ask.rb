@@ -6,4 +6,8 @@ class Ask < Order
   def to_json(*args)
     super(*args).merge(:type => 'ask')
   end
+  
+  def bid?
+    false
+  end
 end

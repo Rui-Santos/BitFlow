@@ -6,4 +6,11 @@ class Bid < Order
     super(*args).merge(:type => 'ask')
   end
   
+  def order_price
+    limit? ? price : Trade.latest_market_price
+  end
+  
+  def bid?
+    true
+  end
 end

@@ -1,7 +1,7 @@
 class BidObserver < ActiveRecord::Observer
   def before_create(bid)
     usd_fund = bid.user.usd
-    total_bid_amount = bid.amount * bid.price
+    total_bid_amount = bid.amount * bid.order_price
     commission = bid.user.commission
     if (total_bid_amount + commission) > usd_fund.available
       bid.errors.add(:base, "Not enough USD fund available")
@@ -13,9 +13,9 @@ class BidObserver < ActiveRecord::Observer
     bid = bid.reload
     bid.user.debit_commission :bid_id => bid.id
     buyer_usd_fund = bid.user.usd
-    buyer_usd_fund.reserve!(bid.amount * bid.price)
+    buyer_usd_fund.reserve!(bid.amount * bid.order_price)
     return if AppConfig.is?('SKIP_TRADE_CREATION', false)
-    buyer_btc_fund = bid.user.btc
+      buyer_btc_fund = bid.user.btc
     bid_amount_remaining = bid.amount_remaining
     bid.match!.each do |ask|
       break if bid_amount_remaining == 0
@@ -29,7 +29,7 @@ class BidObserver < ActiveRecord::Observer
         traded_amount = bid_amount_remaining
       end
       trade = Trade.create(ask: ask, bid: bid, market_price: traded_price, amount: traded_amount, status: Trade::Status::CREATED)
-      buyer_usd_fund.unreserve!(bid.price * traded_amount)
+      buyer_usd_fund.unreserve!(bid.order_price * traded_amount)
       buyer_usd_fund.debit! :amount => (traded_price * traded_amount),
                             :tx_code => FundTransactionDetail::TransactionCode::BITCOIN_PURCHASED,
                             :currency => 'USD',

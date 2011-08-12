@@ -8,7 +8,7 @@
           - order.errors[:base].each do |msg|
             = msg
       %div
-        Buy
+        = order.bid? ? "Buy" : "Sell"
         %div{:class => order.errors[:amount].blank? ? "no-error" : "field error"}
           #{f.text_field(:amount, :size => 5)}
           = order.errors[:amount].join(" and ") unless order.errors[:amount].blank?
