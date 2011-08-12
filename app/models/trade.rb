@@ -31,7 +31,7 @@ class Trade < ActiveRecord::Base
         update_attribute :status, Trade::Status::PENDING
         btc_tx_id = BitcoinProxy.send_from(ask.user.user_wallet.name,
                               bid.user.user_wallet.address, 
-                              trade.amount, 
+                              amount,
                               "bf-trade #{id}",
                               "bf-trade #{id}",
                               5)

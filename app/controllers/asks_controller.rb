@@ -17,7 +17,8 @@
                     :price => params[:ask][:price],
                     :amount_remaining => params[:ask][:amount],
                     :status => Order::Status::ACTIVE, 
-                    :order_type => params[:ask][:order_type])
+                    :order_type => params[:ask][:order_type],
+                    :currency => 'USD')
     respond_to do |format|
       if @ask.save
         format.html { redirect_to(orders_url, :notice => 'Ask was successfully created.') }
