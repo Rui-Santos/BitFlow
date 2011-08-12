@@ -27,4 +27,19 @@
         No matter what the market price per Bitcoin (market order)
         %br/
         %br/
+        = link_to "Current Market Price", "#", :id => "current_market_price"
+        %span{:id => 'market_price'}
+        %br/
+        %br/
       = f.submit
+
+- content_for(:javascript) do
+  :javascript
+    $(function() {
+      $("#current_market_price").click(function(event) {
+        event.preventDefault();
+        $.get('#{market_price_trades_path}', function(data) {
+          $("#market_price").html(data.last_trade);
+        });
+      });
+    });

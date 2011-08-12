@@ -16,6 +16,7 @@ BitFlow::Application.routes.draw do
   resources :trades, :only => [:index, :show] do
     collection do
       get 'price_graph'
+      get 'market_price'
     end
   end
   

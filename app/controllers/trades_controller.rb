@@ -17,7 +17,6 @@ class TradesController < ApplicationController
   end
 
   def market_price
-    @trade = Trade.last
-    render :json => @trade
+    render :json => {:last_trade => Trade.latest_market_price}
   end
 end
