@@ -37,9 +37,9 @@ class BitcoinProxy
     ServiceProxy.new("http://#{Configuration.bitcoind_json_rpc_user}:#{Configuration.bitcoind_json_rpc_password}@127.0.0.1:8332").getaccountaddress(account_name)
   end
   
-  def self.send_from(account_name, address, amount, comment, comment_to)
+  def self.send_from(account_name, address, amount, comment, comment_to, required_confirmations)
     # puts "Sending #{amount}BTC from #{account_name} to #{address} with comment #{comment} and comment_to #{comment_to}"
-    ServiceProxy.new("http://#{Configuration.bitcoind_json_rpc_user}:#{Configuration.bitcoind_json_rpc_password}@127.0.0.1:8332").sendfrom(account_name, address, amount, 1, comment, comment_to)
+    ServiceProxy.new("http://#{Configuration.bitcoind_json_rpc_user}:#{Configuration.bitcoind_json_rpc_password}@127.0.0.1:8332").sendfrom(account_name, address, amount, required_confirmations, comment, comment_to)
   end
   
   def self.account(address)

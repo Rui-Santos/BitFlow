@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110809191048) do
+ActiveRecord::Schema.define(:version => 20110812124025) do
 
   create_table "asks", :force => true do |t|
     t.decimal  "price",            :precision => 15, :scale => 10
@@ -24,6 +24,9 @@ ActiveRecord::Schema.define(:version => 20110809191048) do
     t.string   "order_type"
   end
 
+  add_index "asks", ["status"], :name => "index_asks_on_status"
+  add_index "asks", ["user_id"], :name => "index_asks_on_user_id"
+
   create_table "bankaccounts", :force => true do |t|
     t.string   "name"
     t.string   "number"
@@ -32,6 +35,10 @@ ActiveRecord::Schema.define(:version => 20110809191048) do
     t.datetime "updated_at"
     t.string   "status"
   end
+
+  add_index "bankaccounts", ["number"], :name => "index_bankaccounts_on_number"
+  add_index "bankaccounts", ["status"], :name => "index_bankaccounts_on_status"
+  add_index "bankaccounts", ["user_id"], :name => "index_bankaccounts_on_user_id"
 
   create_table "bids", :force => true do |t|
     t.decimal  "price",            :precision => 15, :scale => 10
@@ -45,6 +52,9 @@ ActiveRecord::Schema.define(:version => 20110809191048) do
     t.string   "order_type"
   end
 
+  add_index "bids", ["status"], :name => "index_bids_on_status"
+  add_index "bids", ["user_id"], :name => "index_bids_on_user_id"
+
   create_table "btc_withdraw_requests", :force => true do |t|
     t.string   "destination_btc_address"
     t.decimal  "amount",                  :precision => 15, :scale => 10
@@ -55,6 +65,9 @@ ActiveRecord::Schema.define(:version => 20110809191048) do
     t.datetime "updated_at"
     t.integer  "btc_tx_id"
   end
+
+  add_index "btc_withdraw_requests", ["status"], :name => "index_btc_withdraw_requests_on_status"
+  add_index "btc_withdraw_requests", ["user_id"], :name => "index_btc_withdraw_requests_on_user_id"
 
   create_table "fund_deposit_requests", :force => true do |t|
     t.decimal  "amount_requested", :precision => 15, :scale => 10
@@ -69,6 +82,9 @@ ActiveRecord::Schema.define(:version => 20110809191048) do
     t.decimal  "fee",              :precision => 15, :scale => 10
     t.boolean  "created_by_admin",                                 :default => false
   end
+
+  add_index "fund_deposit_requests", ["status"], :name => "index_fund_deposit_requests_on_status"
+  add_index "fund_deposit_requests", ["user_id"], :name => "index_fund_deposit_requests_on_user_id"
 
   create_table "fund_transaction_details", :force => true do |t|
     t.decimal  "amount",                   :precision => 15, :scale => 10
@@ -89,6 +105,10 @@ ActiveRecord::Schema.define(:version => 20110809191048) do
     t.integer  "fund_withdraw_request_id"
   end
 
+  add_index "fund_transaction_details", ["currency"], :name => "index_fund_transaction_details_on_currency"
+  add_index "fund_transaction_details", ["status"], :name => "index_fund_transaction_details_on_status"
+  add_index "fund_transaction_details", ["user_id"], :name => "index_fund_transaction_details_on_user_id"
+
   create_table "fund_withdraw_requests", :force => true do |t|
     t.string   "currency"
     t.decimal  "amount",         :precision => 15, :scale => 10
@@ -102,6 +122,9 @@ ActiveRecord::Schema.define(:version => 20110809191048) do
     t.integer  "bankaccount_id"
   end
 
+  add_index "fund_withdraw_requests", ["status"], :name => "index_fund_withdraw_requests_on_status"
+  add_index "fund_withdraw_requests", ["user_id"], :name => "index_fund_withdraw_requests_on_user_id"
+
   create_table "funds", :force => true do |t|
     t.string   "fund_type"
     t.decimal  "amount",     :precision => 15, :scale => 10, :default => 0.0
@@ -111,6 +134,9 @@ ActiveRecord::Schema.define(:version => 20110809191048) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "funds", ["fund_type"], :name => "index_funds_on_fund_type"
+  add_index "funds", ["user_id"], :name => "index_funds_on_user_id"
 
   create_table "hosts", :force => true do |t|
     t.string   "ip_address", :null => false
@@ -150,6 +176,10 @@ ActiveRecord::Schema.define(:version => 20110809191048) do
     t.string   "btc_tx_id"
   end
 
+  add_index "trades", ["ask_id"], :name => "index_trades_on_ask_id"
+  add_index "trades", ["bid_id"], :name => "index_trades_on_bid_id"
+  add_index "trades", ["status"], :name => "index_trades_on_status"
+
   create_table "user_wallets", :force => true do |t|
     t.string   "name"
     t.string   "status"
@@ -160,6 +190,10 @@ ActiveRecord::Schema.define(:version => 20110809191048) do
     t.datetime "updated_at"
     t.integer  "last_received_epoch",                                 :default => 0
   end
+
+  add_index "user_wallets", ["name"], :name => "index_user_wallets_on_name"
+  add_index "user_wallets", ["status"], :name => "index_user_wallets_on_status"
+  add_index "user_wallets", ["user_id"], :name => "index_user_wallets_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                                 :default => "",    :null => false

@@ -8,11 +8,15 @@ class Fund < ActiveRecord::Base
   end
   
   def debit!(vals)
-    transact(vals.merge(:fund_id => self.id, :tx_type => FundTransactionDetail::TransactionType::DEBIT))
+    vals = vals.merge(:fund_id => self.id, :tx_type => FundTransactionDetail::TransactionType::DEBIT)
+    update_attributes(:amount => (amount - vals[:amount]), :available => (amount - vals[:amount] - reserved))
+    FundTransactionDetail.create(vals)
   end
   
   def credit!(vals)
-    transact(vals.merge(:fund_id => self.id, :tx_type => FundTransactionDetail::TransactionType::CREDIT))
+    vals = vals.merge(:fund_id => self.id, :tx_type => FundTransactionDetail::TransactionType::CREDIT)
+    update_attributes(:amount => (amount + vals[:amount]), :available => (amount + vals[:amount] - reserved))
+    FundTransactionDetail.create(vals)
   end
   
   def reserve!(reserve_amount)
@@ -20,18 +24,11 @@ class Fund < ActiveRecord::Base
   end
   
   def unreserve!(reserve_amount)
-    update_attributes(:reserved => (reserved - reserve_amount),
-                      :available => (amount - (reserved - reserve_amount)))
-  end
-  def to_json(*args)
-    {:amount => amount.to_f, :available => available.to_f, :reserved => reserved.to_f}.to_json(args)
+    update_attributes(:reserved => (reserved - reserve_amount),:available => (amount - (reserved - reserve_amount)))
   end
   
-  private
-
-  def transact(vals)
-    update_attributes(:amount => (amount - vals[:amount]), :available => (amount - vals[:amount] - reserved))
-    FundTransactionDetail.create(vals)
+  def to_json(*args)
+    {:amount => amount.to_f, :available => available.to_f, :reserved => reserved.to_f}.to_json(args)
   end
   
 end
