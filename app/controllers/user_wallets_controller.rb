@@ -5,7 +5,7 @@ class UserWalletsController < ApplicationController
       @user_wallet = UserWallet.where(:user_id => current_user.id, :status => UserWallet::Status::ACTIVE).first
       if @user_wallet
         begin
-          bal = BitcoinProxy.balance(@user_wallet.name, 5)
+          bal = BitcoinProxy.balance(@user_wallet.name, BitcoinProxy.confirm_threshold).to_f
           @user_wallet.update_attribute :balance, bal  unless bal == @user_wallet.balance
           current_user.sync_with_bitcoind
         rescue => e
@@ -30,6 +30,8 @@ class UserWalletsController < ApplicationController
         end
       end
       @fund_transaction_details = FundTransactionDetail.order("updated_at desc").where(:user_id => current_user.id, :currency => 'BTC')
+      @btc_withdraw_requests = BtcWithdrawRequest.order("updated_at desc").where("user_id = ? and status != ?", current_user.id, BtcWithdrawRequest::Status::COMPLETE.to_s)
+      @bitcoin_details = BitcoinProxy.list_transactions(current_user.user_wallet.name, 10)
       format.html { render(:action => 'index') }
     end
   end

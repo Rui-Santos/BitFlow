@@ -21,10 +21,12 @@ class Fund < ActiveRecord::Base
   
   def reserve!(reserve_amount)
     update_attributes(:reserved => (reserved + reserve_amount),:available => (amount - (reserved + reserve_amount)))
+    Rails.logger.info "Fund#{id} Type #{fund_type} reserved #{reserve_amount}"
   end
   
   def unreserve!(reserve_amount)
     update_attributes(:reserved => (reserved - reserve_amount),:available => (amount - (reserved - reserve_amount)))
+    Rails.logger.info "Fund#{id} Type #{fund_type} UNreserved #{reserve_amount}"
   end
   
   def to_json(*args)

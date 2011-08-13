@@ -27,16 +27,14 @@ class Trade < ActiveRecord::Base
   
   def init_transactions
     if status == Trade::Status::CREATED.to_s
-      Trade.transaction do
-        update_attribute :status, Trade::Status::PENDING
-        btc_tx_id = BitcoinProxy.send_from(ask.user.user_wallet.name,
-                              bid.user.user_wallet.address, 
-                              amount + 0.0,
-                              "bf-trade #{id}",
-                              "bf-trade #{id}",
-                              5)
-        update_attribute :btc_tx_id, btc_tx_id
-      end
+      update_attribute :status, Trade::Status::PENDING
+      btc_tx_id = BitcoinProxy.send_from(ask.user.user_wallet.name,
+                            bid.user.user_wallet.address,
+                            amount + 0.0,
+                            "bf-trade #{id}",
+                            "bf-trade #{id}",
+                            BitcoinProxy.confirm_threshold)
+      update_attribute :btc_tx_id, btc_tx_id
     end
   end
 
@@ -58,23 +56,28 @@ class Trade < ActiveRecord::Base
   
   private
   def _update_transaction_details(tx_details)
+    fee = tx_details["fee"].try(:to_f).try(:abs)
+    if fee && fee > 0.0
+      fee_tx = fund_transaction_details.detect { |ftd| ftd.tx_code == FundTransactionDetail::TransactionCode::BITCOIN_FEE.to_s }
+      if fee_tx.nil?
+        ask.user.btc.debit! :amount => fee,
+                            :tx_code => FundTransactionDetail::TransactionCode::BITCOIN_FEE,
+                            :currency => 'BTC',
+                            :status => FundTransactionDetail::Status::PENDING,
+                            :user_id => ask.user.id,
+                            :trade_id => id,
+                            :ask_id => ask.id,
+                            :bid_id => bid.id
+      end
+      
+    end
+    
     confirmations = tx_details["confirmations"].to_f
     Rails.logger.info "confirmations ****** #{confirmations}"
-    if confirmations >= 5
+    if confirmations >= BitcoinProxy.confirm_threshold
       Trade.transaction do
         update_attribute :status, Trade::Status::COMPLETE
         fund_transaction_details.each {|tx_detail| tx_detail.update_attribute :status, FundTransactionDetail::Status::COMMITTED}
-        fee = tx_details["fee"].try(:to_f).try(:abs)
-        if fee && fee > 0.0
-          ask.user.btc.debit! :amount => fee,
-                              :tx_code => FundTransactionDetail::TransactionCode::BITCOIN_FEE,
-                              :currency => 'BTC',
-                              :status => FundTransactionDetail::Status::COMMITTED,
-                              :user_id => ask.user.id,
-                              :trade_id => id,
-                              :ask_id => ask.id,
-                              :bid_id => bid.id
-        end
       end
     end
   end

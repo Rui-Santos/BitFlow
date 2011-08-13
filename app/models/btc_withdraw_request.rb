@@ -12,22 +12,20 @@ class BtcWithdrawRequest < ActiveRecord::Base
   
   def init_transactions
     if status == BtcWithdrawRequest::Status::CREATED.to_s
-      BtcWithdrawRequest.transaction do
-        btc_tx_id = BitcoinProxy.send_from(user.user_wallet.name, 
-                              destination_btc_address, 
-                              amount + 0.0,
-                              "bf-withdraw #{id}",
-                              "bf-withdraw #{id}",
-                              5)
-        update_attributes :status => BtcWithdrawRequest::Status::PENDING,
-                          :btc_tx_id => btc_tx_id
-      end
+      update_attribute :status, BtcWithdrawRequest::Status::PENDING
+      btc_tx_id = BitcoinProxy.send_from(user.user_wallet.name,
+                            destination_btc_address,
+                            amount + 0.0,
+                            "bf-withdraw #{id}",
+                            "bf-withdraw #{id}",
+                            BitcoinProxy.confirm_threshold)
+      update_attribute :btc_tx_id, btc_tx_id
     end
   end
 
   def update_transaction_details
     if status == BtcWithdrawRequest::Status::PENDING.to_s
-      if btc_tx_id && btc_tx_id > 0
+      if btc_tx_id
         tx_details = BitcoinProxy.get_transaction btc_tx_id
         _update_transaction_details tx_details
       else
@@ -43,8 +41,15 @@ class BtcWithdrawRequest < ActiveRecord::Base
   
   private
   def _update_transaction_details(tx_details)
+    fee_amount = tx_details["fee"].try(:to_f).try(:abs)
+    if (self.fee.nil? || self.fee == 0.0) && fee_amount && fee_amount > 0.0
+      BtcWithdrawRequest.transaction do
+        user.btc.reserve!(fee_amount)
+        update_attribute :fee, fee_amount
+      end
+    end
     confirmations = tx_details["confirmations"].to_f
-    if confirmations >= 5
+    if confirmations >= BitcoinProxy.confirm_threshold
       BtcWithdrawRequest.transaction do
         update_attribute :status, BtcWithdrawRequest::Status::COMPLETE
         user.btc.unreserve!(amount)
@@ -55,9 +60,9 @@ class BtcWithdrawRequest < ActiveRecord::Base
                         :message => message,
                         :user_id => user_id,
                         :btc_withdraw_request_id => id
-        fee = tx_details["fee"].try(:to_f).try(:abs)
-        if fee && fee > 0.0
-            user.btc.debit! :amount => fee,
+        if fee_amount && fee_amount > 0.0
+            user.btc.unreserve!(fee_amount)
+            user.btc.debit! :amount => fee_amount,
                             :tx_code => FundTransactionDetail::TransactionCode::BITCOIN_FEE,
                             :currency => 'BTC',
                             :status => FundTransactionDetail::Status::COMMITTED,
