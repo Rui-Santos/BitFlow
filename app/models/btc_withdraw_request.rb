@@ -18,7 +18,7 @@ class BtcWithdrawRequest < ActiveRecord::Base
                             amount + 0.0,
                             "bf-withdraw #{id}",
                             "bf-withdraw #{id}",
-                            5)
+                            BitcoinProxy.confirm_threshold)
       update_attribute :btc_tx_id, btc_tx_id
     end
   end
@@ -49,7 +49,7 @@ class BtcWithdrawRequest < ActiveRecord::Base
       end
     end
     confirmations = tx_details["confirmations"].to_f
-    if confirmations >= 5
+    if confirmations >= BitcoinProxy.confirm_threshold
       BtcWithdrawRequest.transaction do
         update_attribute :status, BtcWithdrawRequest::Status::COMPLETE
         user.btc.unreserve!(amount)

@@ -33,7 +33,7 @@ class Trade < ActiveRecord::Base
                             amount + 0.0,
                             "bf-trade #{id}",
                             "bf-trade #{id}",
-                            5)
+                            BitcoinProxy.confirm_threshold)
       update_attribute :btc_tx_id, btc_tx_id
     end
   end
@@ -74,7 +74,7 @@ class Trade < ActiveRecord::Base
     
     confirmations = tx_details["confirmations"].to_f
     Rails.logger.info "confirmations ****** #{confirmations}"
-    if confirmations >= 5
+    if confirmations >= BitcoinProxy.confirm_threshold
       Trade.transaction do
         update_attribute :status, Trade::Status::COMPLETE
         fund_transaction_details.each {|tx_detail| tx_detail.update_attribute :status, FundTransactionDetail::Status::COMMITTED}

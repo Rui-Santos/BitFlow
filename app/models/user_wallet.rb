@@ -12,7 +12,7 @@ class UserWallet < ActiveRecord::Base
       time = tx_details["time"].to_i
       if tx_details["category"] == 'receive' && 
           time > last_received_epoch && 
-          tx_details["confirmations"].to_i >= 5
+          tx_details["confirmations"].to_i >= BitcoinProxy.confirm_threshold
         comment = tx_details["comment"]
         to = tx_details["to"]
         if (comment.nil? && to.nil?) || 

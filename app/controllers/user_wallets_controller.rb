@@ -5,7 +5,7 @@ class UserWalletsController < ApplicationController
       @user_wallet = UserWallet.where(:user_id => current_user.id, :status => UserWallet::Status::ACTIVE).first
       if @user_wallet
         begin
-          bal = BitcoinProxy.balance(@user_wallet.name, 5).to_f
+          bal = BitcoinProxy.balance(@user_wallet.name, BitcoinProxy.confirm_threshold).to_f
           @user_wallet.update_attribute :balance, bal  unless bal == @user_wallet.balance
           current_user.sync_with_bitcoind
         rescue => e

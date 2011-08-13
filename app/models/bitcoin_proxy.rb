@@ -1,4 +1,9 @@
 class BitcoinProxy
+
+  def self.confirm_threshold
+    5
+  end
+  
   class JSONRPCException < RuntimeError
   end
 

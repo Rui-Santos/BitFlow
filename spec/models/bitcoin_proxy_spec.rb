@@ -10,7 +10,7 @@ describe BitcoinProxy do
   end
 
   it "get balance" do
-    BitcoinProxy.balance('niket', 5).should_not be_nil
+    BitcoinProxy.balance('niket', BitcoinProxy.confirm_threshold).should_not be_nil
   end
   
 end
