@@ -1,0 +1,9 @@
+production:
+  adapter: mysql
+  encoding: utf8
+  reconnect: false
+  database: bitflow_production
+  pool: 20
+  username: root
+  password: bitflow
+  socket: /var/run/mysqld/mysqld.sock
