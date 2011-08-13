@@ -30,6 +30,8 @@ class UserWalletsController < ApplicationController
         end
       end
       @fund_transaction_details = FundTransactionDetail.order("updated_at desc").where(:user_id => current_user.id, :currency => 'BTC')
+      @btc_withdraw_requests = BtcWithdrawRequest.order("updated_at desc").where(:user_id => current_user.id)
+      @bitcoin_details = BitcoinProxy.list_transactions(current_user.user_wallet.name, 10)
       format.html { render(:action => 'index') }
     end
   end

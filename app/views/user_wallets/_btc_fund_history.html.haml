@@ -1,0 +1,18 @@
+%table
+  %caption
+    %em My BTC Fund History
+  %thead
+    %tr
+      %th Date
+      %th Description
+      %th BTC Change
+      %th Status
+      %th.last Notes
+  %tbody
+    - @fund_transaction_details.each do |fund_transaction_detail|
+      %tr{class: cycle("odd", "even")}
+        %td= fund_transaction_detail.created_at
+        %td= description fund_transaction_detail
+        %td= btc_change fund_transaction_detail
+        %td= fund_transaction_detail.status
+        %td= btc_notes fund_transaction_detail
