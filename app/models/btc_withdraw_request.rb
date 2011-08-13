@@ -27,7 +27,7 @@ class BtcWithdrawRequest < ActiveRecord::Base
 
   def update_transaction_details
     if status == BtcWithdrawRequest::Status::PENDING.to_s
-      if btc_tx_id && btc_tx_id > 0
+      if btc_tx_id
         tx_details = BitcoinProxy.get_transaction btc_tx_id
         _update_transaction_details tx_details
       else
