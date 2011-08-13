@@ -26,8 +26,8 @@ class BitcoinProxy
     ServiceProxy.new("http://#{Configuration.bitcoind_json_rpc_user}:#{Configuration.bitcoind_json_rpc_password}@127.0.0.1:8332").getnewaddress(account_name)
   end
 
-  def self.balance(account_name)
-    ServiceProxy.new("http://#{Configuration.bitcoind_json_rpc_user}:#{Configuration.bitcoind_json_rpc_password}@127.0.0.1:8332").getbalance(account_name)
+  def self.balance(account_name, confirmations)
+    ServiceProxy.new("http://#{Configuration.bitcoind_json_rpc_user}:#{Configuration.bitcoind_json_rpc_password}@127.0.0.1:8332").getbalance(account_name, confirmations)
   end
 
   def self.all_addresses(account_name)
