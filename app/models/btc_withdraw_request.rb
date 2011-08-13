@@ -13,21 +13,21 @@ class BtcWithdrawRequest < ActiveRecord::Base
   def init_transactions
     if status == BtcWithdrawRequest::Status::CREATED.to_s
       BtcWithdrawRequest.transaction do
-        update_attribute :status, BtcWithdrawRequest::Status::PENDING
         btc_tx_id = BitcoinProxy.send_from(user.user_wallet.name, 
                               destination_btc_address, 
                               amount + 0.0,
                               "bf-withdraw #{id}",
                               "bf-withdraw #{id}",
                               5)
-        update_attribute :btc_tx_id, btc_tx_id
+        update_attributes :status => BtcWithdrawRequest::Status::PENDING,
+                          :btc_tx_id => btc_tx_id
       end
     end
   end
 
   def update_transaction_details
     if status == BtcWithdrawRequest::Status::PENDING.to_s
-      if btc_tx_id
+      if btc_tx_id && btc_tx_id > 0
         tx_details = BitcoinProxy.get_transaction btc_tx_id
         _update_transaction_details tx_details
       else
@@ -44,7 +44,7 @@ class BtcWithdrawRequest < ActiveRecord::Base
   private
   def _update_transaction_details(tx_details)
     confirmations = tx_details["confirmations"].to_f
-    if confirmations > 5
+    if confirmations >= 5
       BtcWithdrawRequest.transaction do
         update_attribute :status, BtcWithdrawRequest::Status::COMPLETE
         user.btc.unreserve!(amount)
