@@ -52,7 +52,7 @@ module UserWalletsHelper
       if btc_detail["comment"].starts_with?("bf-trade")
         'Traded'
       elsif btc_detail["comment"].starts_with?("bf-withdraw")
-        'Withdrawn'
+        'Transfer'
       else
         btc_detail["comment"]
       end

@@ -26,6 +26,19 @@ class UserWallet < ActiveRecord::Base
                               :user_id => user.id
             update_attribute :last_received_epoch, time
           end
+        elsif comment && comment.start_with?("bf-withdraw") && to && to.start_with?("bf-withdraw")
+          UserWallet.transaction do
+            btc_withdraw_request_id = comment.split[1].to_i
+            btc_withdraw_request = BtcWithdrawRequest.find(btc_withdraw_request_id)
+            user.btc.credit! :amount => tx_details["amount"].to_f,
+                          :tx_code => FundTransactionDetail::TransactionCode::PAYMENT_RECEIVED,
+                          :currency => 'BTC',
+                          :status => FundTransactionDetail::Status::COMMITTED,
+                          :message => btc_withdraw_request.message,
+                          :user_id => user.id,
+                          :btc_withdraw_request_id => btc_withdraw_request_id
+            update_attribute :last_received_epoch, time
+          end
         end
       end
     end
