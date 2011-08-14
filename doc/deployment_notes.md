@@ -3,10 +3,13 @@ Production Setup
 
 Description
 ------------
-It's a Single Small Instance running 32 Bit Ubuntu 10.04 LTS(Long term support)
+It's a Single Small Instance running 32 Bit Ubuntu 10.04 LTS(Long term support) hosted on Amazon Ec2.
+It hosts all the components in the system
+* nginx    - HTTP server
+* unicorn  - App server
+* bitcoind - Jure's Bitcoind server
+* mysql    - Database Server
 
-
-This is the address the CNAME should point instead of the physical ip address.
 
 Amazon Ec2 Setup
 ----------------
@@ -18,7 +21,9 @@ Use script/go2-production.sh to connect to the production server.
 
 [Cloudwatch](https://console.aws.amazon.com/cloudwatch/home?region=eu-west-1) - It is a paid amazon servce and i have turned it on. It gives us information of machine loads and gives us the ability to create alarms for specific conditions.
 
- [Elastic IP address](https://console.aws.amazon.com/ec2/home?region=eu-west-1&#s=Addresses). (Elastic ip's are free as long as they are associated with an instance, and start to cost if they are not.) We have assigned a single Elastic IP so that we do not hve to change cnames when the machine is upgraded or terminated.
+[Elastic IP address](https://console.aws.amazon.com/ec2/home?region=eu-west-1&#s=Addresses). (Elastic ip's are free as long as they are associated with an instance, and start to cost if they are not.) We have assigned a single Elastic IP so that we do not hve to change cnames when the machine is upgraded or terminated.
+This is the address the CNAME should point instead of the physical ip address.
+
 
 [EBS](https://console.aws.amazon.com/ec2/home?region=eu-west-1#s=Volumes). It is persistent data storage blocks. We use it to store both the mysql database as well as bitcoin wallet.dat. This needs to snapshotted. It is currently 8G and i am worried that i may not suffice.
 
