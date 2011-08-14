@@ -17,15 +17,17 @@ The public key for the machine is in script/bitflow_prod.pem
 Use script/go2-production.sh to connect to the production server.
 
 [Cloudwatch](https://console.aws.amazon.com/cloudwatch/home?region=eu-west-1) - It is a paid amazon servce and i have turned it on. It gives us information of machine loads and gives us the ability to create alarms for specific conditions.
+
  [Elastic IP address](https://console.aws.amazon.com/ec2/home?region=eu-west-1&#s=Addresses). (Elastic ip's are free as long as they are associated with an instance, and start to cost if they are not.) We have assigned a single Elastic IP so that we do not hve to change cnames when the machine is upgraded or terminated.
 
 [EBS](https://console.aws.amazon.com/ec2/home?region=eu-west-1#s=Volumes). It is persistent data storage blocks. We use it to store both the mysql database as well as bitcoin wallet.dat. This needs to snapshotted. It is currently 8G and i am worried that i may not suffice.
-[Security Groups](https://console.aws.amazon.com/ec2/home?region=eu-west-1#s=SecurityGroups). This lets us control the access into the machine. As can be seen We allow only the follwoing ports access. This lets us make it secure.
+
+[Security Groups](https://console.aws.amazon.com/ec2/home?region=eu-west-1#s=SecurityGroups). This lets us control the access into the machine. As can be seen We allow only the following ports access. This lets us make it secure.
 22 (SSH)
 80 (HTTP)
 443 (HTTPS)
 
-[Snapshots](https://console.aws.amazon.com/ec2/home?region=eu-west-1#s=Snapshots). This lets us back up EBS volumes. I have one setup right aftr doing the setup.
+[Snapshots](https://console.aws.amazon.com/ec2/home?region=eu-west-1#s=Snapshots). This lets us back up EBS volumes. I have one setup right after doing the setup.
 
 
 
