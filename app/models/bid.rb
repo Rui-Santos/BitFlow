@@ -25,8 +25,4 @@ class Bid < Order
   def order_price
     limit? ? price : Trade.latest_market_price
   end
-  
-  def bid?
-    true
-  end
 end
