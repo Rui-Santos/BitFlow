@@ -5,6 +5,7 @@ Description
 ------------
 It's a Single Small Instance running 32 Bit Ubuntu 10.04 LTS(Long term support) hosted on Amazon Ec2.
 It hosts all the components in the system
+
 * nginx    - HTTP server
 * unicorn  - App server
 * bitcoind - Jure's Bitcoind server
