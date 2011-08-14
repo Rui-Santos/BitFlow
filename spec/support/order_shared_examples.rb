@@ -3,7 +3,8 @@ shared_examples_for "an order" do
   
   before(:each) do
     @user = Factory(:user)
-    @user.funds.each{|f| f.update_attributes(:amount => 1000, :available => 1000) }
+    @admin = Factory(:admin)
+    @user.funds.each{|f| f.update_attributes(:amount => 5000, :available => 15000) }
   end
 
   describe "value is stored as " do
@@ -28,7 +29,8 @@ shared_examples_for "an order" do
 
   describe "active" do
     before(:each) do
-      order_class.all.each {|o| o.destroy}
+      order_class.all.each(&:destroy)
+      @user.funds.each{|f| f.update_attributes(:amount => 5000, :available => 2000) }
     end
 
     it "shows active orders" do
@@ -46,7 +48,7 @@ shared_examples_for "an order" do
 
   describe "oldest" do
     before(:each) do
-      order_class.all.each {|o| o.destroy}
+      order_class.all.each{|x| x.destroy}
     end
 
     it "shows ordered by time orders" do
@@ -55,4 +57,32 @@ shared_examples_for "an order" do
       order_class.oldest.first.status.should eql(Order::Status::ACTIVE.to_s)
     end
   end
+  describe "validations" do
+    describe "for limit order" do
+      it "fails when price does not exist" do
+        Factory.build(order_class.to_s.underscore, :price => nil).should_not be_valid
+      end
+      it "fails when price does not exist" do
+        Factory.build(order_class.to_s.underscore, :price => -1.21).should_not be_valid
+      end
+
+      it "fails when price does not exist" do
+        Factory.build(order_class.to_s.underscore, :price => "avc").should_not be_valid
+      end
+
+      it "fails when amount does not exist" do
+        Factory.build(order_class.to_s.underscore, :amount => nil).should_not be_valid
+      end
+
+      it "fails when amount is negative" do
+        Factory.build(order_class.to_s.underscore, :amount => -1.22).should_not be_valid
+      end
+
+      it "fails when amount is not number" do
+        Factory.build(order_class.to_s.underscore, :amount => "-1.22").should_not be_valid
+      end
+      
+    end
+  end
+  
 end

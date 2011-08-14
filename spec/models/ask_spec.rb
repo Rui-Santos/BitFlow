@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe Ask do
   it_behaves_like "an order"
-
-  
   before(:each) do
     AppConfig.set 'SKIP_TRADE_CREATION', true
     Ask.all.each(&:destroy)
@@ -39,14 +37,6 @@ describe Ask do
     end
   end
   
-  describe "validations" do
-    describe "for limit order" do
-      it "fails when price does not exist" do
-        Factory.build(:ask, :price => nil).should_not be_valid
-      end
-      
-    end
-  end
   it "should not match ask when ask price is higher" do
     ask = Factory(:ask, :price => 12.00, :user_id => @user.id)
     bid = Factory(:bid, :price => 11.00, :user_id => @user.id)

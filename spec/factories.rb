@@ -13,13 +13,13 @@ FactoryGirl.define do
   end
 
   factory :usd_fund, :class => Fund do
-    amount 100
+    amount 10000
     available 100
     fund_type 'USD'
   end
 
   factory :btc_fund, :class => Fund do
-    amount 100
+    amount 10000
     available 100
     fund_type 'BTC'
   end
