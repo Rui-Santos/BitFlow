@@ -44,26 +44,26 @@ describe Bid do
     it "should not match ask when ask price is higher" do
       ask = Factory(:ask, :price => 10.00, :user_id => @user.id)
       bid = Factory(:bid, :price => 11.00, :user_id => @user.id)
-      bid.match!.should_not be_empty
+      bid.match.should_not be_empty
     end
     
     it "should match bid" do
       ask = Factory(:ask, :price => 20.00, :user_id => @user.id)
       bid = Factory(:bid, :price => 11.00, :user_id => @user.id)
-      bid.match!.should be_empty
+      bid.match.should be_empty
     end
 
     it "should match bid when equal" do
       ask = Factory(:ask, :price => 20.01, :user_id => @user.id)
       bid = Factory(:bid, :price => 20.01, :user_id => @user.id)
-      bid.match!.should_not be_nil
+      bid.match.should_not be_nil
     end
 
     it "should match lowest ask" do
       ask = Factory(:ask, :amount => 3, :price => 20.01, :user_id => @user.id)
       ask = Factory(:ask, :amount => 5, :price => 20.00, :user_id => @user.id)
       bid = Factory.build(:bid, :price => 20.01)
-      matches = bid.match!
+      matches = bid.match
       matches.size.should == 2
       matches.first.amount.round(2).should == 5.00
       matches[1].amount.round(2).should == 3.00
@@ -73,7 +73,7 @@ describe Bid do
       ask = Factory(:ask, :amount => 3, :price => 20.01, :updated_at => 5.hours.ago, :user_id => @user.id)
       ask = Factory(:ask, :amount => 5, :price => 20.01, :updated_at => 1.hour.ago, :user_id => @user.id)
       bid = Factory(:bid, :price => 20.01, :user_id => @user.id)
-      matches = bid.match!
+      matches = bid.match
       matches.size.should == 2
       matches.first.amount.round(2).should == 3.00
       matches[1].amount.round(2).should == 5.00

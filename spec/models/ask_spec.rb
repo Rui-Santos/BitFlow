@@ -57,19 +57,19 @@ describe Ask do
   it "should not match ask when ask price is higher" do
     ask = Factory(:ask, :price => 12.00, :user_id => @user.id)
     bid = Factory(:bid, :price => 11.00, :user_id => @user.id)
-    ask.match!.should be_empty
+    ask.match.should be_empty
   end
   
   it "should match bid" do
     ask = Factory(:ask, :price => 20.00, :user_id => @user.id)
     bid = Factory(:bid, :price => 21.00, :user_id => @user.id)
-    ask.match!.should_not be_empty
+    ask.match.should_not be_empty
   end
 
   it "should match bid when equal" do
     ask = Factory(:ask, :price => 20.01, :user_id => @user.id)
     bid = Factory(:bid, :price => 20.01, :user_id => @user.id)
-    ask.match!.should_not be_empty
+    ask.match.should_not be_empty
   end
   
   it "should order oldest first" do
@@ -78,7 +78,7 @@ describe Ask do
     bid = Factory(:bid, :amount => 1, :price => 19.01, :updated_at => 5.minutes.ago, :user_id => @user.id)
     ask = Factory(:ask, :price => 20.01, :user_id => @user.id)
 
-    matches = ask.match!
+    matches = ask.match
     
     matches.size.should == 2
     matches.first.amount.should == 3

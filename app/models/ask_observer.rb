@@ -8,7 +8,7 @@ class AskObserver < ActiveRecord::Observer
     seller_usd_fund = ask.user.usd
     ask_amount_remaining = ask.amount_remaining
    
-    ask.match!.each do |bid|
+    ask.match.each do |bid|
       break if ask_amount_remaining == 0
       traded_price = 0.0
       traded_amount = 0.0

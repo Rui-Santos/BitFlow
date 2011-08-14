@@ -12,7 +12,10 @@ class Bid < Order
     end
     
   end
-  def reverse_class; Ask; end
+
+  def match
+    Ask.order_queue(self.price)
+  end
   
   def self.order_queue(value)
     active.greater_price_than(value).oldest

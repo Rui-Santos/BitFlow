@@ -8,7 +8,7 @@ class BidObserver < ActiveRecord::Observer
     return if AppConfig.is?('SKIP_TRADE_CREATION', false)
       buyer_btc_fund = bid.user.btc
     bid_amount_remaining = bid.amount_remaining
-    bid.match!.each do |ask|
+    bid.match.each do |ask|
       break if bid_amount_remaining == 0
       traded_price = 0.0
       traded_amount = 0.0

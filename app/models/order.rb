@@ -39,13 +39,6 @@ class Order < ActiveRecord::Base
     order_type = Order::Type::LIMIT
   end
   
-  def match!
-    self.reverse_class.order_queue(self.price)
-  end
-  
-  def self.order_queue(value)
-    active.lesser_price_than(value).oldest
-  end
   
   # the return values would in the form of a hash - no object conversion
   def self.non_executed(user, row_limit = 5)
