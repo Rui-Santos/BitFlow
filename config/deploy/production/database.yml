@@ -5,5 +5,5 @@ production:
   database: bitflow_production
   pool: 20
   username: root
-  password: bitflow
+  password: w0lftib_as
   socket: /var/run/mysqld/mysqld.sock

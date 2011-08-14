@@ -1,8 +1,8 @@
 $:.unshift(File.expand_path('./lib', ENV['rvm_path']))
-require 'capistrano/ext/multistage'
-
-require 'bundler/capistrano'
 require "rvm/capistrano"                  # Load RVM's capistrano plugin.
+
+require 'capistrano/ext/multistage'
+require 'bundler/capistrano'
 
 
 set :application, "BitFlow"
@@ -22,6 +22,7 @@ set :deploy_via, :remote_cache
 set :rails_env, 'production'
 set :normalize_asset_timestamps, false  # does not normalize the javascript/stylesheets etc.
 
+before 'deploy:update_code', "bitflow:install_bundler"
 before 'deploy:symlink', 'bitflow:copy_config'
 after 'deploy:symlink', 'bitflow:symlink_files'
 after "deploy:restart" , "bitflow:restart"
@@ -32,7 +33,10 @@ namespace :bitflow do
   task :copy_config do
     run "cp -f #{release_path}/config/deploy/#{stage}/database.yml #{release_path}/config/database.yml"
   end
-  
+  desc "Installs bundler"
+  task :install_bundler  do
+    run "gem install bundler"
+  end
   desc "creates sym links"
   task :symlink_files do
     run "ln -s #{shared_path}/config/initializers/configuration.rb #{release_path}/config/initializers/configuration.rb"
