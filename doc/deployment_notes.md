@@ -33,21 +33,21 @@ Use script/go2-production.sh to connect to the production server.
 
 Paths
 -----
-1) App - /apps/BitFlow/current
-2) Shared Stuff  - /apps/Bitflow/shared
-3) Bitcoind - /mnt/bitcoind
-4) mysql data files - /mnt/mysql
-5) Certificate Pubkey - /etc/ssl/certs/www_bitflow_org.pem
-6) Certificate Private key - /etc/ssl/private/www_bitflow_org.key  (Keep it very very secret)
-7) Nginx Conf - /etc/nginx/nginx.conf
-8) Mysql Conf - /etc/mysql/my.conf
+* App                     - /apps/BitFlow/current
+* Shared Stuff            - /apps/Bitflow/shared
+* Bitcoind                - /mnt/bitcoind
+* mysql data files        - /mnt/mysql
+* Certificate Pubkey      - /etc/ssl/certs/www_bitflow_org.pem
+* Certificate Private key - /etc/ssl/private/www_bitflow_org.key  (Keep it very very secret)
+* Nginx Conf              - /etc/nginx/nginx.conf
+* Mysql Conf              - /etc/mysql/my.conf
 
 Stack
 -----
-Nginx - Stock Nginx installed via apt-get
+* Nginx - Stock Nginx installed via apt-get
         Configuration files in the Source control
 
-Mysql - Stock mysql client + server 
+* Mysql - Stock mysql client + server 
         Configuration file in source control.
 		Writes to /mnt which is an ebs volume. It can be and should be snapshotted frequently.
 
