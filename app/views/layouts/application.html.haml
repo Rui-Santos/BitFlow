@@ -1,43 +1,103 @@
-!!! XML
-!!! 5
-%html
+!!! Strict
+%html{:xmlns => "http://www.w3.org/1999/xhtml"}
   = render 'layouts/head'
 
-  %body.bp.two-col
-    #container
-      %hr.space
-      #header
-        .container
-          .span-16
-            %div
-              = link_to '', root_url, class: 'logo'
-            .span-8
-              .quiet 24/7 Secure Bitcoin Exchange
-          .span-8.last
-            = render '/devise/shared/login_items'
-      %hr
-      #sidebar
-        = render '/shared/sidebar'
-      #content
-        = render '/shared/authenticated_menu_items'
+  %body
+    #wrap
+      #ribbon
+        %h1#logo
+          %a{:href => "#"}
+            BitFlow
+            %span.black Exchange
+          %span.desc Startup Chile 2011
+        
+        = render '/shared/topright'
+          
+      #nav
+        = render '/shared/navigation'
 
-        - flash.each do |key, message|
-          = content_tag(:div, message, :class => "flash #{key}") unless key == :recaptcha_error 
+      = render '/shared/greenbar'
 
-        = yield
+      #contents
+        = render '/shared/whitebar'
+        .devider
 
-      %hr
-      #footer
-        %center
-          %ul
-            %li= link_to 'Latest Updates', latest_updates_path 
-            %li= link_to 'About Us', about_us_path 
-            %li= link_to ' FAQ', faq_path
-            %li= link_to ' Contact Us', contact_us_path
-            %li= link_to 'Trading API', trading_api_path 
-            %li= link_to ' Affiliate Program', affiliate_program_path
-            %li= link_to ' Terms of Use', terms_of_use_path
-            %li= link_to ' Privacy Policy', privacy_policy_path
-
+        #left
+          .post
+            #content
+              = yield
+              
+          %p
+            %a{:href => "http://creativecommons.org/licenses/by-nc-sa/3.0/us/", :rel => "license"}
+              %img{:alt => "Creative Commons License", :src => "http://i.creativecommons.org/l/by-nc-sa/3.0/us/88x31.png", :style => "border-width:0"}/
+          %p
+            %span CSS Website Template
+            by
+            %a{:href => "http://www.ramblingsoul.com", :rel => "cc:attributionURL"} RamblingSoul
+            is licensed under a
+            %a{:href => "http://creativecommons.org/licenses/by-nc-sa/3.0/us/", :rel => "license"} Creative Commons
+            Attribution - Noncommercial - Share Alike 3.0 License. Based on a work at
+            = succeed "." do
+              %a{:href => "http://www.ramblingsoul.com/dl/rs15.zip", :rel => "dc:source"} RamblingSoul
+            Permissions beyond the scope of this license may be available at
+            = succeed "." do
+              %a{:href => "http://www.rabmlingsoul.com/contact", :rel => "cc:morePermissions"} http://www.rabmlingsoul.com/contact
+        #sidebar
+          /%h2 Submenu
+          /%ul#menu
+          /  %li
+          /    %a{:href => "#"} Albert Einstein
+          /  %li
+          /    %a{:href => "#"} Greatest Hits of Reggae
+              
+          = yield(:sidebar)
+          
+        .clear
+    #footer
+      #container
+        .left
+          %p
+            2011 © BitFlow.org
+          %p
+            %a{:href => "#"} Home
+            |
+            %a{:href => "#"} About
+            |
+            %a{:href => "#"} Services
+            |
+            %a{:href => "#"} Downloads
+            |
+            %a{:href => "#"} Contat Us
+            |
+            %a{:href => "#"} Privacy Policy
+            |
+            %a{:href => "#"} Terms of Use
+        .credits
+          %a{:href => "http://ramblingsoul.com", :title => "CSS Templates, CSS Layouts, HTML Templates, Website, Accessibility, Web 2.0"} CSS Template
+          By RamblingSoul
+        .clear
+        
+        
   = javascript_include_tag :defaults
   = yield(:javascript)
+  
+  %script{:src => "js/jquery.innerfade.js", :type => "text/javascript"}
+  
+  :javascript
+    $(document).ready(
+
+      function(){
+
+       $('ul#portfolio').innerfade({
+
+        speed: 1000,
+
+        timeout: 5000,
+
+        type: 'sequence',
+
+        containerheight: '220px'
+
+       });
+     });
+

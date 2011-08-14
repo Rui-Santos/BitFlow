@@ -10,3 +10,4 @@ config/initializers/configuration.rb
 public/stylesheets/ie.css
 public/stylesheets/print.css
 public/stylesheets/screen.css
+*.swp

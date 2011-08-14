@@ -1,18 +1,15 @@
 %ul.span-14
-  - if current_user
-    %li= referral_code
-    %li= referral_code_link
-  %li Lowest Commissions (0.3%)
-  %li Dedicated BTC Wallet
+/  - if current_user
+/    %li= referral_code
+/    %li= referral_code_link
+/  %li Lowest Commissions (0.3%)
+/  %li Dedicated BTC Wallet
 /  %li Trade BTC & Mining Contracts
 /  %li
 /    Earn interest with
 /    = link_to 'Fixed Mining', '/fixed_mining'
-%hr
-#recent-order-books
-  .bids= render :partial => 'recent_orders', :locals => {:items => @asks, :item_type => 'Ask'}
-  .asks= render :partial => 'recent_orders', :locals => {:items => @bids, :item_type => 'Bid'}
-%hr.space
+/%hr
+
 #tabs
   %ul
     %li
@@ -22,7 +19,14 @@
 
 %hr.space
 
-- content_for(:javascript) do
+- content_for(:sidebar) do
+  #recent-order-books
+    .bids= render :partial => 'recent_orders', :locals => {:items => @asks, :item_type => 'Ask'}
+    .asks= render :partial => 'recent_orders', :locals => {:items => @bids, :item_type => 'Bid'}
+  /%hr.space
+
+
+- content_for(:javascript) do  
   = javascript_include_tag 'highstock.src'
 
   :javascript

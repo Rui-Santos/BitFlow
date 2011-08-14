@@ -1,0 +1,51 @@
+.bracket-end
+
+#intro
+  - if !current_user
+    %p
+      %strong Bitcoin
+      is the world's first peer-to-peer digital money based on cryptography. Simplicity, security and anonimity (if used correctly) make Bitcoin a viable alternative for internet payments. 
+      %br/
+      %img{:alt => "link", :height => "10", :src => "images/greenbullet.gif", :width => "10"}/
+      %a{:href => "http://www.weusecoins.com/"} Learn More
+      |
+      %a{:href => "/users/sign_up"}
+        %strong Register
+      |
+      %a{:href => "/users/sign_in"} Login
+
+
+
+
+  - else
+    %p
+      = render '/devise/shared/login_items'
+      
+      %br/
+      
+      - address = current_user.user_wallet.address
+      %a{:href => "http://blockexplorer.com/address/#{address}"}
+        #{address}
+      %strong
+        #{current_user.btc.available}
+      BTC
+      |
+      %strong
+        #{current_user.usd.available}
+      USD
+      
+      %br/
+      
+      %span.button-small
+        = link_to 'Send BTC', new_btc_withdraw_request_path
+
+      %span.button-small
+        %a{:href => '#'}
+          Buy BTC
+
+      %span.button-small
+        %a{:href => '#'}
+          Sell BTC
+      
+      
+      

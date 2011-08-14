@@ -1,0 +1,36 @@
+- if !current_user
+  #homeheader
+    #left-column
+      %h2 Welcome to BitFlow.
+      %p Here you can trade bitcoins and use your wallet, which by the way, you can always audit on Blockexplorer.
+      %p
+        %span.learnmore
+          %a{:href => "#nogo"} Learn More
+    #right-column
+      %h2 In the spotlight
+      %ul#portfolio
+        %li
+          .imgholder
+            %img{:alt => "Ubuntu", :height => "155", :src => "images/ubuntu.gif", :width => "172"}/
+          .txtholder
+            %h3 Low fees
+            %p Fixed low fees.
+            %span.button-small
+              %a{:href => "#"} Learn More
+        %li
+          .imgholder
+            %img{:alt => "Ubuntu", :height => "155", :src => "images/firefox.gif", :width => "172"}/
+          .txtholder
+            %h3 Single-address wallets
+            %p Your wallet consists of a single address, whch means you can audit all your transactions on Blockexplorer.
+            %span.button-small
+              %a{:href => "#"} Learn More
+        %li
+          .imgholder
+            %img{:alt => "SC", :src => "images/x/startupchile.jpg", :width => "172"}/
+          .txtholder
+            %h3 Startup Chile 2011...
+            %p We are proud participants in the Startup Chile 2011 program.
+            %span.button-small
+              %a{:href => "http://www.startupchile.org/"} Learn More
+

@@ -14,4 +14,9 @@ module ApplicationHelper
   def link_to_current body, url
     link_to(body, url, :class => (current_page?(url) ? "active" : ''))
   end
+
+  def nav_link_to_current body, url
+    ((current_page?(url) ? '<li class="current">' : "<li>") + link_to(("<span>"+body+"</span>").html_safe, url) + "<li>").html_safe
+  end
+
 end
