@@ -3,15 +3,17 @@ require 'spec_helper'
 describe Bid do
   it_behaves_like "an order"    
 
+  before(:each) do
+    AppConfig.set 'SKIP_TRADE_CREATION', true
+    Ask.all.each(&:destroy)
+    Bid.all.each(&:destroy)
+    @user = Factory(:user)
+    @admin = Factory(:admin)
+    @user.funds.each{|f| f.update_attributes(:amount => 10000, :available => 1000) }
+  end
+
   describe "match bids" do
-    before(:each) do
-      AppConfig.set 'SKIP_TRADE_CREATION', true
-      Ask.all.each(&:destroy)
-      Bid.all.each(&:destroy)
-      @user = Factory(:user)
-      @admin = Factory(:admin)
-      @user.funds.each{|f| f.update_attributes(:amount => 10000, :available => 1000) }
-    end
+   
     
     describe "greater than" do
       it "find higher priced Bids" do
@@ -75,6 +77,18 @@ describe Bid do
       matches.size.should == 2
       matches.first.amount.round(2).should == 3.00
       matches[1].amount.round(2).should == 5.00
+    end
+  end
+  describe "validation" do
+    
+    it "should fail when balance does not exist" do
+      user =Factory(:user, )
+      Factory.build(:bid, :amount => 20000, :price => 100, :user_id => user.id).should_not be_valid
+    end
+
+
+    it "pass if commissions and bitcoins match" do
+      Factory.build(:ask, :amount => 200, :price => 1).should_not be_valid
     end
   end
 

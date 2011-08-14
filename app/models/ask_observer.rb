@@ -1,18 +1,4 @@
 class AskObserver < ActiveRecord::Observer
-  def before_create(ask)
-    btc_fund = ask.user.btc
-    usd_fund = ask.user.usd
-    commission = ask.user.commission
-    if ask.amount > btc_fund.available
-      ask.errors.add(:base, "Not enough Bitcoin fund available")
-      return false
-    end
-    if commission > usd_fund.available
-      ask.errors.add(:base, "Not enough USD fund available")
-      return false
-    end
-  end
-
   def after_create(ask)
     ask = ask.reload
     ask.user.debit_commission :ask_id => ask.id

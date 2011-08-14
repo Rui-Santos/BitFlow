@@ -1,7 +1,17 @@
 class Bid < Order
   set_table_name :bids
   has_many :trades
-  
+  validate :balance
+  def balance
+    usd_fund = user.usd
+    total_bid_amount = (amount || 0.0) * (order_price || 0.0)
+    commission = user.commission
+    if (total_bid_amount + commission) > usd_fund.available
+      errors.add(:base, "Not enough USD fund available")
+      return false
+    end
+    
+  end
   def reverse_class; Ask; end
   
   def self.order_queue(value)

@@ -1,13 +1,4 @@
 class BidObserver < ActiveRecord::Observer
-  def before_create(bid)
-    usd_fund = bid.user.usd
-    total_bid_amount = bid.amount * bid.order_price
-    commission = bid.user.commission
-    if (total_bid_amount + commission) > usd_fund.available
-      bid.errors.add(:base, "Not enough USD fund available")
-      return false
-    end
-  end
 
   def after_create(bid)
     bid = bid.reload

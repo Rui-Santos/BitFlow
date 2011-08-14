@@ -37,6 +37,23 @@ describe Ask do
     end
   end
   
+  describe "validation" do
+    
+    it "should fail when no bitcoin balance" do
+      Factory.build(:ask, :amount => 2000, :price => 0.1).should_not be_valid
+    end
+
+    it "should fail when no money to pay commissions" do
+      @user.usd.update_attribute :available, 0.50
+      Setting.admin.data[:commission_fee] = 1.0
+      Factory.build(:ask, :amount => 200, :price => 0.1).should_not be_valid
+    end
+
+    it "pass if commissions and bitcoins match" do
+      Setting.admin.data[:commission_fee] = 1.0
+      Factory.build(:ask, :amount => 200, :price => 0.1).should_not be_valid
+    end
+  end
   it "should not match ask when ask price is higher" do
     ask = Factory(:ask, :price => 12.00, :user_id => @user.id)
     bid = Factory(:bid, :price => 11.00, :user_id => @user.id)
