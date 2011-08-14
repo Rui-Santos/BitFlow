@@ -12,13 +12,13 @@ shared_examples_for "an order" do
     end
 
     it "as an integer" do
-      order = order_class.create(:status => Order::Status::ACTIVE, :amount => 100, :price => 10.0001, :user_id => @user.id)
+      order = order_class.create(:status => Order::Status::ACTIVE, :amount => 100, :price => 10.0001, :user_id => @user.id, :order_type => Order::Type::LIMIT)
       order.read_attribute(:price).should == 10.0001
       order.price.should == 10.0001
     end
 
     it "as an integer" do
-      order = order_class.create(:status => Order::Status::ACTIVE, :amount => 100, :price =>100.8700001, :user_id => @user.id)
+      order = order_class.create(:status => Order::Status::ACTIVE, :amount => 100, :price =>100.8700001, :user_id => @user.id, :order_type => Order::Type::LIMIT)
       order.read_attribute(:price).should == 100.8700001
       order.update_attributes(:price => 9.76)
       order.read_attribute(:price).should == 9.76
