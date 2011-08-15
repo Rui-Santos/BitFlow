@@ -24,6 +24,8 @@
 
         #left
           .post
+            - flash.each do |key, message|
+              = content_tag(:div, message, :class => "flash #{key}") unless key == :recaptcha_error 
             #content
               = yield
               
