@@ -1,0 +1,45 @@
+- order = object
+= form_for order, :html => {:class => 'new_order formtastic'} do |f|
+  %fieldset
+    %legend New #{order.class}
+    %div
+      - unless order.errors[:base].blank?
+        .error
+          - order.errors[:base].each do |msg|
+            = msg
+      %div
+        = order.bid? ? "Buy" : "Sell"
+        %div{:class => order.errors[:amount].blank? ? "no-error" : "field error"}
+          #{f.text_field(:amount, :size => 5)}
+          = order.errors[:amount].join(" and ") unless order.errors[:amount].blank?
+        %abbr{:title => "required"}*
+        BTC
+        %br/
+        = f.radio_button :order_type, Order::Type::LIMIT, {:checked => true}
+        With Limit Price of
+        %div{:class => order.errors[:price].blank? ? "no-error" : "field error"}
+          #{ f.text_field(:price, :size => 5) }
+          = order.errors[:price].join(" and ") unless order.errors[:price].blank?
+        %abbr{:title => "required"}*
+        USD per BTC (limit order)
+        %br/
+        = f.radio_button :order_type, Order::Type::MARKET
+        No matter what the market price per Bitcoin (market order)
+        %br/
+        %br/
+        = link_to "Current Market Price", "#", :id => "current_market_price"
+        %span{:id => 'market_price'}
+        %br/
+        %br/
+      = f.submit
+
+- content_for(:javascript) do
+  :javascript
+    $(function() {
+      $("#current_market_price").click(function(event) {
+        event.preventDefault();
+        $.get('#{market_price_trades_path}', function(data) {
+          $("#market_price").html(data.last_trade);
+        });
+      });
+    });

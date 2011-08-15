@@ -1,0 +1,19 @@
+#user-wallet
+  %table
+    %caption
+      %em My Wallet
+    %thead
+      %tr
+        %th Name
+        %th Bitcoin Address
+        %th Balance
+        %th Created at
+        %th.last Updated at
+    %tbody
+      - unless @user_wallet.nil?
+        %tr{class: cycle("odd", "even")}
+          %td= @user_wallet.name
+          %td= @user_wallet.address
+          %td= @user_wallet.balance.to_f
+          %td= @user_wallet.created_at
+          %td= @user_wallet.updated_at

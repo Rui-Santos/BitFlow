@@ -1,0 +1,1 @@
+ssh -i script/bitflow_prod.pem ubuntu@ec2-46-51-191-212.eu-west-1.compute.amazonaws.com

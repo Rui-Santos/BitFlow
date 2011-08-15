@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110812124025) do
+ActiveRecord::Schema.define(:version => 20110813131933) do
 
   create_table "asks", :force => true do |t|
     t.decimal  "price",            :precision => 15, :scale => 10
@@ -63,7 +63,8 @@ ActiveRecord::Schema.define(:version => 20110812124025) do
     t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "btc_tx_id"
+    t.string   "btc_tx_id"
+    t.decimal  "fee",                     :precision => 15, :scale => 10
   end
 
   add_index "btc_withdraw_requests", ["status"], :name => "index_btc_withdraw_requests_on_status"

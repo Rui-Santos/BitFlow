@@ -3,7 +3,7 @@ class AskObserver < ActiveRecord::Observer
     btc_fund = ask.user.btc
     usd_fund = ask.user.usd
     commission = ask.user.commission
-    if ask.amount > btc_fund.available || ask.amount > BitcoinProxy.balance(ask.user.email)
+    if ask.amount > btc_fund.available
       ask.errors.add(:base, "Not enough Bitcoin fund available")
       return false
     end
@@ -12,6 +12,7 @@ class AskObserver < ActiveRecord::Observer
       return false
     end
   end
+
   def after_create(ask)
     ask = ask.reload
     ask.user.debit_commission :ask_id => ask.id
@@ -87,7 +88,11 @@ class AskObserver < ActiveRecord::Observer
     end
     
     ask.amount_remaining = ask_amount_remaining
-    ask.status = Order::Status::COMPLETE if ask.amount_remaining == 0
+    if ask.amount_remaining == 0
+      ask.status = Order::Status::COMPLETE
+    else
+      ask.status = Order::Status::CANCELLED if ask.market?
+    end
     ask.save
   end
 end

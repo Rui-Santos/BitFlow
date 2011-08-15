@@ -1,9 +1,13 @@
 class Order < ActiveRecord::Base
-  validates_presence_of :price, :amount
-  validates_numericality_of :price, :amount, :greater_than => 0.0
-  
+
+  validates_numericality_of :price, :greater_than => 0.0, :if => proc { |bid| bid.limit? }
+  validates_numericality_of :amount, :greater_than => 0.0
+  validates_presence_of :price, :if => proc { |bid| bid.limit? }
+  validates_presence_of :amount
+
   belongs_to :user
-  after_initialize :default_order_type
+  after_initialize :default_order_type!
+
   module  Status
     ACTIVE = :active
     COMPLETE = :complete
@@ -31,8 +35,16 @@ class Order < ActiveRecord::Base
     where("user_id = ?", user.id).order(:updated_at).reverse_order
   }
 
-  def default_order_type
+  def default_order_type!
     order_type = Order::Type::LIMIT
+  end
+  
+  def match!
+    self.reverse_class.order_queue(self.price)
+  end
+  
+  def self.order_queue(value)
+    active.lesser_price_than(value).oldest
   end
   
   # the return values would in the form of a hash - no object conversion
@@ -96,7 +108,7 @@ class Order < ActiveRecord::Base
   end
 
   def currency=(cur)
-    write_attribute(cur || "USD")
+    write_attribute(:currency, (cur || "USD"))
   end
   
   def to_json(*args)

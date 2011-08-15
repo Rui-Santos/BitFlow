@@ -63,8 +63,8 @@ class User < ActiveRecord::Base
       discount = Setting.admin.data[:referral_discount_percentage].to_f
       
       referrer_usd = Fund.find(referrer_fund_id)
-      refferer_credit = amount * (discount/100.0)
-      admin_credit = amount - refferer_credit
+      referrer_credit = amount * (discount/100.0)
+      admin_credit = amount - referrer_credit
       
       usd.debit! :amount => amount,
                 :tx_code => FundTransactionDetail::TransactionCode::COMMISSION,
@@ -80,7 +80,7 @@ class User < ActiveRecord::Base
                           :user_id => AdminUser.id,
                           :ask_id => vals[:ask_id],
                           :bid_id => vals[:bid_id]
-      referrer_usd.credit! :amount => refferer_credit,
+      referrer_usd.credit! :amount => referrer_credit,
                           :tx_code => FundTransactionDetail::TransactionCode::COMMISSION,
                           :currency => 'USD',
                           :status => FundTransactionDetail::Status::COMMITTED,

@@ -12,25 +12,31 @@ class UserWallet < ActiveRecord::Base
       time = tx_details["time"].to_i
       if tx_details["category"] == 'receive' && 
           time > last_received_epoch && 
-          tx_details["confirmations"].to_i > 5
-
-        puts "\t#{name} ::received:: #{tx_details.inspect}"
-
+          tx_details["confirmations"].to_i >= BitcoinProxy.confirm_threshold
         comment = tx_details["comment"]
         to = tx_details["to"]
         if (comment.nil? && to.nil?) || 
             (comment && !comment.start_with?("bf-withdraw") && !comment.start_with?("bf-trade") &&
             to && !to.start_with?("bf-withdraw") && !to.start_with?("bf-trade"))
-
-          puts "\t#{name} ::received btc from non-bitflow sources:: #{tx_details.inspect}"
-
           UserWallet.transaction do
-            amount = tx_details["amount"].to_f
-            user.btc.credit! :amount => amount,
-                                    :tx_code => FundTransactionDetail::TransactionCode::PAYMENT_RECEIVED,
-                                    :currency => 'BTC',
-                                    :status => FundTransactionDetail::Status::COMMITTED,
-                                    :user_id => user.id
+            user.btc.credit! :amount => tx_details["amount"].to_f,
+                              :tx_code => FundTransactionDetail::TransactionCode::PAYMENT_RECEIVED,
+                              :currency => 'BTC',
+                              :status => FundTransactionDetail::Status::COMMITTED,
+                              :user_id => user.id
+            update_attribute :last_received_epoch, time
+          end
+        elsif comment && comment.start_with?("bf-withdraw") && to && to.start_with?("bf-withdraw")
+          UserWallet.transaction do
+            btc_withdraw_request_id = comment.split[1].to_i
+            btc_withdraw_request = BtcWithdrawRequest.find(btc_withdraw_request_id)
+            user.btc.credit! :amount => tx_details["amount"].to_f,
+                          :tx_code => FundTransactionDetail::TransactionCode::PAYMENT_RECEIVED,
+                          :currency => 'BTC',
+                          :status => FundTransactionDetail::Status::COMMITTED,
+                          :message => btc_withdraw_request.message,
+                          :user_id => user.id,
+                          :btc_withdraw_request_id => btc_withdraw_request_id
             update_attribute :last_received_epoch, time
           end
         end

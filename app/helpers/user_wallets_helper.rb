@@ -45,5 +45,20 @@ module UserWalletsHelper
 	  else
 	    "#{fund_transaction_detail.message}"
 	  end
-	end
+  end
+
+  def btc_comments btc_detail
+    if btc_detail["comment"]
+      if btc_detail["comment"].starts_with?("bf-trade")
+        'Traded'
+      elsif btc_detail["comment"].starts_with?("bf-withdraw")
+        'Transfer'
+      else
+        btc_detail["comment"]
+      end
+    else
+      ''
+    end
+ #{btc_detail["comment"] && ?'Traded':(btc_detail["comment"].starts_with("bf-withdraw")?'Withdrawn':btc_detail["comment"])}
+  end
 end

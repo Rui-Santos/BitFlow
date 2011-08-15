@@ -13,7 +13,7 @@ BitFlow::Application.configure do
   config.action_dispatch.x_sendfile_header = "X-Sendfile"
 
   # For nginx:
-  # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect'
+  config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect'
 
   # If you have no front-end server that supports something like X-Sendfile,
   # just comment this out and Rails will serve the files
@@ -44,7 +44,7 @@ BitFlow::Application.configure do
   # the I18n.default_locale when a translation can not be found)
   config.i18n.fallbacks = true
 
-  config.action_mailer.default_url_options = { :host => 'ec2-46-137-131-15.eu-west-1.compute.amazonaws.com' }
+  config.action_mailer.default_url_options = { :host => 'www.bitflow.org' }
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
@@ -52,3 +52,12 @@ BitFlow::Application.configure do
   config.middleware.use Rack::SSL
     
 end
+
+ActionMailer::Base.smtp_settings = {  
+  :address              => "smtp.sendgrid.net",
+  :port                 => 25,
+  :domain               => "bitflow.com",
+  :user_name            => "BitFlow",
+  :password             => "Active2Sphere",
+  :authentication       => :plain
+}

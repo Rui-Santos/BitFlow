@@ -1,4 +1,9 @@
 class BitcoinProxy
+
+  def self.confirm_threshold
+    5
+  end
+  
   class JSONRPCException < RuntimeError
   end
 
@@ -10,6 +15,7 @@ class BitcoinProxy
     def method_missing(name, *args, &block)
       begin
         postdata = {"method" => name, "params" => args, "id" => "jsonrpc"}.to_json
+        puts "postdata ******* #{postdata}"
         respdata = RestClient.post @service_url, postdata
         resp = JSON.parse respdata
         raise JSONRPCException.new, resp['error'] if resp["error"]
@@ -25,8 +31,8 @@ class BitcoinProxy
     ServiceProxy.new("http://#{Configuration.bitcoind_json_rpc_user}:#{Configuration.bitcoind_json_rpc_password}@127.0.0.1:8332").getnewaddress(account_name)
   end
 
-  def self.balance(account_name)
-    ServiceProxy.new("http://#{Configuration.bitcoind_json_rpc_user}:#{Configuration.bitcoind_json_rpc_password}@127.0.0.1:8332").getbalance(account_name)
+  def self.balance(account_name, confirmations)
+    ServiceProxy.new("http://#{Configuration.bitcoind_json_rpc_user}:#{Configuration.bitcoind_json_rpc_password}@127.0.0.1:8332").getbalance(account_name, confirmations)
   end
 
   def self.all_addresses(account_name)
@@ -38,7 +44,6 @@ class BitcoinProxy
   end
   
   def self.send_from(account_name, address, amount, comment, comment_to, required_confirmations)
-    # puts "Sending #{amount}BTC from #{account_name} to #{address} with comment #{comment} and comment_to #{comment_to}"
     ServiceProxy.new("http://#{Configuration.bitcoind_json_rpc_user}:#{Configuration.bitcoind_json_rpc_password}@127.0.0.1:8332").sendfrom(account_name, address, amount, required_confirmations, comment, comment_to)
   end
   
@@ -71,7 +76,6 @@ class BitcoinProxy
   end
   
   def self.send_to_address(address, amount, comment, comment_to)
-    # puts "Sending #{amount}BTC from ? to #{address} with comment #{comment} and comment_to #{comment_to}"
     ServiceProxy.new("http://#{Configuration.bitcoind_json_rpc_user}:#{Configuration.bitcoind_json_rpc_password}@127.0.0.1:8332").sendtoaddress(address, amount, comment, comment_to)
   end
   

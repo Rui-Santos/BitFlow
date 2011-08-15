@@ -1,0 +1,20 @@
+%table
+  %caption
+    %em My Bitcoin Network Activities
+  %thead
+    %tr
+      %th Time
+      %th Amount
+      %th Fee
+      %th Confirmations
+      %th Comment
+      %th.last Address
+  %tbody
+    - @bitcoin_details.each do |btc_detail|
+      %tr{class: cycle("odd", "even")}
+        %td #{Time.at(btc_detail["time"].to_i)}
+        %td #{btc_detail["amount"].to_f}
+        %td #{btc_detail["fee"].to_f}
+        %td #{btc_detail["confirmations"].to_i}
+        %td= btc_comments btc_detail
+        %td #{btc_detail["address"]}

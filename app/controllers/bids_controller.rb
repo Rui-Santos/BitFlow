@@ -13,13 +13,14 @@ class BidsController < ApplicationController
   end
 
   def create
-    order_type = params[:ask][:order_type] || Order::Type::LIMIT
+    order_type = params[:bid][:order_type] || Order::Type::LIMIT
     @bid = Bid.new(:user_id => current_user.id, 
                     :amount => params[:bid][:amount], 
                     :price => params[:bid][:price], 
                     :amount_remaining => params[:bid][:amount],
                     :status => Order::Status::ACTIVE,
-                    :order_type => order_type)
+                    :order_type => order_type,
+                    :currency => 'USD')
 
     respond_to do |format|
       if @bid.save
