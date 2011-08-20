@@ -1,8 +1,0 @@
-ul#portfolio {
-	display: block;
-	list-style: none;
-	width:380px; margin-right:15px; margin-left:8px;
-	height:160px;
-	overflow:hidden;
-}
-#portfolio li{display:block; height: 150px; width:370px; padding:5px;}

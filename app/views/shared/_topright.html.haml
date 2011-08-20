@@ -14,18 +14,13 @@
       |
       %a{:href => "/users/sign_in"} Login
 
-
-
-
   - else
     %p
       = render '/devise/shared/login_items'
-      
       %br/
-      
-      - address = current_user.user_wallet.address
-      %a{:href => "http://blockexplorer.com/address/#{address}"}
-        #{address}
+      / - address = current_user.user_wallet.address
+      / %a{:href => "http://blockexplorer.com/address/#{address}"}
+      /   #{address}
       %strong
         #{current_user.btc.available}
       BTC
@@ -33,9 +28,7 @@
       %strong
         #{current_user.usd.available}
       USD
-      
       %br/
-      
       %span.button-small
         = link_to 'Send BTC', new_btc_withdraw_request_path
 
@@ -46,6 +39,3 @@
       %span.button-small
         %a{:href => '#'}
           Sell BTC
-      
-      
-      
