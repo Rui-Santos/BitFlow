@@ -9,25 +9,25 @@
           - order.errors[:base].each do |msg|
             = msg
       %div
-        %p
+        .row
           = order.bid? ? "Buy" : "Sell"
-          %span{:class => order.errors[:amount].blank? ? "no-error" : "field error"}
+          %div{:class => order.errors[:amount].blank? ? "no-error" : "field error"}
             #{f.text_field(:amount, :size => 5)}
             = order.errors[:amount].join(" and ") unless order.errors[:amount].blank?
           %abbr{:title => "required"}*
           BTC
-        %p
+        .row
           = f.radio_button :order_type, Order::Type::LIMIT, {:checked => true}
           With Limit Price of
-          %span{:class => order.errors[:price].blank? ? "no-error" : "field error"}
+          %div{:class => order.errors[:price].blank? ? "no-error" : "field error"}
             #{ f.text_field(:price, :size => 5) }
             = order.errors[:price].join(" and ") unless order.errors[:price].blank?
           %abbr{:title => "required"}*
           USD per BTC (limit order)
-        %p
+        .row
           = f.radio_button :order_type, Order::Type::MARKET
           No matter what the market price per Bitcoin (market order)
-        %p
+        .row
           = link_to "Current Market Price", "#", :id => "current_market_price"
           %span{:id => 'market_price'}
 

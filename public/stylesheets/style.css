@@ -139,11 +139,82 @@ ul.list-posts li {display:block; padding:5px 3px 5px 28px; margin-bottom:5px; ba
 	margin:10px 0px 10px 0px;
 }
 
+/*=== Generic styles =========*/
+body abbr, body acronym {
+  border-bottom: 1px dotted #666666;
+}
+body .feedback, body .error, body .alert, body .notice, body .success, body .info {
+  padding: 0.8em;
+  margin-bottom: 1em;
+  border: 2px solid #dddddd;
+}
+body .error, body .alert {
+  background: #fbe3e4;
+  color: #8a1f11;
+  border-color: #fbc2c4;
+}
+body .error a, body .alert a {
+  color: #8a1f11;
+}
+body .notice {
+  background: #fff6bf;
+  color: #514721;
+  border-color: #ffd324;
+}
+body .notice a {
+  color: #514721;
+}
+body .success {
+  background: #e6efc2;
+  color: #264409;
+  border-color: #c6d880;
+}
+body .success a {
+  color: #264409;
+}
+body .info {
+  background: #d5edf8;
+  color: #205791;
+  border-color: #92cae4;
+}
+body .info a {
+  color: #205791;
+}
+body .hide {
+  display: none;
+}
+body .highlight {
+  background: yellow;
+}
+body .added {
+  background: #006600;
+  color: white;
+}
+body .removed {
+  background: #990000;
+  color: white;
+}
+
 /*=== application styles =====*/
+span[contenteditable] {
+  padding: 0 7.5px;
+  background-color: yellow;
+  border: 1px solid;
+}
+
+form.formtastic abbr, form.formtastic acronym {
+  color: red;
+  border-color: red;
+}
+
 #new_search_criteria fieldset.buttons {
   border: 0;
 }
 
+.new_order .row {
+  line-height: 18px;
+  margin-bottom: 18px;
+}
 .new_order label {
   display: inline;
   width: auto;
@@ -154,11 +225,15 @@ ul.list-posts li {display:block; padding:5px 3px 5px 28px; margin-bottom:5px; ba
   margin: 0;
 }
 
-.new_order .field.error, .new_order .field.alert, .new_order .field.alert, .new_order .no-error, .new_order .field.error .field_with_errors, .new_order .field.alert .field_with_errors, .new_order .field.alert .field_with_errors {
+.new_order .field.error, .new_order .field.alert, .new_order .no-error, 
+.new_order .field.error .field_with_errors, .new_order .field.alert .field_with_errors {
   display: inline;
 }
 
-.new_order .field.error input[type="text"], .new_order .field.alert input[type="text"], .new_order .field.alert input[type="text"], .new_order .field.error .field_with_errors input[type="text"], .new_order .field.alert .field_with_errors input[type="text"], .new_order .field.alert .field_with_errors input[type="text"] {
+.new_order .field.error input[type="text"], 
+.new_order .field.alert input[type="text"], 
+.new_order .field.error .field_with_errors input[type="text"],
+.new_order .field.alert .field_with_errors input[type="text"] {
   border-color: red;
 }
 
