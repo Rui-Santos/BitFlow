@@ -17,9 +17,9 @@
     %p
       = render '/devise/shared/login_items'
       %br/
-      / - address = current_user.user_wallet.address
-      / %a{:href => "http://blockexplorer.com/address/#{address}"}
-      /   #{address}
+      - address = current_user.user_wallet.address
+      %a{:href => "http://blockexplorer.com/address/#{address}"}
+        #{address}
       %strong= current_user.btc.available
       BTC
       |
