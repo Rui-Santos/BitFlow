@@ -1,4 +1,6 @@
 #user-bankaccount
+  = link_to 'Add Bank Account', new_bankaccount_path
+
   %table
     %caption
       %em My Bank Accounts
@@ -13,7 +15,3 @@
           %td= bankaccount.name
           %td= bankaccount.number
           %td= link_to 'Remove', bankaccount, :confirm => 'Are you sure to remove this bank account?', :method => :delete
-      %tr{class: cycle("odd", "even")}
-        %td
-        %td
-        %td= link_to 'Add Bank Account', new_bankaccount_path

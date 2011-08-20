@@ -1,4 +1,6 @@
 #user-fund-withdraw-request
+  = link_to 'Request Fund withdrawal', new_fund_withdraw_request_path
+
   %table
     %caption
       %em My Fund Withdrawal Requests
@@ -21,5 +23,3 @@
           %td= fund_withdraw_request.message
           %td= explain_status fund_withdraw_request
           %td= fund_withdraw_request.created_at
-      %tr{class: cycle("odd", "even")}
-        %td= link_to 'Request Fund withdrawal', new_fund_withdraw_request_path

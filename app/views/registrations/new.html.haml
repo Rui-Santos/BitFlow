@@ -8,4 +8,4 @@
     = f.input :referrer_code, :label => 'Referral Code'
     %li
       = recaptcha_tags unless Recaptcha.configuration.skip_verify_env.include? Rails.env
-    = f.commit_button "Sign up"
+    = f.commit_button "Sign up", :class => 'button'

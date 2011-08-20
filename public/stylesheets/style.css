@@ -124,14 +124,14 @@ ul.list-posts li {display:block; padding:5px 3px 5px 28px; margin-bottom:5px; ba
 	background:#efefef;
 	border: 1px solid #669900;
 }
-.form .button {
+form .button, form input[type="submit"] {
 	display:block;
 	border:1px solid #666666;
 	background:#efefef;
 	padding:5px 10px 5px 10px;
 	margin:10px 0px 10px 0px;
 }
-.form .button:hover {
+form .button:hover, form input[type="submit"]:hover {
 	display:block;
 	border:1px solid #666666;
 	background: #ffffff;
@@ -252,3 +252,49 @@ form.formtastic abbr, form.formtastic acronym {
   height: 450px;
 }
 
+table {
+  overflow: hidden;
+  *zoom: 1;
+  display: inline;
+  float: left;
+  margin-right: 0;
+  width: 98%;
+}
+table th {
+  text-align: center;
+  font-weight: bold;
+  background-color: #c3d9ff;
+}
+table td, table th {
+  padding: 2px;
+}
+table td.numeric, table th.numeric {
+  text-align: right;
+}
+table th.even, table th:nth-child(2n) {
+  background-color: #b2c8ee;
+}
+table tr.odd td {
+  background-color: white;
+}
+table tr.odd td.even, table tr.odd td:nth-child(2n) {
+  background-color: #eeeeee;
+}
+table tr.even td {
+  background-color: #e5ecf9;
+}
+table tr.even td.even, table tr.even td:nth-child(2n) {
+  background-color: #d4dbe8;
+}
+table tfoot th, table tfoot td {
+  background-color: white;
+}
+table tfoot th.even, table tfoot th:nth-child(2n), table tfoot td.even, table tfoot td:nth-child(2n) {
+  background-color: #eeeeee;
+}
+table caption {
+  text-align: center;
+}
+table caption em {
+  font-weight: bold;
+}

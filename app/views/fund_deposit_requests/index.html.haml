@@ -1,4 +1,5 @@
 #user-fund-deposit-request
+  = link_to 'Request Fund deposit', new_fund_deposit_request_path
   %table
     %caption
       %em My Fund Deposit Requests
@@ -27,5 +28,3 @@
           %td= fund_deposit_request.status
           %td= fund_deposit_request.updated_at
           %td= link_to('Cancel', fund_deposit_request, :confirm => 'Are you sure to cancel this fund deposit request?', :method => :delete) if fund_deposit_request.status == 'pending'
-      %tr{class: cycle("odd", "even")}
-        %td= link_to 'Request Fund deposit', new_fund_deposit_request_path

@@ -6,7 +6,7 @@
     #wrap
       #ribbon
         %h1#logo
-          %a{:href => "#"}
+          %a{:href => root_path}
             BitFlow
             %span.black Exchange
           %span.desc Startup Chile 2011
@@ -19,13 +19,16 @@
         #homeheader= homeheader_content
       #contents
         - flash.each do |key, message|
-          = content_tag(:div, message, :class => "flash #{key}") unless key == :recaptcha_error 
-          / #sidebar
-          /   = yield(:sidebar)
-        = yield
+          = content_tag(:div, message, :class => "flash #{key}") unless key == :recaptcha_error
+        - if user_signed_in?  
+          #left
+            = yield
+          #sidebar
+            = render 'shared/sidebar'
+        - else
+          = yield
 
-        .clear
-    #footer
+    #footer.clear
       #container
         .left
           %p
