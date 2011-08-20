@@ -125,6 +125,7 @@ ul.list-posts li {display:block; padding:5px 3px 5px 28px; margin-bottom:5px; ba
 	border: 1px solid #669900;
 }
 form .button, form input[type="submit"] {
+  clear: both;
 	display:block;
 	border:1px solid #666666;
 	background:#efefef;
