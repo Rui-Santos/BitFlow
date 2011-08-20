@@ -20,10 +20,9 @@
       #contents
         - flash.each do |key, message|
           = content_tag(:div, message, :class => "flash #{key}") unless key == :recaptcha_error 
-        #content
           / #sidebar
           /   = yield(:sidebar)
-          = yield
+        = yield
 
         .clear
     #footer

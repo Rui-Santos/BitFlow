@@ -58,7 +58,7 @@ h1 a:visited, h2 a:visited, h3 a:visited {text-decoration:none;}
 #portfolio h3 {font:bold 16px "Trebuchet MS", Arial, Helvetica, sans-serif; color:#fff; margin-bottom:16px;}
 .txtholder p {line-height:16px; font:12px Verdana, Geneva, sans-serif; color: #D2E1C6; margin-bottom:16px;}
 span.button-small a {display:block; float:left; background:url(/images/smallbutton.gif) no-repeat; height:22px; padding-top:3px; width:89px; margin-right:5px; text-transform:uppercase; font:bold 12px "Trebuchet MS", Arial, Helvetica, sans-serif; text-decoration:none; text-align:center;}
-#contents {padding:10px 0 10px 0;}
+#contents {padding:10px 0 10px 0; min-height: 400px;}
 #col1 {width:300px; float:left; padding:5px 5px 5px 10px;}
 #col2 {width:300px; float:right; padding:5px 10px 5px 5px;}
 #col3 {margin-left:325px; margin-right:325px; padding:5px 0 5px 0;}
@@ -138,3 +138,42 @@ ul.list-posts li {display:block; padding:5px 3px 5px 28px; margin-bottom:5px; ba
 	padding:5px 10px 5px 10px;
 	margin:10px 0px 10px 0px;
 }
+
+/*=== application styles =====*/
+#new_search_criteria fieldset.buttons {
+  border: 0;
+}
+
+.new_order label {
+  display: inline;
+  width: auto;
+}
+
+.new_order .field.error, .new_order .field.alert {
+  border: 0;
+  margin: 0;
+}
+
+.new_order .field.error, .new_order .field.alert, .new_order .field.alert, .new_order .no-error, .new_order .field.error .field_with_errors, .new_order .field.alert .field_with_errors, .new_order .field.alert .field_with_errors {
+  display: inline;
+}
+
+.new_order .field.error input[type="text"], .new_order .field.alert input[type="text"], .new_order .field.alert input[type="text"], .new_order .field.error .field_with_errors input[type="text"], .new_order .field.alert .field_with_errors input[type="text"], .new_order .field.alert .field_with_errors input[type="text"] {
+  border-color: red;
+}
+
+.new_order input[type="text"] {
+  display: inline;
+  width: 40px;
+}
+
+#btc {
+  width: 98%;
+  height: 460px;
+}
+
+#btc_pricing_graph {
+  width: 98%;
+  height: 450px;
+}
+

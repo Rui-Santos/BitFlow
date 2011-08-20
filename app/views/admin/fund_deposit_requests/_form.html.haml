@@ -1,5 +1,6 @@
+%h2 Search Fund Deposit Requests
 = semantic_form_for @search_criteria, :url => "/admin/fund_deposit_requests/search" do |f|
-  = f.inputs "Search Fund Deposit Requests" do
+  = f.inputs do
     = f.semantic_errors
     = f.input :email, :label => 'Email'
     = f.label 'or'

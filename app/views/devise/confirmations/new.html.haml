@@ -1,6 +1,6 @@
 %h2 Resend confirmation instructions
 
 - semantic_form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post }) do |f|
-  = f.inputs "Confirmation Instructions" do
+  = f.inputs do
     = f.input :email, :as => :email
     = f.commit_button "Resend"

@@ -1,13 +1,11 @@
 %h4 Forgot Password?
-%div
+%p
   If you have forgotten your password, click #{link_to "here", new_password_path(resource_name)}.
-%hr{:class => 'space'}
-%hr{:class => 'space'}
+
 %h4 Account locked?
-%div
+%p
   If your account has been locked, please click #{link_to "here", new_unlock_path(resource_name)}.
-%hr{:class => 'space'}
-%hr{:class => 'space'}
+
 %h4 Confimation pending?
-%div
+%p
   Please remember to confirm the account within #{Devise.confirm_within.inspect}. If you would like to receive the confirmation email again, click #{link_to "here", new_confirmation_path(resource_name)}.
