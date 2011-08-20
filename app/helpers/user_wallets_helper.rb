@@ -40,11 +40,15 @@ module UserWalletsHelper
 	end
 
 	def btc_notes fund_transaction_detail
-	  unless fund_transaction_detail.btc_withdraw_request.nil?
-		  "Sent to '#{fund_transaction_detail.btc_withdraw_request.destination_btc_address}' with message '#{fund_transaction_detail.btc_withdraw_request.message}'"
-	  else
-	    "#{fund_transaction_detail.message}"
-	  end
+    if fund_transaction_detail.tx_code.to_s == FundTransactionDetail::TransactionCode::BITCOIN_FEE.to_s
+      ''
+    else
+      unless fund_transaction_detail.btc_withdraw_request.nil?
+		    "Sent to '#{fund_transaction_detail.btc_withdraw_request.destination_btc_address}' with message '#{fund_transaction_detail.btc_withdraw_request.message}'"
+	    else
+	      "#{fund_transaction_detail.message}"
+	    end
+    end
   end
 
   def btc_comments btc_detail
