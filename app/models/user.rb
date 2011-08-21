@@ -27,50 +27,33 @@ class User < ActiveRecord::Base
   
   def sell_btc(price, amount, trade, opt={})
     btc.unreserve!(opt[:amount_to_unreserve] || amount)
+
+    defaults = {:tx_code => FundTransactionDetail::TransactionCode::BITCOIN_SOLD,
+                :status => FundTransactionDetail::Status::PENDING,
+                :user_id => self.id,
+                :trade_id => trade.id,
+                :ask_id => trade.ask.id,
+                :bid_id => trade.bid.id}
+                
+    usd.credit! defaults.merge(:amount => (price * amount),:currency => 'USD')
     
-    usd.credit! :amount => (price * amount),
-                            :tx_code => FundTransactionDetail::TransactionCode::BITCOIN_SOLD,
-                            :currency => 'USD',
-                            :status => FundTransactionDetail::Status::PENDING,
-                            :user_id => self.id,
-                            :trade_id => trade.id,
-                            :ask_id => trade.ask.id,
-                            :bid_id => trade.bid.id
-    
-    btc.debit! :amount => traded_amount,
-                            :tx_code => FundTransactionDetail::TransactionCode::BITCOIN_SOLD,
-                            :currency => 'BTC',
-                            :status => FundTransactionDetail::Status::PENDING,
-                            :user_id => self.id,
-                            :trade_id => trade.id,
-                            :ask_id => trade.ask.id,
-                            :bid_id => trade.bid.id
-    
-    
+    btc.debit! defaluts.merge(:amount => traded_amount,:currency => 'BTC')
   end
   
   def buy_btc(price, amount, trade, opt={})
     unreserve_amt = opt[:amount_to_unreserve] || amount * price
     
     usd.unreserve!(unreserve_amt)
-    
-    usd.debit! :amount => (price * amount),
-               :tx_code => FundTransactionDetail::TransactionCode::BITCOIN_PURCHASED,
-               :currency => 'USD',
-               :status => FundTransactionDetail::Status::PENDING,
-               :user_id => self.id,
-               :trade_id => trade.id,
-               :ask_id => trade.ask.id,
-               :bid_id => trade.bid.id
-                          
-    btc.credit! :amount => amount,
-                :tx_code => FundTransactionDetail::TransactionCode::BITCOIN_PURCHASED,
-                :currency => 'BTC',
+    defaults = {:tx_code => FundTransactionDetail::TransactionCode::BITCOIN_PURCHASED,
                 :status => FundTransactionDetail::Status::PENDING,
                 :user_id => self.id,
                 :trade_id => trade.id,
                 :ask_id => trade.ask.id,
-                :bid_id => trade.bid.id
+                :bid_id => trade.bid.id}
+
+    usd.debit! defaults.merge(:amount => (price * amount), :currency => 'USD')
+    btc.credit! defaults.merge(:amount => amount,:currency => 'BTC')
+
   end
   
   def btc

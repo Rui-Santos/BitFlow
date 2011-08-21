@@ -8,7 +8,7 @@ class BidObserver < ActiveRecord::Observer
 
     bid_amount_remaining = bid.amount_remaining
     bid.match.each do |ask|
-      break if bid_amount_remaining == 0
+      break unless active?
       traded_price = ask.price
       traded_amount =  bid_amount_remaining >= ask.amount_remaining ? ask.amount_remaining : bid_amount_remaining
 
