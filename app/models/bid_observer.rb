@@ -2,7 +2,7 @@ class BidObserver < ActiveRecord::Observer
 
   def after_create(bid)
     bid.user.debit_commission :bid_id => bid.id
-    bid.user.usd.reserve!(bid.amount * bid.order_price)
+    bid.user.usd.reserve!(bid.amount * bid.price)
 
     return if AppConfig.is?('SKIP_TRADE_CREATION', false)
 
@@ -13,7 +13,7 @@ class BidObserver < ActiveRecord::Observer
       traded_amount =  bid_amount_remaining >= ask.amount_remaining ? ask.amount_remaining : bid_amount_remaining
 
       trade = Trade.create(ask: ask, bid: bid, market_price: traded_price, amount: traded_amount, status: Trade::Status::CREATED)
-      bid.user.buy_btc(traded_price, traded_amount, trade, :amount_to_unreserve => bid.order_price * traded_amount)
+      bid.user.buy_btc(traded_price, traded_amount, trade, :amount_to_unreserve => bid.price * traded_amount)
       ask.user.sell_btc(traded_price, traded_amount, trade)
       
       bid_amount_remaining -= traded_amount

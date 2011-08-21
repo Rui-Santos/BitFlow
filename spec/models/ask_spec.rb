@@ -54,35 +54,65 @@ describe Ask do
       Factory.build(:ask, :amount => 200, :price => 0.1).should_not be_valid
     end
   end
-  it "should not match ask when ask price is higher" do
-    ask = Factory(:ask, :price => 12.00, :user_id => @user.id)
-    bid = Factory(:bid, :price => 11.00, :user_id => @user.id)
-    ask.match.should be_empty
-  end
-  
-  it "should match bid" do
-    ask = Factory(:ask, :price => 20.00, :user_id => @user.id)
-    bid = Factory(:bid, :price => 21.00, :user_id => @user.id)
-    ask.match.should_not be_empty
-  end
+  describe "matches" do
+    describe "limit order" do
+      it "should not match ask when ask price is higher" do
+        ask = Factory(:ask, :price => 12.00, :user_id => @user.id)
+        bid = Factory(:bid, :price => 11.00, :user_id => @user.id)
+        ask.match.should be_empty
+      end
 
-  it "should match bid when equal" do
-    ask = Factory(:ask, :price => 20.01, :user_id => @user.id)
-    bid = Factory(:bid, :price => 20.01, :user_id => @user.id)
-    ask.match.should_not be_empty
-  end
-  
-  it "should order oldest first" do
-    bid = Factory(:bid, :amount => 3, :price => 20.01, :updated_at => 5.hours.ago, :user_id => @user.id)
-    bid = Factory(:bid, :amount => 5, :price => 20.01, :updated_at => 1.hour.ago, :user_id => @user.id)
-    bid = Factory(:bid, :amount => 1, :price => 19.01, :updated_at => 5.minutes.ago, :user_id => @user.id)
-    ask = Factory(:ask, :price => 20.01, :user_id => @user.id)
+      it "should match bid" do
+        ask = Factory(:ask, :price => 20.00, :user_id => @user.id)
+        bid = Factory(:bid, :price => 21.00, :user_id => @user.id)
+        ask.match.should_not be_empty
+      end
 
-    matches = ask.match
-    
-    matches.size.should == 2
-    matches.first.amount.should == 3
-    matches[1].amount.should == 5
+      it "should match bid when equal" do
+        ask = Factory(:ask, :price => 20.01, :user_id => @user.id)
+        bid = Factory(:bid, :price => 20.01, :user_id => @user.id)
+        ask.match.should_not be_empty
+      end
+
+      it "should order oldest first" do
+        bid = Factory(:bid, :amount => 3, :price => 20.01, :updated_at => 5.hours.ago, :user_id => @user.id)
+        bid = Factory(:bid, :amount => 5, :price => 20.01, :updated_at => 1.hour.ago, :user_id => @user.id)
+        bid = Factory(:bid, :amount => 1, :price => 19.01, :updated_at => 5.minutes.ago, :user_id => @user.id)
+        ask = Factory(:ask, :price => 20.01, :user_id => @user.id)
+
+        matches = ask.match
+
+        matches.size.should == 2
+        matches.first.amount.should == 3
+        matches[1].amount.should == 5
+      end
+      
+    end
+    describe "market" do
+      before(:each) do
+        @ask = Factory(:market_ask, :user_id => @user.id)
+      end
+      it "should find multiple items in time order order" do
+        @ask.match.should be_empty
+      end
+      
+      it "should find all items" do
+        bid = Factory(:bid, :price => 11.00, :user_id => @user.id)
+        @ask.match.should == [bid]
+      end
+      it "should find multiple items in price order" do
+        bid = Factory(:bid, :price => 11.00, :user_id => @user.id)
+        bid2 = Factory(:bid, :price => 13.00, :user_id => @user.id)
+        @ask.match.should == [ bid2, bid]
+      end
+
+      it "should find multiple items in time order order" do
+        bid = Factory(:bid, :price => 11.00, :user_id => @user.id, :updated_at => 1.day.ago)
+        bid2 = Factory(:bid, :price => 11.00, :user_id => @user.id)
+        bid3 = Factory(:bid, :price => 13.00, :user_id => @user.id)
+        @ask.match.should == [ bid3, bid, bid2]
+      end
+    end
   end
 
   describe "create trade" do
