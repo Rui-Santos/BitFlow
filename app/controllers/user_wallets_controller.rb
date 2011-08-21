@@ -9,7 +9,7 @@ class UserWalletsController < ApplicationController
           @user_wallet.update_attribute :balance, bal  unless bal == @user_wallet.balance
           current_user.sync_with_bitcoind
         rescue => e
-          puts e.backtrace.join "\n"
+          Rails.logger.error( e.backtrace.join("\n"))
           flash.now[:notice] = "Error in Wallet Balance fetch: #{e.inspect}"
         end
       else
