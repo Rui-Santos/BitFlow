@@ -1,6 +1,5 @@
 class AskObserver < ActiveRecord::Observer
   def after_create(ask)
-    ask = ask.reload
     ask.user.debit_commission :ask_id => ask.id
     seller_btc_fund = ask.user.btc
     seller_btc_fund.reserve!(ask.amount)

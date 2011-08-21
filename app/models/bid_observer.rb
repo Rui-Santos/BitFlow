@@ -1,12 +1,11 @@
 class BidObserver < ActiveRecord::Observer
 
   def after_create(bid)
-    bid = bid.reload
     bid.user.debit_commission :bid_id => bid.id
-    buyer_usd_fund = bid.user.usd
-    buyer_usd_fund.reserve!(bid.amount * bid.order_price)
+    bid.user.usd.reserve!(bid.amount * bid.order_price)
+
     return if AppConfig.is?('SKIP_TRADE_CREATION', false)
-      buyer_btc_fund = bid.user.btc
+
     bid_amount_remaining = bid.amount_remaining
     bid.match.each do |ask|
       break if bid_amount_remaining == 0
