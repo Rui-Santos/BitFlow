@@ -4,7 +4,6 @@ class AskObserver < ActiveRecord::Observer
     seller_btc_fund = ask.user.btc
     seller_btc_fund.reserve!(ask.amount)
     return if  AppConfig.is?('SKIP_TRADE_CREATION', false)
-    seller_usd_fund = ask.user.usd
     ask_amount_remaining = ask.amount_remaining
    
     ask.match.each do |bid|
@@ -13,7 +12,7 @@ class AskObserver < ActiveRecord::Observer
       traded_amount  =  ask_amount_remaining >= bid.amount_remaining ? bid.amount_remaining : ask_amount_remaining
 
       trade = Trade.create(ask: ask, bid: bid, market_price: traded_price, amount: traded_amount, status: Trade::Status::CREATED)
-      bid.user.buy_btc(traded_price, traded_amount, trade)
+      bid.user.buy_btc(traded_price, traded_amount, trade, :amount_to_unreserve => bid.price * traded_amount)
       ask.user.sell_btc(traded_price, traded_amount, trade)
       
       ask_amount_remaining -= traded_amount

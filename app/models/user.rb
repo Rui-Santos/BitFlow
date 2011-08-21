@@ -25,8 +25,8 @@ class User < ActiveRecord::Base
   end
   
   
-  def sell_btc(price, amount, trade)
-    btc.unreserve!(traded_amount)
+  def sell_btc(price, amount, trade, opt={})
+    btc.unreserve!(opt[:amount_to_unreserve] || amount)
     
     usd.credit! :amount => (price * amount),
                             :tx_code => FundTransactionDetail::TransactionCode::BITCOIN_SOLD,
@@ -48,8 +48,12 @@ class User < ActiveRecord::Base
     
     
   end
-  def buy_btc(price, amount, trade)
-    usd.unreserve!(amount)
+  
+  def buy_btc(price, amount, trade, opt={})
+    unreserve_amt = opt[:amount_to_unreserve] || amount * price
+    
+    usd.unreserve!(unreserve_amt)
+    
     usd.debit! :amount => (price * amount),
                :tx_code => FundTransactionDetail::TransactionCode::BITCOIN_PURCHASED,
                :currency => 'USD',
@@ -72,12 +76,15 @@ class User < ActiveRecord::Base
   def btc
     self.funds.detect {|f| f.fund_type == Fund::Type::BTC}
   end
+  
   def usd
     self.funds.detect {|f| f.fund_type == Fund::Type::USD}
   end
+  
   def full_commission?
     self.referrer_fund_id.nil? || self.referrer_fund_id == 0
   end
+  
   def commission
     if full_commission?
       Setting.admin.data[:commission_fee]
@@ -88,6 +95,7 @@ class User < ActiveRecord::Base
       commission * ((100.0 - discount)/100.0)
     end
   end
+  
   def debit_commission(vals)
     amount = commission
     if full_commission?
