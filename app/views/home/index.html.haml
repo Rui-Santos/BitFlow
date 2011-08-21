@@ -1,4 +1,4 @@
-%ul.span-14
+/ %ul.span-14
 /  - if current_user
 /    %li= referral_code
 /    %li= referral_code_link
@@ -10,6 +10,14 @@
 /    = link_to 'Fixed Mining', '/fixed_mining'
 /%hr
 
+- content_for(:nav) do
+  = render '/shared/navigation'
+- content_for(:homeheader) do
+  = render '/shared/greenbar'
+= render '/shared/whitebar'
+
+.divider
+
 #tabs
   %ul
     %li
@@ -17,14 +25,10 @@
   #btc
     #btc_pricing_graph
 
-%hr.space
-
 - content_for(:sidebar) do
   #recent-order-books
     .bids= render :partial => 'recent_orders', :locals => {:items => @asks, :item_type => 'Ask'}
     .asks= render :partial => 'recent_orders', :locals => {:items => @bids, :item_type => 'Bid'}
-  /%hr.space
-
 
 - content_for(:javascript) do  
   = javascript_include_tag 'highstock.src'

@@ -1,9 +1,11 @@
 = semantic_form_for current_user do |f|
-  = f.inputs "Change Email" do
+  %h2 Change Email
+  = f.inputs do
     = f.semantic_errors :email
     = f.input :email, :label => 'Email', :required => true
     = f.commit_button
-  = f.inputs "Change Referral Code" do
+  %h2 Change Referral Code
+  = f.inputs do
     = f.semantic_errors :referral_code
     = f.input :referral_code, :label => 'Referral Code', :required => true
     = f.commit_button

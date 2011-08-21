@@ -1,5 +1,6 @@
+%h2 Sign Up
 = semantic_form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
-  = f.inputs 'Sign Up' do
+  = f.inputs do
     = f.semantic_errors
     = f.input :email, :as => :email
     = f.input :password, :as => :password
@@ -7,4 +8,4 @@
     = f.input :referrer_code, :label => 'Referral Code'
     %li
       = recaptcha_tags unless Recaptcha.configuration.skip_verify_env.include? Rails.env
-    = f.commit_button "Sign up"
+    = f.commit_button "Sign up", :class => 'button'

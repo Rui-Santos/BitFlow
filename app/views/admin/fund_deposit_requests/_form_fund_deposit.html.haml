@@ -1,5 +1,6 @@
+%h2 Fund Deposit Request Details
 = semantic_form_for @fund_deposit_request, :url => "/admin/fund_deposit_requests/#{@fund_deposit_request.id}" do |f|
-  = f.inputs "Fund Deposit Request Details" do
+  = f.inputs do
     = f.semantic_errors
     %table
       %tbody

@@ -1,4 +1,4 @@
-%ul#sidebar-links
+%ul#menu
   - if current_user.try(:admin?)
     %li= link_to_current 'Settings[Admin]', admin_root_url
     %li= link_to_current 'Funds[Admin]', admin_funds_url
@@ -9,13 +9,9 @@
   %li= link_to_current 'Home', root_url
   %li= link_to_current 'Dashboard', welcome_index_url
   %li= link_to_current 'My Wallet', user_wallets_url
-  %li= link_to_current 'BTC Instant Order', new_order_url(:type => :instant)
-  %li= link_to_current 'BTC Market Order', new_order_url(:type => :market)
-  %li= link_to_current 'BTC Limit Order', new_order_url(:type => :limit)
   / %li= link_to_current 'BTC Fixed Mining'
   / %li= link_to_current 'BTC Mining Contract'
   %li= link_to_current 'Deposit Funds', fund_deposit_requests_url
   %li= link_to_current 'Withdraw Funds', fund_withdraw_requests_url
   %li= link_to_current 'Manage Bank Accounts', bankaccounts_url
-
-
+  = yield(:sidebar)

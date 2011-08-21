@@ -1,5 +1,6 @@
+%h2 Send BTC Payment
 = semantic_form_for @btc_withdraw_request do |f|
-  = f.inputs "Send BTC Payment" do
+  = f.inputs do
     = f.semantic_errors
     = f.input :destination_btc_address, :label => 'Bitcoin Address', :required => true
     = f.input :amount, :label => 'Amount', :required => true

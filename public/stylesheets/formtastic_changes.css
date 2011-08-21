@@ -13,6 +13,6 @@ form.formtastic fieldset ol li fieldset legend { margin-left: -6px;}
 
 --------------------------------------------------------------------------------------------------*/
 #user_new.formtastic #recaptcha_widget_div, #user_new.formtastic #user_submit{ margin-left: 25%;}
-#user_new.formtastic #user_submit{ width: 20%;}
+#user_new.formtastic #user_submit{ min-width: 20%;}
 
   

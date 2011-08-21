@@ -1,7 +1,7 @@
 %h2 Resend unlock instructions
 
 - semantic_form_for(resource, :as => resource_name, :url => unlock_path(resource_name), :html => { :method => :post }) do |f|
-  = f.inputs "Unlock Instructions" do
+  = f.inputs do
     = f.input :email, :as => :email
     = recaptcha_tags unless Recaptcha.configuration.skip_verify_env.include? Rails.env
     = f.commit_button "Resend"

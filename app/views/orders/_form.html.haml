@@ -1,20 +1,20 @@
 - order = object
-= form_for order, :html => {:class => 'new_order formtastic'} do |f|
-  %fieldset
-    %legend New #{order.class}
+= form_for order, :html => {:class => ' formtastic new_order'} do |f|
+  %h2 New #{order.class}
+  %div
+    - unless order.errors[:base].blank?
+      .error
+        - order.errors[:base].each do |msg|
+          = msg
     %div
-      - unless order.errors[:base].blank?
-        .error
-          - order.errors[:base].each do |msg|
-            = msg
-      %div
+      .row
         = order.bid? ? "Buy" : "Sell"
         %div{:class => order.errors[:amount].blank? ? "no-error" : "field error"}
           #{f.text_field(:amount, :size => 5)}
           = order.errors[:amount].join(" and ") unless order.errors[:amount].blank?
         %abbr{:title => "required"}*
         BTC
-        %br/
+      .row
         = f.radio_button :order_type, Order::Type::LIMIT, {:checked => true}
         With Limit Price of
         %div{:class => order.errors[:price].blank? ? "no-error" : "field error"}
@@ -22,16 +22,14 @@
           = order.errors[:price].join(" and ") unless order.errors[:price].blank?
         %abbr{:title => "required"}*
         USD per BTC (limit order)
-        %br/
+      .row
         = f.radio_button :order_type, Order::Type::MARKET
         No matter what the market price per Bitcoin (market order)
-        %br/
-        %br/
+      .row
         = link_to "Current Market Price", "#", :id => "current_market_price"
         %span{:id => 'market_price'}
-        %br/
-        %br/
-      = f.submit
+
+    = f.submit :class => 'button'
 
 - content_for(:javascript) do
   :javascript

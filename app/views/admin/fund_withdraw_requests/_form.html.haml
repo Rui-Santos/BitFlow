@@ -1,5 +1,6 @@
+%h2 Fund Withdrawal Request Details
 = semantic_form_for @fund_withdraw_request, :url => "/admin/fund_withdraw_requests/#{@fund_withdraw_request.id}" do |f|
-  = f.inputs "Fund Withdrawal Request Details" do
+  = f.inputs do
     = f.semantic_errors
     %table
       %tbody
