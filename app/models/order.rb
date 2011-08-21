@@ -39,6 +39,10 @@ class Order < ActiveRecord::Base
     order_type = Order::Type::LIMIT
   end
   
+  def amount_remaining=(val)
+    write_attribute(:amount_remaining, val)
+    write_attribute(:status, Order::Status::COMPLETE) if val == 0
+  end
   
   # the return values would in the form of a hash - no object conversion
   def self.non_executed(user, row_limit = 5)

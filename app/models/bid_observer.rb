@@ -14,7 +14,6 @@ class BidObserver < ActiveRecord::Observer
 
       trade = Trade.create(ask: ask, bid: bid, market_price: traded_price, amount: traded_amount, status: Trade::Status::CREATED)
       bid.user.buy_btc(traded_price, traded_amount, trade, :amount_to_unreserve => bid.order_price * traded_amount)
-
       ask.user.sell_btc(traded_price, traded_amount, trade)
       
       bid_amount_remaining -= traded_amount

@@ -17,11 +17,6 @@ class Bid < Order
     Ask.order_queue(self.price)
   end
     
-  def amount_remaining=(val)
-    write_attribute(:amount_remaining, val)
-    write_attribute(:status, Order::Status::COMPLETE) if val == 0.0
-  end
-  
   def self.order_queue(value)
     active.greater_price_than(value).oldest
   end
