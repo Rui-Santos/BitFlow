@@ -58,18 +58,9 @@ class BidObserver < ActiveRecord::Observer
                               :bid_id => bid.id
       bid_amount_remaining = bid_amount_remaining - traded_amount
       ask_amount_remaining = ask.amount_remaining - traded_amount
-      if ask_amount_remaining == 0
-        ask.update_attributes(:amount_remaining => ask_amount_remaining, :status => Order::Status::COMPLETE)
-      else
-        ask.update_attribute(:amount_remaining, ask_amount_remaining)
-      end
+      ask.update_attribute(:amount_remaining, ask_amount_remaining)
     end
     bid.amount_remaining = bid_amount_remaining
-    if bid.amount_remaining == 0
-      bid.status = Order::Status::COMPLETE
-    else
-      bid.status = Order::Status::CANCELLED if bid.market?
-    end
     bid.save
   end
 end

@@ -134,4 +134,21 @@ describe Ask do
       @ask.should be_complete
     end
   end
+  describe "update amount remaining" do
+    before(:each) do
+      @ask = Factory(:ask, :price => 11.00, :user_id => @user.id)
+    end
+    
+    it "should not update status when amount remaining is > 0" do
+      @ask.amount_remaining = 1.91
+      @ask.amount_remaining.should == 1.91
+      @ask.should be_active
+    end
+
+    it "should not update status when amount remaining is > 0" do
+      @ask.amount_remaining = 0
+      @ask.amount_remaining.should == 0
+      @ask.should_not be_active
+    end
+  end
 end

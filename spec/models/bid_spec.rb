@@ -144,4 +144,20 @@ describe Bid do
       @bid.should be_complete
     end
   end
+  describe " updating remaining amount" do
+    before(:each) do
+      @bid = Factory(:bid, :price => 11.00, :user_id => @user.id)
+    end
+    it "should keep the same status" do
+      @bid.update_attribute(:amount_remaining, 2.01)
+      @bid.amount_remaining.should == 2.01
+      @bid.should be_active
+    end
+
+    it "should set bid to complete if 0 remaining" do
+      @bid.update_attribute(:amount_remaining, 0)
+      @bid.amount_remaining.should == 0
+      @bid.should_not be_active
+    end
+  end
 end

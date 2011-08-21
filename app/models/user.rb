@@ -23,6 +23,52 @@ class User < ActiveRecord::Base
   def referrer_code
     @referrer_code
   end
+  
+  
+  def sell_btc(price, amount, trade)
+    btc.unreserve!(traded_amount)
+    
+    usd.credit! :amount => (price * amount),
+                            :tx_code => FundTransactionDetail::TransactionCode::BITCOIN_SOLD,
+                            :currency => 'USD',
+                            :status => FundTransactionDetail::Status::PENDING,
+                            :user_id => self.id,
+                            :trade_id => trade.id,
+                            :ask_id => trade.ask.id,
+                            :bid_id => trade.bid.id
+    
+    btc.debit! :amount => traded_amount,
+                            :tx_code => FundTransactionDetail::TransactionCode::BITCOIN_SOLD,
+                            :currency => 'BTC',
+                            :status => FundTransactionDetail::Status::PENDING,
+                            :user_id => self.id,
+                            :trade_id => trade.id,
+                            :ask_id => trade.ask.id,
+                            :bid_id => trade.bid.id
+    
+    
+  end
+  def buy_btc(price, amount, trade)
+    usd.unreserve!(amount)
+    usd.debit! :amount => (price * amount),
+               :tx_code => FundTransactionDetail::TransactionCode::BITCOIN_PURCHASED,
+               :currency => 'USD',
+               :status => FundTransactionDetail::Status::PENDING,
+               :user_id => self.id,
+               :trade_id => trade.id,
+               :ask_id => trade.ask.id,
+               :bid_id => trade.bid.id
+                          
+    btc.credit! :amount => amount,
+                :tx_code => FundTransactionDetail::TransactionCode::BITCOIN_PURCHASED,
+                :currency => 'BTC',
+                :status => FundTransactionDetail::Status::PENDING,
+                :user_id => self.id,
+                :trade_id => trade.id,
+                :ask_id => trade.ask.id,
+                :bid_id => trade.bid.id
+  end
+  
   def btc
     self.funds.detect {|f| f.fund_type == Fund::Type::BTC}
   end
