@@ -15,13 +15,13 @@ class BitcoinProxy
     def method_missing(name, *args, &block)
       begin
         postdata = {"method" => name, "params" => args, "id" => "jsonrpc"}.to_json
-        puts "postdata ******* #{postdata}"
+        Rails.logger.info "postdata ******* #{postdata}"
         respdata = RestClient.post @service_url, postdata
         resp = JSON.parse respdata
         raise JSONRPCException.new, resp['error'] if resp["error"]
         resp['result']
       rescue => e
-        puts "#{e.inspect} on invoking #{name}(#{args.join(", ")})"
+        Rails.logger.error "#{e.inspect} on invoking #{name}(#{args.join(", ")})"
         raise JSONRPCException.new, e.inspect
       end
     end

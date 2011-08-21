@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(:version => 20110813131933) do
     t.decimal  "price",            :precision => 15, :scale => 10
     t.decimal  "amount",           :precision => 15, :scale => 10
     t.string   "currency"
-    t.string   "status",                                                            :null => false
+    t.string   "status"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -44,10 +44,10 @@ ActiveRecord::Schema.define(:version => 20110813131933) do
     t.decimal  "price",            :precision => 15, :scale => 10
     t.decimal  "amount",           :precision => 15, :scale => 10
     t.string   "currency"
-    t.string   "status",                                                            :null => false
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "status",                                           :default => ""
     t.decimal  "amount_remaining", :precision => 15, :scale => 10, :default => 0.0
     t.string   "order_type"
   end
@@ -218,10 +218,10 @@ ActiveRecord::Schema.define(:version => 20110813131933) do
     t.datetime "updated_at"
     t.boolean  "admin",                                 :default => false
     t.string   "name"
-    t.string   "referral_code"
-    t.integer  "referrer_fund_id"
     t.string   "token"
     t.string   "secret"
+    t.string   "referral_code"
+    t.integer  "referrer_fund_id"
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true

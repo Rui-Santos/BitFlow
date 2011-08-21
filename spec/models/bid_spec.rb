@@ -3,14 +3,17 @@ require 'spec_helper'
 describe Bid do
   it_behaves_like "an order"    
 
+  before(:each) do
+    AppConfig.set 'SKIP_TRADE_CREATION', true
+    Ask.all.each(&:destroy)
+    Bid.all.each(&:destroy)
+    @user = Factory(:user)
+    @admin = Factory(:admin)
+    @user.funds.each{|f| f.update_attributes(:amount => 10000, :available => 1000) }
+  end
+
   describe "match bids" do
-    before(:each) do
-      AppConfig.set 'SKIP_TRADE_CREATION', true
-      Ask.all.each(&:destroy)
-      Bid.all.each(&:destroy)
-      @user = Factory(:user)
-      @user.funds.each{|f| f.update_attributes(:amount => 1000, :available => 1000) }
-    end
+   
     
     describe "greater than" do
       it "find higher priced Bids" do
@@ -41,26 +44,26 @@ describe Bid do
     it "should not match ask when ask price is higher" do
       ask = Factory(:ask, :price => 10.00, :user_id => @user.id)
       bid = Factory(:bid, :price => 11.00, :user_id => @user.id)
-      bid.match!.should_not be_empty
+      bid.match.should_not be_empty
     end
     
     it "should match bid" do
       ask = Factory(:ask, :price => 20.00, :user_id => @user.id)
       bid = Factory(:bid, :price => 11.00, :user_id => @user.id)
-      bid.match!.should be_empty
+      bid.match.should be_empty
     end
 
     it "should match bid when equal" do
       ask = Factory(:ask, :price => 20.01, :user_id => @user.id)
       bid = Factory(:bid, :price => 20.01, :user_id => @user.id)
-      bid.match!.should_not be_nil
+      bid.match.should_not be_nil
     end
 
     it "should match lowest ask" do
       ask = Factory(:ask, :amount => 3, :price => 20.01, :user_id => @user.id)
       ask = Factory(:ask, :amount => 5, :price => 20.00, :user_id => @user.id)
-      bid = Factory(:bid, :price => 20.01)
-      matches = bid.match!
+      bid = Factory.build(:bid, :price => 20.01)
+      matches = bid.match
       matches.size.should == 2
       matches.first.amount.round(2).should == 5.00
       matches[1].amount.round(2).should == 3.00
@@ -70,15 +73,28 @@ describe Bid do
       ask = Factory(:ask, :amount => 3, :price => 20.01, :updated_at => 5.hours.ago, :user_id => @user.id)
       ask = Factory(:ask, :amount => 5, :price => 20.01, :updated_at => 1.hour.ago, :user_id => @user.id)
       bid = Factory(:bid, :price => 20.01, :user_id => @user.id)
-      matches = bid.match!
+      matches = bid.match
       matches.size.should == 2
       matches.first.amount.round(2).should == 3.00
       matches[1].amount.round(2).should == 5.00
     end
   end
+  describe "validation" do
+    
+    it "should fail when balance does not exist" do
+      user =Factory(:user, )
+      Factory.build(:bid, :amount => 20000, :price => 100, :user_id => user.id).should_not be_valid
+    end
+
+
+    it "pass if commissions and bitcoins match" do
+      Factory.build(:ask, :amount => 200, :price => 1).should_not be_valid
+    end
+  end
 
   describe "create trade" do
     before(:each) do
+      pending
       AppConfig.set('SKIP_TRADE_CREATION', true)
       @user = Factory(:user)
       @user.funds.each{|f| f.update_attributes(:amount => 1000, :available => 1000) }

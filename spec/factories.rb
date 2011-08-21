@@ -4,6 +4,7 @@ FactoryGirl.define do
     sequence(:email) {|n| "person#{n}@example.com" }
     admin false
     password '1234fba1'
+    after_build { |user| user.funds = [Factory(:btc_fund), Factory(:usd_fund)]}
   end
 
   factory :fund do
@@ -12,13 +13,13 @@ FactoryGirl.define do
   end
 
   factory :usd_fund, :class => Fund do
-    amount 100
+    amount 10000
     available 100
     fund_type 'USD'
   end
 
   factory :btc_fund, :class => Fund do
-    amount 100
+    amount 10000
     available 100
     fund_type 'BTC'
   end
@@ -28,6 +29,8 @@ FactoryGirl.define do
     sequence(:email) { |n| "admin#{n}@example.com"}
     admin true
     password '1234fba1'
+    after_build { |admin| admin.funds = [Factory(:btc_fund), Factory(:usd_fund)]}
+    
   end
 
   factory :admin_setting, :class => Setting do
@@ -39,6 +42,7 @@ FactoryGirl.define do
     price 100.78
     amount 10
     status 'active'
+    order_type Order::Type::LIMIT
     user
   end
 
@@ -46,6 +50,7 @@ FactoryGirl.define do
     price 100.78
     amount 10
     amount_remaining 10
+    order_type Order::Type::LIMIT
     status 'active'
     user
   end

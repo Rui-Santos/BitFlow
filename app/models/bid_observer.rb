@@ -1,13 +1,4 @@
 class BidObserver < ActiveRecord::Observer
-  def before_create(bid)
-    usd_fund = bid.user.usd
-    total_bid_amount = bid.amount * bid.order_price
-    commission = bid.user.commission
-    if (total_bid_amount + commission) > usd_fund.available
-      bid.errors.add(:base, "Not enough USD fund available")
-      return false
-    end
-  end
 
   def after_create(bid)
     bid = bid.reload
@@ -17,7 +8,7 @@ class BidObserver < ActiveRecord::Observer
     return if AppConfig.is?('SKIP_TRADE_CREATION', false)
       buyer_btc_fund = bid.user.btc
     bid_amount_remaining = bid.amount_remaining
-    bid.match!.each do |ask|
+    bid.match.each do |ask|
       break if bid_amount_remaining == 0
       traded_price = 0.0
       traded_amount = 0.0

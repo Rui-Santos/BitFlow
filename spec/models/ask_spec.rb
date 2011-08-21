@@ -2,14 +2,15 @@ require 'spec_helper'
 
 describe Ask do
   it_behaves_like "an order"
-
   before(:each) do
     AppConfig.set 'SKIP_TRADE_CREATION', true
     Ask.all.each(&:destroy)
     Bid.all.each(&:destroy)
     @user = Factory(:user)
+    Factory(:admin)
     @user.funds.each{|f| f.update_attributes(:amount => 1000, :available => 1000) }
   end
+  
   
   describe "scopes" do
     it "find lesser priced asks" do
@@ -36,32 +37,48 @@ describe Ask do
     end
   end
   
-  
+  describe "validation" do
+    
+    it "should fail when no bitcoin balance" do
+      Factory.build(:ask, :amount => 2000, :price => 0.1).should_not be_valid
+    end
+
+    it "should fail when no money to pay commissions" do
+      @user.usd.update_attribute :available, 0.50
+      Setting.admin.data[:commission_fee] = 1.0
+      Factory.build(:ask, :amount => 200, :price => 0.1).should_not be_valid
+    end
+
+    it "pass if commissions and bitcoins match" do
+      Setting.admin.data[:commission_fee] = 1.0
+      Factory.build(:ask, :amount => 200, :price => 0.1).should_not be_valid
+    end
+  end
   it "should not match ask when ask price is higher" do
     ask = Factory(:ask, :price => 12.00, :user_id => @user.id)
     bid = Factory(:bid, :price => 11.00, :user_id => @user.id)
-    ask.match!.should be_empty
+    ask.match.should be_empty
   end
   
   it "should match bid" do
     ask = Factory(:ask, :price => 20.00, :user_id => @user.id)
     bid = Factory(:bid, :price => 21.00, :user_id => @user.id)
-    ask.match!.should_not be_empty
+    ask.match.should_not be_empty
   end
 
   it "should match bid when equal" do
     ask = Factory(:ask, :price => 20.01, :user_id => @user.id)
     bid = Factory(:bid, :price => 20.01, :user_id => @user.id)
-    ask.match!.should_not be_empty
+    ask.match.should_not be_empty
   end
   
   it "should order oldest first" do
     bid = Factory(:bid, :amount => 3, :price => 20.01, :updated_at => 5.hours.ago, :user_id => @user.id)
     bid = Factory(:bid, :amount => 5, :price => 20.01, :updated_at => 1.hour.ago, :user_id => @user.id)
-    bid = Factory(:bid, :amount => 50, :price => 19.01, :updated_at => 5.minutes.ago, :user_id => @user.id)
+    bid = Factory(:bid, :amount => 1, :price => 19.01, :updated_at => 5.minutes.ago, :user_id => @user.id)
     ask = Factory(:ask, :price => 20.01, :user_id => @user.id)
 
-    matches = ask.match!
+    matches = ask.match
     
     matches.size.should == 2
     matches.first.amount.should == 3
@@ -70,6 +87,7 @@ describe Ask do
 
   describe "create trade" do
     before(:each) do
+      pending
       @ask = Factory(:ask, :price => 10.1, :amount => 10, :user_id => @user.id)
       @bid = Factory(:bid, :amount => 10, :price => 10.1, :user_id => @user.id)
       @bid6 = Factory(:bid, :amount => 6, :price => 10.1, :user_id => @user.id)

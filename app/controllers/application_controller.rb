@@ -14,7 +14,6 @@ class ApplicationController < ActionController::Base
   end
   
   def api?
-    puts params.inspect
     params['token'] && params['secret']
   end
   
