@@ -1,6 +1,9 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe BitcoinProxy do
+  before(:each) do
+    pending
+  end
   it "creates a new accout" do
     BitcoinProxy.new_address('niket').should_not be_nil
   end
