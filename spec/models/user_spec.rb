@@ -20,4 +20,9 @@ describe User do
       user.btc["available"].should == 3.12
     end
   end
+  describe "buy_btc" do
+    it "should" do
+      
+    end
+  end
 end
