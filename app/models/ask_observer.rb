@@ -16,7 +16,7 @@ class AskObserver < ActiveRecord::Observer
       bid.user.buy_btc(traded_price, traded_amount, trade)
       ask.user.sell_btc(traded_price, traded_amount, trade)
       
-      ask_amount_remaining = ask_amount_remaining - traded_amount
+      ask_amount_remaining -= traded_amount
       bid_amount_remaining = bid.amount_remaining - traded_amount
       bid.update_attribute(:amount_remaining, bid_amount_remaining)
     end
