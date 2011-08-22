@@ -38,20 +38,39 @@ describe Ask do
   end
   
   describe "validation" do
-    
-    it "should fail when no bitcoin balance" do
-      Factory.build(:ask, :amount => 2000, :price => 0.1).should_not be_valid
-    end
+    describe "limit order" do
+      it "should fail when no bitcoin balance" do
+        Factory.build(:ask, :amount => 2000, :price => 0.1).should_not be_valid
+      end
 
-    it "should fail when no money to pay commissions" do
-      @user.usd.update_attribute :available, 0.50
-      Setting.admin.data[:commission_fee] = 1.0
-      Factory.build(:ask, :amount => 200, :price => 0.1).should_not be_valid
-    end
+      it "should fail when no money to pay commissions" do
+        @user.usd.update_attribute :available, 0.50
+        Setting.admin.data[:commission_fee] = 1.0
+        Factory.build(:ask, :amount => 200, :price => 0.1).should_not be_valid
+      end
 
-    it "pass if commissions and bitcoins match" do
-      Setting.admin.data[:commission_fee] = 1.0
-      Factory.build(:ask, :amount => 200, :price => 0.1).should_not be_valid
+      it "pass if commissions and bitcoins match" do
+        Setting.admin.data[:commission_fee] = 1.0
+        Factory.build(:ask, :amount => 200, :price => 0.1).should_not be_valid
+      end
+      
+    end
+    describe "market order" do
+      it "fails if not enough btc" do
+        ask = Factory.build(:market_ask, :amount => 2000, :user_id => @user.id)
+        ask.should_not be_valid
+      end
+
+      it "fails if not enough usd for comissions" do
+        @user.usd.update_attributes(:amount => 0.01, :available => 0.01)
+        ask = Factory.build(:market_ask, :amount => 100, :user_id => @user.id)
+        ask.should_not be_valid
+      end
+      
+      it "passes if not enough btc" do
+        ask = Factory.build(:market_ask, :amount => 500, :user_id => @user.id)
+        ask.should be_valid
+      end
     end
   end
   describe "matches" do

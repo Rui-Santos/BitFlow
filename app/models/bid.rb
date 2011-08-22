@@ -24,7 +24,6 @@ class Bid < Order
   def self.market_order_queue
     active.highest.oldest
   end
-
   
   def to_json(*args)
     super(*args).merge(:type => 'ask')

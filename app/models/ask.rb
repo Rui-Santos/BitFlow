@@ -3,7 +3,6 @@ class Ask < Order
   has_many :trades
   validate :account_balances
   
-  
   def account_balances
     btc_fund = user.btc
     if (amount|| 0.0) > btc_fund.available

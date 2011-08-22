@@ -107,15 +107,26 @@ describe Bid do
 
   end
   describe "validation" do
-    
-    it "should fail when balance does not exist" do
-      user =Factory(:user, )
-      Factory.build(:bid, :amount => 20000, :price => 100, :user_id => user.id).should_not be_valid
+    describe "limit" do
+      it "should fail when balance does not exist" do
+        user =Factory(:user, )
+        Factory.build(:bid, :amount => 20000, :price => 100, :user_id => user.id).should_not be_valid
+      end
+
+      it "pass if commissions and bitcoins match" do
+        Factory.build(:ask, :amount => 200, :price => 1).should_not be_valid
+      end
     end
-
-
-    it "pass if commissions and bitcoins match" do
-      Factory.build(:ask, :amount => 200, :price => 1).should_not be_valid
+    describe "market" do
+      it "is not valid when " do
+        @user.usd.update_attributes(:amount => 0.01, :available => 0.01)
+        bid = Factory.build(:market_bid, :amount => 2000, :user_id => @user.id)
+        bid.should_not be_valid
+      end
+      it "is not valid when " do
+        bid = Factory.build(:market_bid, :amount => 2000, :user_id => @user.id)
+        bid.should be_valid
+      end
     end
   end
 
