@@ -5,4 +5,4 @@ $default_admin_settings = {
   :monthly_withdrawal_limit =>  10000.0,
   :circuit_breaker_change_percent => 5.0, 
   :circuit_breaker_change_period => 2.hours
-}
+}.freeze
