@@ -8,6 +8,13 @@ class Order < ActiveRecord::Base
   belongs_to :user
   after_initialize :default_order_type!
 
+  module Exceptions
+    class Cancelled < RuntimeError
+      def message
+        "Market order did not match any existing orders."
+      end
+    end
+  end
   module  Status
     ACTIVE = :active
     COMPLETE = :complete
@@ -19,7 +26,7 @@ class Order < ActiveRecord::Base
     MARKET = :market
     LIMIT  = :limit
   end
-
+  
   
   scope :active, lambda {
     where("status = '#{Order::Status::ACTIVE}'")

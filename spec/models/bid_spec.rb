@@ -211,12 +211,16 @@ describe Bid do
 
       it "does not happen when no matches" do
         Ask.expects(:market_order_queue).returns([])  
-        @bid.save
+        begin
+          @bid.save
+          fail "Excpected Cancelled Exception"
+        rescue
+          
+        end
         Trade.all.should be_empty
-        @bid.reload.should be_cancelled
       end
 
-      xit "when bid matches exactly" do
+      it "when bid matches exactly" do
         Ask.stubs(:market_order_queue).returns([@ask])  
         @bid.save
         trades = @bid.trades
@@ -247,17 +251,19 @@ describe Bid do
         @ask.should be_active
         @bid.should be_complete
       end
-      it "is cancelled when ask are not sufficient" do
+
+      it "is cancelled when ask are not sufficient and all rolled back" do
         Ask.stubs(:market_order_queue).returns([@ask4])  
-        @bid.save
-        trades = @bid.trades
-        trades.size.should == 1
-        trades[0].ask.should be_complete
-        @bid.should be_cancelled
-        @bid.amount_remaining.should == 6.00
+        begin
+          @bid.save
+          fail "Expected cancelled Exception"
+        rescue
+        end
+
       end
     end
   end
+
   describe "updating remaining amount" do
     before(:each) do
       @bid = Factory(:bid, :price => 11.00, :user_id => @user.id)
