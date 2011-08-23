@@ -41,7 +41,11 @@ class Order < ActiveRecord::Base
   
   def amount_remaining=(val)
     write_attribute(:amount_remaining, val)
-    write_attribute(:status, Order::Status::COMPLETE) if val == 0
+    if val == 0
+      write_attribute(:status, Order::Status::COMPLETE)
+    else
+      write_attribute(:status, Order::Status::CANCELLED ) if market? 
+    end
   end
   
   # the return values would in the form of a hash - no object conversion
@@ -89,7 +93,7 @@ class Order < ActiveRecord::Base
   end
   
   def market?
-    order_type == Type::MARKET || order_type.to_sym == Type::MARKET
+    order_type && (order_type == Type::MARKET || order_type.to_sym == Type::MARKET)
   end
 
   def limit?
@@ -98,6 +102,9 @@ class Order < ActiveRecord::Base
 
   def complete?
     status == Status::COMPLETE || status.to_sym == Status::COMPLETE
+  end
+  def cancelled?
+    status == Status::CANCELLED || status.to_sym == Status::CANCELLED
   end
 
   def currency

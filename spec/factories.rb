@@ -39,33 +39,35 @@ FactoryGirl.define do
   end
 
   factory :ask, :class => Ask do
+    order_type Order::Type::LIMIT
     price 100.78
     amount 10
+    amount_remaining 10
     status 'active'
-    order_type Order::Type::LIMIT
     user
   end
 
   factory :market_ask, :class => Ask do
-    amount 10
-    status 'active'
     order_type Order::Type::MARKET
+    amount 10
+    amount_remaining 10
+    status 'active'
     user
   end
 
   factory :bid, :class=>Bid do
+    order_type Order::Type::LIMIT
     price 100.78
     amount 10
     amount_remaining 10
-    order_type Order::Type::LIMIT
     status 'active'
     user
   end
 
   factory :market_bid, :class=>Bid do
+    order_type Order::Type::MARKET
     amount 10
     price 0.0
-    order_type Order::Type::MARKET
     status 'active'
     user
   end

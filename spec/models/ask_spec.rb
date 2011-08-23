@@ -182,6 +182,16 @@ describe Ask do
       trades[0].ask.should == @ask
       @ask.should be_complete
     end
+
+    it "is incomplete when bids are not sufficient" do
+      Bid.stubs(:order_queue).returns([@bid4])  
+      @ask.save
+      trades = @ask.trades
+      trades.size.should == 1
+      trades[0].bid.should be_complete
+      @ask.should be_active
+      @ask.amount_remaining.should == 6.00
+    end
   end
   describe "update amount remaining" do
     before(:each) do

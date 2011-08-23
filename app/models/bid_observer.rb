@@ -5,7 +5,6 @@ class BidObserver < ActiveRecord::Observer
 
     bid.user.debit_commission :bid_id => bid.id
     bid.user.usd.reserve!(bid.amount * bid.price)
-    
     bid_amount_remaining = bid.amount_remaining
     bid.match.each do |ask|
       break if bid_amount_remaining == 0
@@ -17,7 +16,8 @@ class BidObserver < ActiveRecord::Observer
       ask.user.sell_btc(traded_price, traded_amount, trade)
       
       bid_amount_remaining -= traded_amount
-      ask.update_attribute(:amount_remaining, ask.amount_remaining - traded_amount)
+      ask.amount_remaining-= traded_amount
+      ask.save
     end
 
     bid.amount_remaining = bid_amount_remaining
