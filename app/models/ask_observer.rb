@@ -7,7 +7,7 @@ class AskObserver < ActiveRecord::Observer
     seller_btc_fund.reserve!(ask.amount)
     ask_amount_remaining = ask.amount_remaining
     ask.match.each do |bid|
-      break unless ask.active?
+      break if ask_amount_remaining == 0.0
       traded_price = ask.price
       traded_amount  =  ask_amount_remaining >= bid.amount_remaining ? bid.amount_remaining : ask_amount_remaining
 

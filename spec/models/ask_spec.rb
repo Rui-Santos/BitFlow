@@ -136,23 +136,23 @@ describe Ask do
 
   describe "create trade" do
     before(:each) do
-      pending
-      @ask = Factory(:ask, :price => 10.1, :amount => 10, :user_id => @user.id)
-      @bid = Factory(:bid, :amount => 10, :price => 10.1, :user_id => @user.id)
-      @bid6 = Factory(:bid, :amount => 6, :price => 10.1, :user_id => @user.id)
-      @bid4 = Factory(:bid, :amount => 4, :price => 10.1, :user_id => @user.id)
+      @bid = Factory(:bid, :amount => 10,  :amount_remaining => 10, :price => 10.1, :user_id => @user.id)
+      @bid6 = Factory(:bid, :amount => 6, :amount_remaining => 6, :price => 10.1, :user_id => @user.id)
+      @bid4 = Factory(:bid, :amount => 4,  :amount_remaining => 4,:price => 10.1, :user_id => @user.id)
       AppConfig.set('SKIP_TRADE_CREATION', false)
+      @ask = Factory.build(:ask, :price => 10.1, :amount => 10, :amount_remaining => 10, :user_id => @user.id)
+      
     end
 
     it "does not happen when no matches" do
       Bid.expects(:order_queue).returns([])  
-      @ask.create_trades
+      @ask.save
       @ask.trades.should be_empty
     end
 
     it "when bid matches exactly" do
       Bid.stubs(:order_queue).returns([@bid])  
-      @ask.create_trades
+      @ask.save
       trades = @ask.trades
       trades.size.should == 1
       trades[0].bid.should be_complete
@@ -162,7 +162,7 @@ describe Ask do
 
     it "when bid multiple bids matches exactly" do
       Bid.stubs(:order_queue).returns([@bid6, @bid4])  
-      @ask.create_trades
+      @ask.save
       trades = @ask.trades
       trades.size.should == 2
       trades[0].bid.should be_complete
@@ -173,7 +173,7 @@ describe Ask do
 
     it "skip remaining bids when more matches exist" do
       Bid.stubs(:order_queue).returns([@bid6, @bid4, @bid])  
-      @ask.create_trades
+      @ask.save
       trades = @ask.trades
       trades.size.should == 2
       trades[0].bid.should be_complete
