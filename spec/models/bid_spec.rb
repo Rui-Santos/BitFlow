@@ -132,37 +132,38 @@ describe Bid do
 
   describe "create trade" do
     before(:each) do
-      pending
       AppConfig.set('SKIP_TRADE_CREATION', true)
       @user = Factory(:user)
       @user.funds.each{|f| f.update_attributes(:amount => 1000, :available => 1000) }
+      Trade.all.each(&:destroy)
+      @ask = Factory(:ask, :amount => 10, :amount_remaining => 10, :price => 10.1, :user_id => @user.id)
+      @ask6 = Factory(:ask, :amount => 6, :amount_remaining => 6, :price => 10.1, :user_id => @user.id)
+      @ask4 = Factory(:ask, :amount => 4, :amount_remaining =>  4, :price => 10.1, :user_id => @user.id)
 
-      @bid = Factory(:bid, :price => 10.1, :amount => 10, :user_id => @user.id)
-      @ask = Factory(:ask, :amount => 10, :price => 10.1, :user_id => @user.id)
-      @ask6 = Factory(:ask, :amount => 6, :price => 10.1, :user_id => @user.id)
-      @ask4 = Factory(:ask, :amount => 4, :price => 10.1, :user_id => @user.id)
+      @bid = Factory.build(:bid, :price => 10.1, :amount => 10, :user_id => @user.id)
+
       AppConfig.set('SKIP_TRADE_CREATION', false)
     end
 
     it "does not happen when no matches" do
       Ask.expects(:order_queue).returns([])  
-      @bid.create_trades
-      @bid.trades.should be_empty
+      @bid.save
+      Trade.all.should be_empty
     end
 
     it "when bid matches exactly" do
       Ask.stubs(:order_queue).returns([@ask])  
-      @bid.create_trades
+      @bid.save
       trades = @bid.trades
       trades.size.should == 1
-      trades[0].ask.should be_complete
-      trades[0].bid.should == @bid
+      trades.first.ask.should be_complete
+      trades.first.bid.should == @bid
       @bid.should be_complete
     end
 
     it "when ask multiple bids matches exactly" do
       Ask.stubs(:order_queue).returns([@ask6, @ask4])  
-      @bid.create_trades
+      @bid.save
       trades = @bid.trades
       trades.size.should == 2
       trades[0].ask.should be_complete
@@ -173,7 +174,7 @@ describe Bid do
 
     it "skip remaining bids when more matches exist" do
       Ask.stubs(:order_queue).returns([@ask6, @ask4, @ask])  
-      @bid.create_trades
+      @bid.save
       trades = @bid.trades
       trades.size.should == 2
       trades[0].ask.should be_complete

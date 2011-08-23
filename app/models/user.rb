@@ -36,7 +36,7 @@ class User < ActiveRecord::Base
                 :bid_id => trade.bid.id}
                 
     usd.credit! defaults.merge(:amount => (price * amount),:currency => 'USD')
-    btc.debit! defaluts.merge(:amount => traded_amount,:currency => 'BTC')
+    btc.debit! defaults.merge(:amount => amount,:currency => 'BTC')
   end
   
   def buy_btc(price, amount, trade, opt={})

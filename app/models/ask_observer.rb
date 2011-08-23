@@ -1,11 +1,11 @@
 class AskObserver < ActiveRecord::Observer
   def after_create(ask)
+    return if  AppConfig.is?('SKIP_TRADE_CREATION', false)
+
     ask.user.debit_commission :ask_id => ask.id
     seller_btc_fund = ask.user.btc
     seller_btc_fund.reserve!(ask.amount)
-    return if  AppConfig.is?('SKIP_TRADE_CREATION', false)
     ask_amount_remaining = ask.amount_remaining
-   
     ask.match.each do |bid|
       break unless ask.active?
       traded_price = ask.price
