@@ -1,84 +1,37 @@
 class AskObserver < ActiveRecord::Observer
   def after_create(ask)
-    ask = ask.reload
-    ask.user.debit_commission :ask_id => ask.id
-    seller_btc_fund = ask.user.btc
-    seller_btc_fund.reserve!(ask.amount)
     return if  AppConfig.is?('SKIP_TRADE_CREATION', false)
-    seller_usd_fund = ask.user.usd
-    ask_amount_remaining = ask.amount_remaining
-   
-    ask.match.each do |bid|
-      break if ask_amount_remaining == 0
-      traded_price = 0.0
-      traded_amount = 0.0
-      if ask_amount_remaining >= bid.amount_remaining
-        traded_price = ask.price
-        traded_amount = bid.amount_remaining
-      else
-        traded_price = ask.price
-        traded_amount = ask_amount_remaining
-      end
+    Ask.transaction(:requires_new => true) do
+      ask.user.debit_commission :ask_id => ask.id
+      ask.user.btc.reserve!(ask.amount)
+      ask_amount_remaining = ask.amount_remaining
+      ask.match.each do |bid|
+      break if ask_amount_remaining == 0.0
+      traded_price = bid.price
+      traded_amount = ask_amount_remaining >= bid.amount_remaining ? bid.amount_remaining : ask_amount_remaining
 
       trade = Trade.create(ask: ask, bid: bid, market_price: traded_price, amount: traded_amount, status: Trade::Status::CREATED)
-      buyer_usd_fund = bid.user.usd
-      buyer_btc_fund = bid.user.btc
+      bid.user.buy_btc(traded_price, traded_amount, trade, :amount_to_unreserve => bid.price * traded_amount)
+      ask.user.sell_btc(traded_price, traded_amount, trade)
       
-      buyer_usd_fund.unreserve!(bid.price * traded_amount)
-      buyer_usd_fund.debit! :amount => (traded_price * traded_amount),
-                            :tx_code => FundTransactionDetail::TransactionCode::BITCOIN_PURCHASED,
-                            :currency => 'USD',
-                            :status => FundTransactionDetail::Status::PENDING,
-                            :user_id => bid.user.id,
-                            :trade_id => trade.id,
-                            :ask_id => ask.id,
-                            :bid_id => bid.id
-                            
-      buyer_btc_fund.credit! :amount => traded_amount,
-                            :tx_code => FundTransactionDetail::TransactionCode::BITCOIN_PURCHASED,
-                            :currency => 'BTC',
-                            :status => FundTransactionDetail::Status::PENDING,
-                            :user_id => bid.user.id,
-                            :trade_id => trade.id,
-                            :ask_id => ask.id,
-                            :bid_id => bid.id
-
-      seller_btc_fund.unreserve!(traded_amount)
+      ask_amount_remaining -= traded_amount
+      bid.update_attribute(:amount_remaining, bid.amount_remaining - traded_amount)
       
-      seller_usd_fund.credit! :amount => (traded_price * traded_amount),
-                              :tx_code => FundTransactionDetail::TransactionCode::BITCOIN_SOLD,
-                              :currency => 'USD',
-                              :status => FundTransactionDetail::Status::PENDING,
-                              :user_id => ask.user.id,
-                              :trade_id => trade.id,
-                              :ask_id => ask.id,
-                              :bid_id => bid.id
-      
-      seller_btc_fund.debit! :amount => traded_amount,
-                              :tx_code => FundTransactionDetail::TransactionCode::BITCOIN_SOLD,
-                              :currency => 'BTC',
-                              :status => FundTransactionDetail::Status::PENDING,
-                              :user_id => ask.user.id,
-                              :trade_id => trade.id,
-                              :ask_id => ask.id,
-                              :bid_id => bid.id
-      
-      ask_amount_remaining = ask_amount_remaining - traded_amount
-      bid_amount_remaining = bid.amount_remaining - traded_amount
-      
-      if bid_amount_remaining == 0
-        bid.update_attributes(:amount_remaining => bid_amount_remaining, :status => Order::Status::COMPLETE)
-      else
-        bid.update_attribute(:amount_remaining, bid_amount_remaining)
+    end
+      ask.amount_remaining = ask_amount_remaining
+      ask.save
+    
+      if ask_amount_remaining !=0 && ask.market?
+        Rails.logger.debug "**************************"
+        Rails.logger.debug "Market Ask did not match bids. Cancelling."
+        Rails.logger.debug "**************************"
+        
+        raise ActiveRecord::Rollback 
       end
     end
-    
-    ask.amount_remaining = ask_amount_remaining
-    if ask.amount_remaining == 0
-      ask.status = Order::Status::COMPLETE
-    else
-      ask.status = Order::Status::CANCELLED if ask.market?
-    end
-    ask.save
   end
+  def after_rollback(ask)
+    ask.reload.update_attribute(:status, Order::Status::CANCELLED) if ask.market?
+  end
+
 end

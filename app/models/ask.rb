@@ -3,7 +3,6 @@ class Ask < Order
   has_many :trades
   validate :account_balances
   
-  
   def account_balances
     btc_fund = user.btc
     if (amount|| 0.0) > btc_fund.available
@@ -18,11 +17,15 @@ class Ask < Order
   end
 
   def match
-    Bid.order_queue(self.price)
+    market? ? Bid.market_order_queue : Bid.order_queue(self.price)
   end
 
   def self.order_queue(value)
     active.lesser_price_than(value).oldest
+  end
+  
+  def self.market_order_queue
+    active.lowest.oldest
   end
 
   def to_json(*args)

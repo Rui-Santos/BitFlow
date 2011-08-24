@@ -4,7 +4,7 @@ describe Setting do
   describe "admin" do
 
     before(:each) do
-      Setting.admin.destroy
+      Setting.all.each(&:destroy)
     end
     
     it "default settings are loaded" do

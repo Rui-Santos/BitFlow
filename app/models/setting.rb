@@ -3,7 +3,9 @@ class Setting < ActiveRecord::Base
   
   def self.admin
     setting = Setting.find_by_setting_type(:admin)
-    setting = Setting.create(:setting_type => :admin, :data => $default_admin_settings) if setting.nil?
+    if setting.nil?
+      setting = Setting.create(:setting_type => :admin, :data => $default_admin_settings.dup) 
+    end
     setting
   end
 end

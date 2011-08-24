@@ -8,6 +8,13 @@ class Order < ActiveRecord::Base
   belongs_to :user
   after_initialize :default_order_type!
 
+  module Exceptions
+    class Cancelled < RuntimeError
+      def message
+        "Market order did not match any existing orders."
+      end
+    end
+  end
   module  Status
     ACTIVE = :active
     COMPLETE = :complete
@@ -19,7 +26,7 @@ class Order < ActiveRecord::Base
     MARKET = :market
     LIMIT  = :limit
   end
-
+  
   
   scope :active, lambda {
     where("status = '#{Order::Status::ACTIVE}'")
@@ -39,6 +46,14 @@ class Order < ActiveRecord::Base
     order_type = Order::Type::LIMIT
   end
   
+  def amount_remaining=(val)
+    write_attribute(:amount_remaining, val)
+    if val == 0
+      write_attribute(:status, Order::Status::COMPLETE)
+    else
+      write_attribute(:status, Order::Status::CANCELLED ) if market? 
+    end
+  end
   
   # the return values would in the form of a hash - no object conversion
   def self.non_executed(user, row_limit = 5)
@@ -85,7 +100,7 @@ class Order < ActiveRecord::Base
   end
   
   def market?
-    order_type == Type::MARKET || order_type.to_sym == Type::MARKET
+    order_type && (order_type == Type::MARKET || order_type.to_sym == Type::MARKET)
   end
 
   def limit?
@@ -94,6 +109,9 @@ class Order < ActiveRecord::Base
 
   def complete?
     status == Status::COMPLETE || status.to_sym == Status::COMPLETE
+  end
+  def cancelled?
+    status == Status::CANCELLED || status.to_sym == Status::CANCELLED
   end
 
   def currency
