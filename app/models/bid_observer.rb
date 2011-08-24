@@ -16,16 +16,22 @@ class BidObserver < ActiveRecord::Observer
         ask.user.sell_btc(traded_price, traded_amount, trade)
       
         bid_amount_remaining -= traded_amount
-        ask.amount_remaining-= traded_amount
+        ask.amount_remaining -= traded_amount
         ask.save!
       end
 
       bid.amount_remaining = bid_amount_remaining
-      bid.save!
+      bid.save
       if bid_amount_remaining !=0 && bid.market?
-        puts "**************************"
-        raise Order::Exceptions::Cancelled 
+        Rails.logger.debug "**************************"
+        Rails.logger.debug "Market Bid did not match asks. Cancelling."
+        Rails.logger.debug "**************************"
+        
+        raise ActiveRecord::Rollback 
       end
     end
+  end
+  def after_rollback(bid)
+    bid.reload.update_attribute(:status, Order::Status::CANCELLED) if bid.market?
   end
 end

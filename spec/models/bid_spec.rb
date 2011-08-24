@@ -194,30 +194,30 @@ describe Bid do
         end
       
     end
-    describe "market bids" do
+    describe "market order" do
       before(:each) do
         AppConfig.set('SKIP_TRADE_CREATION', true)
         @user = Factory(:user)
+        @user2 = Factory(:user)
+        @bidder = Factory(:user)
         @user.funds.each{|f| f.update_attributes(:amount => 1000, :available => 1000) }
+        @user2.funds.each{|f| f.update_attributes(:amount => 1000, :available => 1000) }
+        @bidder.funds.each{|f| f.update_attributes(:amount => 1000, :available => 1000) }
         Trade.all.each(&:destroy)
         @ask = Factory(:ask, :amount => 10, :amount_remaining => 10, :price => 10.1, :user_id => @user.id)
-        @ask6 = Factory(:ask, :amount => 6, :amount_remaining => 6, :price => 10.1, :user_id => @user.id)
+        @ask6 = Factory(:ask, :amount => 6, :amount_remaining => 6, :price => 10.1, :user_id => @user2.id)
         @ask4 = Factory(:ask, :amount => 4, :amount_remaining =>  4, :price => 10.1, :user_id => @user.id)
 
-        @bid = Factory.build(:market_bid, :amount => 10, :amount_remaining => 10, :user_id => @user.id)
+        @bid = Factory.build(:market_bid, :amount => 10, :amount_remaining => 10, :user_id => @bidder.id)
 
         AppConfig.set('SKIP_TRADE_CREATION', false)
       end
 
       it "does not happen when no matches" do
         Ask.expects(:market_order_queue).returns([])  
-        begin
-          @bid.save
-          fail "Excpected Cancelled Exception"
-        rescue
-          
-        end
+        @bid.save
         Trade.all.should be_empty
+        @bid.reload.should be_cancelled
       end
 
       it "when bid matches exactly" do
@@ -239,6 +239,21 @@ describe Bid do
         trades[1].ask.should be_complete
         trades[0].bid.should == @bid
         @bid.should be_complete
+        @ask6.reload.should be_complete
+        @ask4.reload.should be_complete
+        @bidder.reload.usd.amount.should == 899 - Setting.admin.data[:commission_fee]
+        @bidder.btc.amount.should == 1010
+        @user.reload
+        @user2.reload
+        
+        @user.usd.amount.should == 1040.4 #
+        @user.btc.amount.should == 996
+
+        @user2.usd.amount.should == 1060.6 #
+        @user2.btc.amount.should == 994
+        
+        
+        
       end
 
       it "skip remaining bids when more matches exist" do
@@ -252,14 +267,14 @@ describe Bid do
         @bid.should be_complete
       end
 
-      it "is cancelled when ask are not sufficient and all rolled back" do
+      it "is cancelled when asks are not sufficient and all rolled back" do
         Ask.stubs(:market_order_queue).returns([@ask4])  
-        begin
-          @bid.save
-          fail "Expected cancelled Exception"
-        rescue
-        end
-
+        @bid.save
+        @bid.reload
+        @bid.should be_cancelled
+        @ask4.reload.should be_active
+        @user.reload.usd.amount.should == 1000
+        @user.reload.usd.reserved.should == 0
       end
     end
   end

@@ -34,9 +34,11 @@ class User < ActiveRecord::Base
                 :trade_id => trade.id,
                 :ask_id => trade.ask.id,
                 :bid_id => trade.bid.id}
-                
-    usd.credit! defaults.merge(:amount => (price * amount),:currency => 'USD')
-    btc.debit! defaults.merge(:amount => amount,:currency => 'BTC')
+    Rails.logger.debug "crediting $ #{(price * amount)} to seller of btc"
+    usd.credit! defaults.merge(:amount => (price * amount), :currency => 'USD')
+
+    Rails.logger.debug "debiting BTC #{amount} to seller of btc"
+    btc.debit! defaults.merge(:amount => amount, :currency => 'BTC')
   end
   
   def buy_btc(price, amount, trade, opt={})
@@ -50,7 +52,10 @@ class User < ActiveRecord::Base
                 :ask_id => trade.ask.id,
                 :bid_id => trade.bid.id}
 
+    Rails.logger.debug "debiting USD #{(price * amount)} to buyer of BTC"
     usd.debit! defaults.merge(:amount => (price * amount), :currency => 'USD')
+
+    Rails.logger.debug "crediting $ #{ amount} to Buyer of btc"
     btc.credit! defaults.merge(:amount => amount,:currency => 'BTC')
   end
   
@@ -80,6 +85,7 @@ class User < ActiveRecord::Base
   def debit_commission(vals)
     amount = commission
     if full_commission?
+      Rails.logger.debug "debiting USD #{amount} as Full commission."
       usd.debit! :amount => amount,
                 :tx_code => FundTransactionDetail::TransactionCode::COMMISSION,
                 :currency => 'USD',
@@ -87,6 +93,9 @@ class User < ActiveRecord::Base
                 :user_id => self.id,
                 :ask_id => vals[:ask_id],
                 :bid_id => vals[:bid_id]
+      
+      Rails.logger.debug "Crediting USD #{amount} to admin as Full commission."
+                
       AdminUser.usd.credit! :amount => amount,
                           :tx_code => FundTransactionDetail::TransactionCode::COMMISSION,
                           :currency => 'USD',
@@ -100,7 +109,7 @@ class User < ActiveRecord::Base
       referrer_usd = Fund.find(referrer_fund_id)
       referrer_credit = amount * (discount/100.0)
       admin_credit = amount - referrer_credit
-      
+      Rails.logger.debug "Debiting USD #{amount} to as Discounted commission."
       usd.debit! :amount => amount,
                 :tx_code => FundTransactionDetail::TransactionCode::COMMISSION,
                 :currency => 'USD',
@@ -108,6 +117,8 @@ class User < ActiveRecord::Base
                 :user_id => self.id,
                 :ask_id => vals[:ask_id],
                 :bid_id => vals[:bid_id]
+      
+      Rails.logger.debug "Crediting USD #{admin_credit} to as Admin Discounted commission."
       AdminUser.usd.credit! :amount => admin_credit,
                           :tx_code => FundTransactionDetail::TransactionCode::COMMISSION,
                           :currency => 'USD',
@@ -115,6 +126,8 @@ class User < ActiveRecord::Base
                           :user_id => AdminUser.id,
                           :ask_id => vals[:ask_id],
                           :bid_id => vals[:bid_id]
+
+      Rails.logger.debug "Crediting USD #{referrer_credit} to #{referrer_usd.user.email} as Discounted commission."
       referrer_usd.credit! :amount => referrer_credit,
                           :tx_code => FundTransactionDetail::TransactionCode::COMMISSION,
                           :currency => 'USD',
@@ -126,6 +139,8 @@ class User < ActiveRecord::Base
   end
   
   def sync_with_bitcoind
+    Rails.logger.debug "Syncing with the Bitcoind 
+    "
     user_wallet.update_direct_receipts
     
     pending_trades = Trade.find_by_sql("select trades.* from trades inner join asks on trades.ask_id = asks.id inner join users on users.id = asks.user_id where trades.status = '#{Trade::Status::PENDING}' and users.id = #{id}")

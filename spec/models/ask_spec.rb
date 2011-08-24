@@ -135,64 +135,149 @@ describe Ask do
   end
 
   describe "create trade" do
-    before(:each) do
-      @bid = Factory(:bid, :amount => 10,  :amount_remaining => 10, :price => 10.1, :user_id => @user.id)
-      @bid6 = Factory(:bid, :amount => 6, :amount_remaining => 6, :price => 10.1, :user_id => @user.id)
-      @bid4 = Factory(:bid, :amount => 4,  :amount_remaining => 4,:price => 10.1, :user_id => @user.id)
-      AppConfig.set('SKIP_TRADE_CREATION', false)
-      @ask = Factory.build(:ask, :price => 10.1, :amount => 10, :amount_remaining => 10, :user_id => @user.id)
-      
-    end
+    describe "limit order" do
+      before(:each) do
+        @bid = Factory(:bid, :amount => 10,  :amount_remaining => 10, :price => 10.1, :user_id => @user.id)
+        @bid6 = Factory(:bid, :amount => 6, :amount_remaining => 6, :price => 10.1, :user_id => @user.id)
+        @bid4 = Factory(:bid, :amount => 4,  :amount_remaining => 4,:price => 10.1, :user_id => @user.id)
+        AppConfig.set('SKIP_TRADE_CREATION', false)
+        @ask = Factory.build(:ask, :price => 10.1, :amount => 10, :amount_remaining => 10, :user_id => @user.id)
 
-    it "does not happen when no matches" do
-      Bid.expects(:order_queue).returns([])  
-      @ask.save
-      @ask.trades.should be_empty
-    end
+      end
 
-    it "when bid matches exactly" do
-      Bid.stubs(:order_queue).returns([@bid])  
-      @ask.save
-      trades = @ask.trades
-      trades.size.should == 1
-      trades[0].bid.should be_complete
-      trades[0].ask.should == @ask
-      @ask.should be_complete
-    end
+      it "does not happen when no matches" do
+        Bid.expects(:order_queue).returns([])  
+        @ask.save
+        @ask.trades.should be_empty
+      end
 
-    it "when bid multiple bids matches exactly" do
-      Bid.stubs(:order_queue).returns([@bid6, @bid4])  
-      @ask.save
-      trades = @ask.trades
-      trades.size.should == 2
-      trades[0].bid.should be_complete
-      trades[1].bid.should be_complete
-      trades[0].ask.should == @ask
-      @ask.should be_complete
-    end
+      it "when bid matches exactly" do
+        Bid.stubs(:order_queue).returns([@bid])  
+        @ask.save
+        trades = @ask.trades
+        trades.size.should == 1
+        trades[0].bid.should be_complete
+        trades[0].ask.should == @ask
+        @ask.should be_complete
+      end
 
-    it "skip remaining bids when more matches exist" do
-      Bid.stubs(:order_queue).returns([@bid6, @bid4, @bid])  
-      @ask.save
-      trades = @ask.trades
-      trades.size.should == 2
-      trades[0].bid.should be_complete
-      trades[1].bid.should be_complete
-      @bid.should be_active
-      trades[0].ask.should == @ask
-      @ask.should be_complete
-    end
+      it "when bid multiple bids matches exactly" do
+        Bid.stubs(:order_queue).returns([@bid6, @bid4])  
+        @ask.save
+        trades = @ask.trades
+        trades.size.should == 2
+        trades[0].bid.should be_complete
+        trades[1].bid.should be_complete
+        trades[0].ask.should == @ask
+        @ask.should be_complete
+      end
 
-    it "is incomplete when bids are not sufficient" do
-      Bid.stubs(:order_queue).returns([@bid4])  
-      @ask.save
-      trades = @ask.trades
-      trades.size.should == 1
-      trades[0].bid.should be_complete
-      @ask.should be_active
-      @ask.amount_remaining.should == 6.00
+      it "skip remaining bids when more matches exist" do
+        Bid.stubs(:order_queue).returns([@bid6, @bid4, @bid])  
+        @ask.save
+        trades = @ask.trades
+        trades.size.should == 2
+        trades[0].bid.should be_complete
+        trades[1].bid.should be_complete
+        @bid.should be_active
+        trades[0].ask.should == @ask
+        @ask.should be_complete
+      end
+
+      it "is incomplete when bids are not sufficient" do
+        Bid.stubs(:order_queue).returns([@bid4])  
+        @ask.save
+        trades = @ask.trades
+        trades.size.should == 1
+        trades[0].bid.should be_complete
+        @ask.should be_active
+        @ask.amount_remaining.should == 6.00
+      end
+    end
+    describe "market order" do
+      before(:each) do
+        AppConfig.set('SKIP_TRADE_CREATION', true)
+        @user = Factory(:user)
+        @user2 = Factory(:user)
+        @asker = Factory(:user)
+        @user.funds.each{|f| f.update_attributes(:amount => 1000, :available => 1000) }
+        @user2.funds.each{|f| f.update_attributes(:amount => 1000, :available => 1000) }
+        @asker.funds.each{|f| f.update_attributes(:amount => 1000, :available => 1000) }
+        Trade.all.each(&:destroy)
+        @bid = Factory(:bid, :amount => 10, :amount_remaining => 10, :price => 10.1, :user_id => @user.id)
+        @bid6 = Factory(:bid, :amount => 6, :amount_remaining => 6, :price => 10.1, :user_id => @user2.id)
+        @bid4 = Factory(:bid, :amount => 4, :amount_remaining =>  4, :price => 10.1, :user_id => @user.id)
+
+        @ask = Factory.build(:market_ask, :amount => 10, :amount_remaining => 10, :user_id => @asker.id)
+
+        AppConfig.set('SKIP_TRADE_CREATION', false)
+      end
+
+      it "does not happen when no matches" do
+        Bid.expects(:market_order_queue).returns([])  
+        @ask.save
+        @ask.should be_cancelled
+        Trade.all.should be_empty
+      end
+
+      it "when bid matches exactly" do
+        Bid.stubs(:market_order_queue).returns([@bid])  
+        @ask.save
+        trades = @ask.trades
+        trades.size.should == 1
+        trades.first.bid.should be_complete
+        trades.first.ask.should == @ask
+        @ask.should be_complete
+      end
+
+      it "when ask multiple bids matches exactly" do
+        Bid.stubs(:market_order_queue).returns([@bid6, @bid4])  
+        @ask.save
+        trades = @ask.trades
+        trades.size.should == 2
+        trades[0].bid.should be_complete
+        trades[1].bid.should be_complete
+        trades[0].ask.should == @ask
+        @ask.should be_complete
+        
+        @bid6.reload.should be_complete
+        @bid4.reload.should be_complete
+
+        @asker.reload.usd.amount.should == 1101 - Setting.admin.data[:commission_fee]
+        @asker.btc.amount.should == 990
+        @user.reload
+        @user2.reload
+        
+        @user.usd.amount.should == 959.6 #
+        @user.btc.amount.should == 1004
+        @user2.usd.amount.should == 939.4 #
+        @user2.btc.amount.should == 1006
+      end
+
+      it "skip remaining bids when more matches exist" do
+        Bid.stubs(:market_order_queue).returns([@bid6, @bid4, @bid])  
+        @ask.save
+        trades = @ask.trades
+        trades.size.should == 2
+        trades[0].bid.should be_complete
+        trades[1].bid.should be_complete
+        @ask.should be_complete
+        @bid.should be_active
+      end
+
+      it "is cancelled when asks are not sufficient and all rolled back" do
+        Bid.stubs(:market_order_queue).returns([@bid4])  
+        @ask.save
+        
+        @ask.should be_cancelled
+        @bid4.reload.should be_active
+
+        @user.reload.usd.amount.should == 1000
+        @user.reload.usd.reserved.should == 0
+      end
     end
   end
+
   describe "update amount remaining" do
     before(:each) do
       @ask = Factory(:ask, :price => 11.00, :user_id => @user.id)

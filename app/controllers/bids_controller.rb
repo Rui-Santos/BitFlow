@@ -23,14 +23,10 @@ class BidsController < ApplicationController
                     :currency => 'USD')
 
     respond_to do |format|
-      begin
-        @bid.save!
+      if @bid.save
         format.html { redirect_to(orders_url, :notice => 'Bid was successfully created.') }
         format.json { head :created, :location => bid_path(@bid)}
-      rescue Order::Exceptions::Cancelled  => e
-        format.html { render :action => "new", :notice => e.message }
-        format.json { render :json => e.message }
-      rescue ActiveRecord::RecordInvalid
+      else
         format.html { render :action => "new" }
         format.json { render :json => @bid.errors }
       end
